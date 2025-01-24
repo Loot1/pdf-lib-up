@@ -1,6 +1,6 @@
 import {
   MissingPageContentsEmbeddingError,
-  UnrecognizedStreamTypeError,
+  UnrecognizedStreamTypeError
 } from 'src/core/errors';
 import PDFArray from 'src/core/objects/PDFArray';
 import PDFNumber from 'src/core/objects/PDFNumber';
@@ -54,14 +54,16 @@ const fullPageBoundingBox = (page: PDFPageLeaf) => {
 // Returns the identity matrix, modified to position the content of the given
 // bounding box at (0, 0).
 const boundingBoxAdjustedMatrix = (
-  bb: PageBoundingBox,
-): TransformationMatrix => [1, 0, 0, 1, -bb.left, -bb.bottom];
+  bb: PageBoundingBox
+): TransformationMatrix => {
+  return [1, 0, 0, 1, -bb.left, -bb.bottom];
+};
 
 class PDFPageEmbedder {
   static async for(
     page: PDFPageLeaf,
     boundingBox?: PageBoundingBox,
-    transformationMatrix?: TransformationMatrix,
+    transformationMatrix?: TransformationMatrix
   ) {
     return new PDFPageEmbedder(page, boundingBox, transformationMatrix);
   }
@@ -76,7 +78,7 @@ class PDFPageEmbedder {
   private constructor(
     page: PDFPageLeaf,
     boundingBox?: PageBoundingBox,
-    transformationMatrix?: TransformationMatrix,
+    transformationMatrix?: TransformationMatrix
   ) {
     this.page = page;
 
@@ -102,7 +104,7 @@ class PDFPageEmbedder {
       FormType: 1,
       BBox: [left, bottom, right, top],
       Matrix: this.transformationMatrix,
-      Resources,
+      Resources
     });
 
     if (ref) {

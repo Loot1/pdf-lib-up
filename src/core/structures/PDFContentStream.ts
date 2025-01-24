@@ -5,8 +5,9 @@ import PDFFlateStream from 'src/core/structures/PDFFlateStream';
 import CharCodes from 'src/core/syntax/CharCodes';
 
 class PDFContentStream extends PDFFlateStream {
-  static of = (dict: PDFDict, operators: PDFOperator[], encode = true) =>
-    new PDFContentStream(dict, operators, encode);
+  static of = (dict: PDFDict, operators: PDFOperator[], encode = true) => {
+    return new PDFContentStream(dict, operators, encode);
+  };
 
   private readonly operators: PDFOperator[];
 

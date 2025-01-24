@@ -7,7 +7,7 @@ import {
   pdfDocEncodingDecode,
   toCharCode,
   parseDate,
-  hasUtf16BOM,
+  hasUtf16BOM
 } from 'src/utils';
 import { InvalidPDFDateStringError } from 'src/core/errors';
 
@@ -15,7 +15,9 @@ class PDFString extends PDFObject {
   // The PDF spec allows newlines and parens to appear directly within a literal
   // string. These character _may_ be escaped. But they do not _have_ to be. So
   // for simplicity, we will not bother escaping them.
-  static of = (value: string) => new PDFString(value);
+  static of = (value: string) => {
+    return new PDFString(value);
+  };
 
   static fromDate = (date: Date) => {
     const year = padStart(String(date.getUTCFullYear()), 4, '0');

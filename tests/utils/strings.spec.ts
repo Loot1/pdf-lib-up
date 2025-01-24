@@ -9,8 +9,9 @@ const font = StandardFontEmbedder.for(FontNames.Helvetica);
 
 const textSize = 24;
 
-const computeTextWidth = (text: string) =>
-  font.widthOfTextAtSize(text, textSize);
+const computeTextWidth = (text: string) => {
+  return font.widthOfTextAtSize(text, textSize);
+};
 
 describe(`breakTextIntoLines`, () => {
   it(`handles empty wordBreaks arrays`, () => {
@@ -90,9 +91,9 @@ describe(`breakTextIntoLines`, () => {
       '回込町者訟',
       '窃。',
     ];
-    const actual = breakTextIntoLines(input, [''], 125, (text: string) =>
-      sourceHansFont.widthOfTextAtSize(text, 24),
-    );
+    const actual = breakTextIntoLines(input, [''], 125, (text: string) => {
+      return sourceHansFont.widthOfTextAtSize(text, 24);
+    });
     expect(actual).toEqual(expected);
   });
 });

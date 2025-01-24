@@ -2,8 +2,9 @@ import CharCodes from 'src/core/syntax/CharCodes';
 import { charFromCode, copyStringIntoBuffer } from 'src/utils';
 
 class PDFHeader {
-  static forVersion = (major: number, minor: number) =>
-    new PDFHeader(major, minor);
+  static forVersion = (major: number, minor: number) => {
+    return new PDFHeader(major, minor);
+  };
 
   private readonly major: string;
   private readonly minor: string;

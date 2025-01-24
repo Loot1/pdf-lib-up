@@ -45,7 +45,9 @@ describe(`PDFCheckBox`, () => {
 
     const checkBox = form.createCheckBox('a.new.check.box');
 
-    const widgets = () => checkBox.acroField.getWidgets();
+    const widgets = () => {
+      return checkBox.acroField.getWidgets();
+    };
     expect(widgets().length).toBe(0);
 
     checkBox.addToPage(page);
@@ -61,7 +63,9 @@ describe(`PDFCheckBox`, () => {
 
     const checkBox = form.createCheckBox('a.new.check.box');
 
-    const widgets = () => checkBox.acroField.getWidgets();
+    const widgets = () => {
+      return checkBox.acroField.getWidgets();
+    };
     expect(widgets().length).toBe(0);
 
     checkBox.addToPage(page);

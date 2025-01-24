@@ -10,9 +10,9 @@ describe(`PDFRef`, () => {
   });
 
   it(`cannot be publicly constructed`, () => {
-    expect(() => new (PDFRef as any)({}, 'stuff')).toThrow(
-      new PrivateConstructorError(PDFRef.name),
-    );
+    expect(() => {
+      return new (PDFRef as any)({}, 'stuff');
+    }).toThrow(new PrivateConstructorError(PDFRef.name));
   });
 
   it(`returns the same instance when given the same object and generation numbers`, () => {

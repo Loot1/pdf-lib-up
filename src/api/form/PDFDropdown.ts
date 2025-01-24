@@ -3,12 +3,12 @@ import PDFPage from 'src/api/PDFPage';
 import PDFFont from 'src/api/PDFFont';
 import PDFField, {
   FieldAppearanceOptions,
-  assertFieldAppearanceOptions,
+  assertFieldAppearanceOptions
 } from 'src/api/form/PDFField';
 import {
   AppearanceProviderFor,
   normalizeAppearance,
-  defaultDropdownAppearanceProvider,
+  defaultDropdownAppearanceProvider
 } from 'src/api/form/appearances';
 import { rgb } from 'src/api/colors';
 import { degrees } from 'src/api/rotations';
@@ -20,7 +20,7 @@ import {
   PDFStream,
   PDFWidgetAnnotation,
   PDFAcroComboBox,
-  AcroChoiceFlags,
+  AcroChoiceFlags
 } from 'src/core';
 import { assertIs, assertOrUndefined, assertPositive } from 'src/utils';
 
@@ -48,8 +48,13 @@ export default class PDFDropdown extends PDFField {
    * @param ref The unique reference for this dropdown.
    * @param doc The document to which this dropdown will belong.
    */
-  static of = (acroComboBox: PDFAcroComboBox, ref: PDFRef, doc: PDFDocument) =>
-    new PDFDropdown(acroComboBox, ref, doc);
+  static of = (
+    acroComboBox: PDFAcroComboBox,
+    ref: PDFRef,
+    doc: PDFDocument
+  ) => {
+    return new PDFDropdown(acroComboBox, ref, doc);
+  };
 
   /** The low-level PDFAcroComboBox wrapped by this dropdown. */
   readonly acroField: PDFAcroComboBox;
@@ -57,12 +62,12 @@ export default class PDFDropdown extends PDFField {
   private constructor(
     acroComboBox: PDFAcroComboBox,
     ref: PDFRef,
-    doc: PDFDocument,
+    doc: PDFDocument
   ) {
     super(acroComboBox, ref, doc);
 
     assertIs(acroComboBox, 'acroComboBox', [
-      [PDFAcroComboBox, 'PDFAcroComboBox'],
+      [PDFAcroComboBox, 'PDFAcroComboBox']
     ]);
 
     this.acroField = acroComboBox;
@@ -222,9 +227,9 @@ export default class PDFDropdown extends PDFField {
     const optionsArr = Array.isArray(options) ? options : [options];
 
     const validOptions = this.getOptions();
-    const hasCustomOption = optionsArr.find(
-      (option) => !validOptions.includes(option),
-    );
+    const hasCustomOption = optionsArr.find((option) => {
+      return !validOptions.includes(option);
+    });
     if (hasCustomOption) this.enableEditing();
 
     this.markAsDirty();
@@ -549,7 +554,7 @@ export default class PDFDropdown extends PDFField {
       borderWidth: options.borderWidth ?? 0,
       rotate: options.rotate ?? degrees(0),
       hidden: options.hidden,
-      page: page.ref,
+      page: page.ref
     });
     const widgetRef = this.doc.context.register(widget.dict);
 
@@ -620,7 +625,7 @@ export default class PDFDropdown extends PDFField {
    */
   updateAppearances(
     font: PDFFont,
-    provider?: AppearanceProviderFor<PDFDropdown>,
+    provider?: AppearanceProviderFor<PDFDropdown>
   ) {
     assertIs(font, 'font', [[PDFFont, 'PDFFont']]);
     assertOrUndefined(provider, 'provider', [Function]);
@@ -643,7 +648,7 @@ export default class PDFDropdown extends PDFField {
   private updateWidgetAppearance(
     widget: PDFWidgetAnnotation,
     font: PDFFont,
-    provider?: AppearanceProviderFor<PDFDropdown>,
+    provider?: AppearanceProviderFor<PDFDropdown>
   ) {
     const apProvider = provider ?? defaultDropdownAppearanceProvider;
     const appearances = normalizeAppearance(apProvider(this, widget, font));

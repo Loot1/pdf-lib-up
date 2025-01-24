@@ -6,7 +6,9 @@
  * Credit: https://stackoverflow.com/a/19303725/10254049
  */
 export class SimpleRNG {
-  static withSeed = (seed: number) => new SimpleRNG(seed);
+  static withSeed = (seed: number) => {
+    return new SimpleRNG(seed);
+  };
 
   private seed: number;
 

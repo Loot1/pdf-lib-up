@@ -1,3 +1,11 @@
+## Forked by [Loot1](https://github.com/Loot1)
+
+This fork is a version of the pdf-lib library with updated dependencies.
+
+Install with: `npm install pdf-lib-up`
+
+<hr/>
+
 <a href="https://pdf-lib.js.org">
 <h1 align="center">
 <img alt="pdf-lib" height="300" src="https://raw.githubusercontent.com/Hopding/pdf-lib-docs/master/assets/logo-full.svg?sanitize=true">

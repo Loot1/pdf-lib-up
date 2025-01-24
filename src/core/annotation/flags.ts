@@ -1,4 +1,6 @@
-const flag = (bitIndex: number) => 1 << bitIndex;
+const flag = (bitIndex: number) => {
+  return 1 << bitIndex;
+};
 
 /** From PDF spec table 165 */
 export enum AnnotationFlags {

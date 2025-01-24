@@ -3,12 +3,12 @@ import PDFPage from 'src/api/PDFPage';
 import PDFFont from 'src/api/PDFFont';
 import PDFField, {
   FieldAppearanceOptions,
-  assertFieldAppearanceOptions,
+  assertFieldAppearanceOptions
 } from 'src/api/form/PDFField';
 import {
   AppearanceProviderFor,
   normalizeAppearance,
-  defaultOptionListAppearanceProvider,
+  defaultOptionListAppearanceProvider
 } from 'src/api/form/appearances';
 import { rgb } from 'src/api/colors';
 import { degrees } from 'src/api/rotations';
@@ -20,13 +20,13 @@ import {
   PDFStream,
   PDFAcroListBox,
   AcroChoiceFlags,
-  PDFWidgetAnnotation,
+  PDFWidgetAnnotation
 } from 'src/core';
 import {
   assertIs,
   assertIsSubset,
   assertOrUndefined,
-  assertPositive,
+  assertPositive
 } from 'src/utils';
 
 /**
@@ -53,8 +53,9 @@ export default class PDFOptionList extends PDFField {
    * @param ref The unique reference for this option list.
    * @param doc The document to which this option list will belong.
    */
-  static of = (acroListBox: PDFAcroListBox, ref: PDFRef, doc: PDFDocument) =>
-    new PDFOptionList(acroListBox, ref, doc);
+  static of = (acroListBox: PDFAcroListBox, ref: PDFRef, doc: PDFDocument) => {
+    return new PDFOptionList(acroListBox, ref, doc);
+  };
 
   /** The low-level PDFAcroListBox wrapped by this option list. */
   readonly acroField: PDFAcroListBox;
@@ -62,7 +63,7 @@ export default class PDFOptionList extends PDFField {
   private constructor(
     acroListBox: PDFAcroListBox,
     ref: PDFRef,
-    doc: PDFDocument,
+    doc: PDFDocument
   ) {
     super(acroListBox, ref, doc);
 
@@ -468,7 +469,7 @@ export default class PDFOptionList extends PDFField {
       borderWidth: options.borderWidth ?? 0,
       rotate: options.rotate ?? degrees(0),
       hidden: options.hidden,
-      page: page.ref,
+      page: page.ref
     });
     const widgetRef = this.doc.context.register(widget.dict);
 
@@ -539,7 +540,7 @@ export default class PDFOptionList extends PDFField {
    */
   updateAppearances(
     font: PDFFont,
-    provider?: AppearanceProviderFor<PDFOptionList>,
+    provider?: AppearanceProviderFor<PDFOptionList>
   ) {
     assertIs(font, 'font', [[PDFFont, 'PDFFont']]);
     assertOrUndefined(provider, 'provider', [Function]);
@@ -562,7 +563,7 @@ export default class PDFOptionList extends PDFField {
   private updateWidgetAppearance(
     widget: PDFWidgetAnnotation,
     font: PDFFont,
-    provider?: AppearanceProviderFor<PDFOptionList>,
+    provider?: AppearanceProviderFor<PDFOptionList>
   ) {
     const apProvider = provider ?? defaultOptionListAppearanceProvider;
     const appearances = normalizeAppearance(apProvider(this, widget, font));

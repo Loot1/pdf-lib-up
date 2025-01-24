@@ -3,7 +3,7 @@ import {
   EncryptedPDFError,
   FontkitNotRegisteredError,
   ForeignPageError,
-  RemovePageFromEmptyDocumentError,
+  RemovePageFromEmptyDocumentError
 } from 'src/api/errors';
 import PDFEmbeddedPage from 'src/api/PDFEmbeddedPage';
 import PDFFont from 'src/api/PDFFont';
@@ -33,7 +33,7 @@ import {
   PDFWriter,
   PngEmbedder,
   StandardFontEmbedder,
-  UnexpectedObjectTypeError,
+  UnexpectedObjectTypeError
 } from 'src/core';
 import {
   ParseSpeeds,
@@ -43,7 +43,7 @@ import {
   LoadOptions,
   CreateOptions,
   EmbedFontOptions,
-  SetTitleOptions,
+  SetTitleOptions
 } from 'src/api/PDFDocumentOptions';
 import PDFObject from 'src/core/objects/PDFObject';
 import PDFRef from 'src/core/objects/PDFRef';
@@ -60,7 +60,7 @@ import {
   isStandardFont,
   pluckIndices,
   range,
-  toUint8Array,
+  toUint8Array
 } from 'src/utils';
 import FileEmbedder, { AFRelationship } from 'src/core/embedders/FileEmbedder';
 import PDFEmbeddedFile from 'src/api/PDFEmbeddedFile';
@@ -125,14 +125,14 @@ export default class PDFDocument {
    */
   static async load(
     pdf: string | Uint8Array | ArrayBuffer,
-    options: LoadOptions = {},
+    options: LoadOptions = {}
   ) {
     const {
       ignoreEncryption = false,
       parseSpeed = ParseSpeeds.Slow,
       throwOnInvalidObject = false,
       updateMetadata = true,
-      capNumbers = false,
+      capNumbers = false
     } = options;
 
     assertIs(pdf, 'pdf', ['string', Uint8Array, ArrayBuffer]);
@@ -145,7 +145,7 @@ export default class PDFDocument {
       bytes,
       parseSpeed,
       throwOnInvalidObject,
-      capNumbers,
+      capNumbers
     ).parseDocument();
     return new PDFDocument(context, ignoreEncryption, updateMetadata);
   }
@@ -192,7 +192,7 @@ export default class PDFDocument {
   private constructor(
     context: PDFContext,
     ignoreEncryption: boolean,
-    updateMetadata: boolean,
+    updateMetadata: boolean
   ) {
     assertIs(context, 'context', [[PDFContext, 'PDFContext']]);
     assertIs(ignoreEncryption, 'ignoreEncryption', ['boolean']);
@@ -255,7 +255,7 @@ export default class PDFDocument {
     const form = this.formCache.access();
     if (form.hasXFA()) {
       console.warn(
-        'Removing XFA form data as pdf-lib does not support reading or writing XFA',
+        'Removing XFA form data as pdf-lib does not support reading or writing XFA'
       );
       form.deleteXFA();
     }
@@ -876,7 +876,7 @@ export default class PDFDocument {
   async attach(
     attachment: string | Uint8Array | ArrayBuffer,
     name: string,
-    options: AttachmentOptions = {},
+    options: AttachmentOptions = {}
   ): Promise<void> {
     assertIs(attachment, 'attachment', ['string', Uint8Array, ArrayBuffer]);
     assertIs(name, 'name', ['string']);
@@ -884,12 +884,12 @@ export default class PDFDocument {
     assertOrUndefined(options.description, 'description', ['string']);
     assertOrUndefined(options.creationDate, 'options.creationDate', [Date]);
     assertOrUndefined(options.modificationDate, 'options.modificationDate', [
-      Date,
+      Date
     ]);
     assertIsOneOfOrUndefined(
       options.afRelationship,
       'options.afRelationship',
-      AFRelationship,
+      AFRelationship
     );
 
     const bytes = toUint8Array(attachment);
@@ -937,7 +937,7 @@ export default class PDFDocument {
    */
   async embedFont(
     font: StandardFonts | string | Uint8Array | ArrayBuffer,
-    options: EmbedFontOptions = {},
+    options: EmbedFontOptions = {}
   ): Promise<PDFFont> {
     const { subset = false, customName, features } = options;
 
@@ -955,12 +955,12 @@ export default class PDFDocument {
             fontkit,
             bytes,
             customName,
-            features,
+            features
           )
         : await CustomFontEmbedder.for(fontkit, bytes, customName, features);
     } else {
       throw new TypeError(
-        '`font` must be one of `StandardFonts | string | Uint8Array | ArrayBuffer`',
+        '`font` must be one of `StandardFonts | string | Uint8Array | ArrayBuffer`'
       );
     }
 
@@ -1099,13 +1099,13 @@ export default class PDFDocument {
    */
   async embedPdf(
     pdf: string | Uint8Array | ArrayBuffer | PDFDocument,
-    indices: number[] = [0],
+    indices: number[] = [0]
   ): Promise<PDFEmbeddedPage[]> {
     assertIs(pdf, 'pdf', [
       'string',
       Uint8Array,
       ArrayBuffer,
-      [PDFDocument, 'PDFDocument'],
+      [PDFDocument, 'PDFDocument']
     ]);
     assertIs(indices, 'indices', [Array]);
 
@@ -1152,13 +1152,13 @@ export default class PDFDocument {
   async embedPage(
     page: PDFPage,
     boundingBox?: PageBoundingBox,
-    transformationMatrix?: TransformationMatrix,
+    transformationMatrix?: TransformationMatrix
   ): Promise<PDFEmbeddedPage> {
     assertIs(page, 'page', [[PDFPage, 'PDFPage']]);
     const [embeddedPage] = await this.embedPages(
       [page],
       [boundingBox],
-      [transformationMatrix],
+      [transformationMatrix]
     );
     return embeddedPage;
   }
@@ -1194,7 +1194,7 @@ export default class PDFDocument {
   async embedPages(
     pages: PDFPage[],
     boundingBoxes: (PageBoundingBox | undefined)[] = [],
-    transformationMatrices: (TransformationMatrix | undefined)[] = [],
+    transformationMatrices: (TransformationMatrix | undefined)[] = []
   ) {
     if (pages.length === 0) return [];
 
@@ -1210,7 +1210,9 @@ export default class PDFDocument {
     const context = pages[0].node.context;
     const maybeCopyPage =
       context === this.context
-        ? (p: PDFPageLeaf) => p
+        ? (p: PDFPageLeaf) => {
+            return p;
+          }
         : PDFObjectCopier.for(context, this.context).copy;
 
     const embeddedPages = new Array<PDFEmbeddedPage>(pages.length);
@@ -1269,7 +1271,7 @@ export default class PDFDocument {
       useObjectStreams = true,
       addDefaultPage = true,
       objectsPerTick = 50,
-      updateFieldAppearances = true,
+      updateFieldAppearances = true
     } = options;
 
     assertIs(useObjectStreams, 'useObjectStreams', ['boolean']);
@@ -1384,7 +1386,7 @@ export default class PDFDocument {
 
 /* tslint:disable-next-line only-arrow-functions */
 function assertIsLiteralOrHexString(
-  pdfObject: PDFObject,
+  pdfObject: PDFObject
 ): asserts pdfObject is PDFHexString | PDFString {
   if (
     !(pdfObject instanceof PDFHexString) &&

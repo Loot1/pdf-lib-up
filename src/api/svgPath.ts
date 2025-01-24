@@ -8,7 +8,7 @@ import {
   appendQuadraticCurve,
   closePath,
   lineTo,
-  moveTo,
+  moveTo
 } from 'src/api/operators';
 import { PDFOperator } from 'src/core';
 
@@ -39,7 +39,7 @@ const parameters = new Map<string, number>([
   ['V', 1],
   ['v', 1],
   ['Z', 0],
-  ['z', 0],
+  ['z', 0]
 ]);
 
 interface Cmd {
@@ -190,7 +190,7 @@ const runners: CmdToOperatorsMap = {
       a[2] + cx,
       a[3] + cy,
       a[4] + cx,
-      a[5] + cy,
+      a[5] + cy
     );
     px = cx + a[2];
     py = cy + a[3];
@@ -211,7 +211,7 @@ const runners: CmdToOperatorsMap = {
       a[0],
       a[1],
       a[2],
-      a[3],
+      a[3]
     );
     px = a[0];
     py = a[1];
@@ -232,7 +232,7 @@ const runners: CmdToOperatorsMap = {
       cx + a[0],
       cy + a[1],
       cx + a[2],
-      cy + a[3],
+      cy + a[3]
     );
     px = cx + a[0];
     py = cy + a[1];
@@ -254,7 +254,7 @@ const runners: CmdToOperatorsMap = {
       a[0] + cx,
       a[1] + cy,
       a[2] + cx,
-      a[3] + cy,
+      a[3] + cy
     );
     px = cx + a[0];
     py = cy + a[1];
@@ -361,7 +361,7 @@ const runners: CmdToOperatorsMap = {
     cx = sx;
     cy = sy;
     return cmd;
-  },
+  }
 };
 
 const solveArc = (x: number, y: number, coords: number[]) => {
@@ -389,7 +389,7 @@ const arcToSegments = (
   sweep: number,
   rotateX: number,
   ox: number,
-  oy: number,
+  oy: number
 ) => {
   const th = rotateX * (Math.PI / 180);
   const sinTh = Math.sin(th);
@@ -457,7 +457,7 @@ const segmentToBezier = (
   rx: number,
   ry: number,
   sinTh: number,
-  cosTh: number,
+  cosTh: number
 ) => {
   const a00 = cosTh * rx;
   const a01 = -sinTh * ry;
@@ -481,9 +481,11 @@ const segmentToBezier = (
     a00 * x2 + a01 * y2,
     a10 * x2 + a11 * y2,
     a00 * x3 + a01 * y3,
-    a10 * x3 + a11 * y3,
+    a10 * x3 + a11 * y3
   ];
   return result;
 };
 
-export const svgPathToOperators = (path: string) => apply(parse(path));
+export const svgPathToOperators = (path: string) => {
+  return apply(parse(path));
+};

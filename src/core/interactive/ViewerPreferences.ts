@@ -8,12 +8,12 @@ import {
   assertEachIs,
   assertInteger,
   assertIsOneOf,
-  assertRange,
+  assertRange
 } from 'src/utils';
 
 const asEnum = <T extends string | number, U extends { [key: string]: T }>(
   rawValue: T | undefined,
-  enumType: U,
+  enumType: U
 ): U[keyof U] | undefined => {
   if (rawValue === undefined) return undefined;
   return enumType[rawValue];
@@ -99,8 +99,9 @@ class ViewerPreferences {
   readonly dict: PDFDict;
 
   /** @ignore */
-  static fromDict = (dict: PDFDict): ViewerPreferences =>
-    new ViewerPreferences(dict);
+  static fromDict = (dict: PDFDict): ViewerPreferences => {
+    return new ViewerPreferences(dict);
+  };
 
   /** @ignore */
   static create = (context: PDFContext) => {
@@ -432,7 +433,7 @@ class ViewerPreferences {
     assertIsOneOf(
       nonFullScreenPageMode,
       'nonFullScreenPageMode',
-      NonFullScreenPageMode,
+      NonFullScreenPageMode
     );
     const mode = PDFName.of(nonFullScreenPageMode);
     this.dict.set(PDFName.of('NonFullScreenPageMode'), mode);

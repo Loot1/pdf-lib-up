@@ -3,13 +3,13 @@ import PDFPage from 'src/api/PDFPage';
 import {
   AppearanceProviderFor,
   normalizeAppearance,
-  defaultCheckBoxAppearanceProvider,
+  defaultCheckBoxAppearanceProvider
 } from 'src/api/form/appearances';
 import { rgb } from 'src/api/colors';
 import { degrees } from 'src/api/rotations';
 import PDFField, {
   FieldAppearanceOptions,
-  assertFieldAppearanceOptions,
+  assertFieldAppearanceOptions
 } from 'src/api/form/PDFField';
 
 import {
@@ -17,7 +17,7 @@ import {
   PDFRef,
   PDFDict,
   PDFAcroCheckBox,
-  PDFWidgetAnnotation,
+  PDFWidgetAnnotation
 } from 'src/core';
 import { assertIs, assertOrUndefined } from 'src/utils';
 
@@ -42,8 +42,13 @@ export default class PDFCheckBox extends PDFField {
    * @param ref The unique reference for this check box.
    * @param doc The document to which this check box will belong.
    */
-  static of = (acroCheckBox: PDFAcroCheckBox, ref: PDFRef, doc: PDFDocument) =>
-    new PDFCheckBox(acroCheckBox, ref, doc);
+  static of = (
+    acroCheckBox: PDFAcroCheckBox,
+    ref: PDFRef,
+    doc: PDFDocument
+  ) => {
+    return new PDFCheckBox(acroCheckBox, ref, doc);
+  };
 
   /** The low-level PDFAcroCheckBox wrapped by this check box. */
   readonly acroField: PDFAcroCheckBox;
@@ -51,12 +56,12 @@ export default class PDFCheckBox extends PDFField {
   private constructor(
     acroCheckBox: PDFAcroCheckBox,
     ref: PDFRef,
-    doc: PDFDocument,
+    doc: PDFDocument
   ) {
     super(acroCheckBox, ref, doc);
 
     assertIs(acroCheckBox, 'acroCheckBox', [
-      [PDFAcroCheckBox, 'PDFAcroCheckBox'],
+      [PDFAcroCheckBox, 'PDFAcroCheckBox']
     ]);
 
     this.acroField = acroCheckBox;
@@ -170,7 +175,7 @@ export default class PDFCheckBox extends PDFField {
       borderWidth: options.borderWidth ?? 0,
       rotate: options.rotate ?? degrees(0),
       hidden: options.hidden,
-      page: page.ref,
+      page: page.ref
     });
     const widgetRef = this.doc.context.register(widget.dict);
 
@@ -253,7 +258,7 @@ export default class PDFCheckBox extends PDFField {
   private updateWidgetAppearance(
     widget: PDFWidgetAnnotation,
     onValue: PDFName,
-    provider?: AppearanceProviderFor<PDFCheckBox>,
+    provider?: AppearanceProviderFor<PDFCheckBox>
   ) {
     const apProvider = provider ?? defaultCheckBoxAppearanceProvider;
     const appearances = normalizeAppearance(apProvider(this, widget));

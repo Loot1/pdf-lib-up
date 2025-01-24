@@ -9,15 +9,16 @@ import PDFAnnotation from 'src/core/annotation/PDFAnnotation';
 import AppearanceCharacteristics from 'src/core/annotation/AppearanceCharacteristics';
 
 class PDFWidgetAnnotation extends PDFAnnotation {
-  static fromDict = (dict: PDFDict): PDFWidgetAnnotation =>
-    new PDFWidgetAnnotation(dict);
+  static fromDict = (dict: PDFDict): PDFWidgetAnnotation => {
+    return new PDFWidgetAnnotation(dict);
+  };
 
   static create = (context: PDFContext, parent: PDFRef) => {
     const dict = context.obj({
       Type: 'Annot',
       Subtype: 'Widget',
       Rect: [0, 0, 0, 0],
-      Parent: parent,
+      Parent: parent
     });
     return new PDFWidgetAnnotation(dict);
   };

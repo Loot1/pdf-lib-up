@@ -29,20 +29,24 @@ export const degrees = (degreeAngle: number): Degrees => {
 
 const { Radians, Degrees } = RotationTypes;
 
-export const degreesToRadians = (degree: number) => (degree * Math.PI) / 180;
-export const radiansToDegrees = (radian: number) => (radian * 180) / Math.PI;
+export const degreesToRadians = (degree: number) => {
+  return (degree * Math.PI) / 180;
+};
+export const radiansToDegrees = (radian: number) => {
+  return (radian * 180) / Math.PI;
+};
 
 // prettier-ignore
 export const toRadians = (rotation: Rotation) => 
-    rotation.type === Radians ? rotation.angle
+    {return rotation.type === Radians ? rotation.angle
   : rotation.type === Degrees ? degreesToRadians(rotation.angle)
-  : error(`Invalid rotation: ${JSON.stringify(rotation)}`);
+  : error(`Invalid rotation: ${JSON.stringify(rotation)}`)};
 
 // prettier-ignore
 export const toDegrees = (rotation: Rotation) => 
-    rotation.type === Radians ? radiansToDegrees(rotation.angle)
+    {return rotation.type === Radians ? radiansToDegrees(rotation.angle)
   : rotation.type === Degrees ? rotation.angle
-  : error(`Invalid rotation: ${JSON.stringify(rotation)}`);
+  : error(`Invalid rotation: ${JSON.stringify(rotation)}`)};
 
 export const reduceRotation = (degreeAngle = 0) => {
   const quadrants = (degreeAngle / 90) % 4;
@@ -55,7 +59,7 @@ export const reduceRotation = (degreeAngle = 0) => {
 
 export const adjustDimsForRotation = (
   dims: { width: number; height: number },
-  degreeAngle = 0,
+  degreeAngle = 0
 ) => {
   const rotation = reduceRotation(degreeAngle);
   return rotation === 90 || rotation === 270
@@ -71,7 +75,7 @@ export const rotateRectangle = (
     height: number;
   },
   borderWidth = 0,
-  degreeAngle = 0,
+  degreeAngle = 0
 ) => {
   const { x, y, width: w, height: h } = rectangle;
 

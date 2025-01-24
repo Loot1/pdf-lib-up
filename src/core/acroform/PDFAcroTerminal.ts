@@ -6,8 +6,9 @@ import PDFWidgetAnnotation from 'src/core/annotation/PDFWidgetAnnotation';
 import { IndexOutOfBoundsError } from 'src/core/errors';
 
 class PDFAcroTerminal extends PDFAcroField {
-  static fromDict = (dict: PDFDict, ref: PDFRef) =>
-    new PDFAcroTerminal(dict, ref);
+  static fromDict = (dict: PDFDict, ref: PDFRef) => {
+    return new PDFAcroTerminal(dict, ref);
+  };
 
   FT(): PDFName {
     const nameOrRef = this.getInheritableAttribute(PDFName.of('FT'));

@@ -7,12 +7,14 @@ import {
   utf16Encode,
   pdfDocEncodingDecode,
   parseDate,
-  hasUtf16BOM,
+  hasUtf16BOM
 } from 'src/utils';
 import { InvalidPDFDateStringError } from 'src/core/errors';
 
 class PDFHexString extends PDFObject {
-  static of = (value: string) => new PDFHexString(value);
+  static of = (value: string) => {
+    return new PDFHexString(value);
+  };
 
   static fromText = (value: string) => {
     const encoded = utf16Encode(value);

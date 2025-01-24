@@ -1,7 +1,9 @@
 import PDFObject from 'src/core/objects/PDFObject';
 
 class PDFInvalidObject extends PDFObject {
-  static of = (data: Uint8Array) => new PDFInvalidObject(data);
+  static of = (data: Uint8Array) => {
+    return new PDFInvalidObject(data);
+  };
 
   private readonly data: Uint8Array;
 

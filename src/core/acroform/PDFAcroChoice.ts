@@ -6,7 +6,7 @@ import PDFName from 'src/core/objects/PDFName';
 import { AcroChoiceFlags } from 'src/core/acroform/flags';
 import {
   InvalidAcroFieldValueError,
-  MultiSelectValueError,
+  MultiSelectValueError
 } from 'src/core/errors';
 
 class PDFAcroChoice extends PDFAcroTerminal {
@@ -39,7 +39,11 @@ class PDFAcroChoice extends PDFAcroTerminal {
     const options = this.getOptions();
     for (let idx = 0, len = values.length; idx < len; idx++) {
       const val = values[idx].decodeText();
-      if (!options.find((o) => val === (o.display || o.value).decodeText())) {
+      if (
+        !options.find((o) => {
+          return val === (o.display || o.value).decodeText();
+        })
+      ) {
         return false;
       }
     }
@@ -52,9 +56,9 @@ class PDFAcroChoice extends PDFAcroTerminal {
       const options = this.getOptions();
       for (let idx = 0, len = values.length; idx < len; idx++) {
         const val = values[idx].decodeText();
-        indices[idx] = options.findIndex(
-          (o) => val === (o.display || o.value).decodeText(),
-        );
+        indices[idx] = options.findIndex((o) => {
+          return val === (o.display || o.value).decodeText();
+        });
       }
       this.dict.set(PDFName.of('I'), this.dict.context.obj(indices.sort()));
     } else {
@@ -88,7 +92,7 @@ class PDFAcroChoice extends PDFAcroTerminal {
       PDFName.of('Opt'),
       PDFString,
       PDFHexString,
-      PDFArray,
+      PDFArray
     );
   }
 
@@ -96,7 +100,7 @@ class PDFAcroChoice extends PDFAcroTerminal {
     options: {
       value: PDFString | PDFHexString;
       display?: PDFString | PDFHexString;
-    }[],
+    }[]
   ) {
     const newOpt = new Array<PDFArray>(options.length);
     for (let idx = 0, len = options.length; idx < len; idx++) {

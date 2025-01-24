@@ -6,7 +6,9 @@ import PDFNumber from 'src/core/objects/PDFNumber';
 class BorderStyle {
   readonly dict: PDFDict;
 
-  static fromDict = (dict: PDFDict): BorderStyle => new BorderStyle(dict);
+  static fromDict = (dict: PDFDict): BorderStyle => {
+    return new BorderStyle(dict);
+  };
 
   protected constructor(dict: PDFDict) {
     this.dict = dict;

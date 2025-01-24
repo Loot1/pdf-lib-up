@@ -7,6 +7,7 @@ build/
 dist/
 cjs/
 es/
+.rollup.cache/
 
 tsBuildInfo.json
 flamegraph.html

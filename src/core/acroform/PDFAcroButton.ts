@@ -13,7 +13,7 @@ class PDFAcroButton extends PDFAcroTerminal {
       PDFName.of('Opt'),
       PDFString,
       PDFHexString,
-      PDFArray,
+      PDFArray
     );
   }
 
@@ -102,7 +102,7 @@ class PDFAcroButton extends PDFAcroTerminal {
   addWidgetWithOpt(
     widget: PDFRef,
     opt: PDFHexString | PDFString,
-    useExistingOptIdx: boolean,
+    useExistingOptIdx: boolean
   ) {
     const optIdx = this.addOpt(opt, useExistingOptIdx);
     const apStateValue = PDFName.of(String(optIdx));

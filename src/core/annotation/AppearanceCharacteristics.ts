@@ -8,8 +8,9 @@ import PDFString from 'src/core/objects/PDFString';
 class AppearanceCharacteristics {
   readonly dict: PDFDict;
 
-  static fromDict = (dict: PDFDict): AppearanceCharacteristics =>
-    new AppearanceCharacteristics(dict);
+  static fromDict = (dict: PDFDict): AppearanceCharacteristics => {
+    return new AppearanceCharacteristics(dict);
+  };
 
   protected constructor(dict: PDFDict) {
     this.dict = dict;
@@ -91,7 +92,7 @@ class AppearanceCharacteristics {
     return {
       normal: CA?.decodeText(),
       rollover: RC?.decodeText(),
-      down: AC?.decodeText(),
+      down: AC?.decodeText()
     };
   }
 

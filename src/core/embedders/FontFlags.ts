@@ -39,7 +39,7 @@ export const deriveFontFlags = (font: Font): number => {
     serif: 1 <= familyClass && familyClass <= 7,
     symbolic: true, // Assume the font uses non-latin characters
     script: familyClass === 10,
-    italic: font.head.macStyle.italic,
+    italic: font.head.macStyle.italic
   });
   return flags;
 };

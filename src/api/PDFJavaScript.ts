@@ -18,8 +18,9 @@ export default class PDFJavaScript implements Embeddable {
    * @param doc The document to which the script will belong.
    * @param embedder The embedder that will be used to embed the script.
    */
-  static of = (ref: PDFRef, doc: PDFDocument, embedder: JavaScriptEmbedder) =>
-    new PDFJavaScript(ref, doc, embedder);
+  static of = (ref: PDFRef, doc: PDFDocument, embedder: JavaScriptEmbedder) => {
+    return new PDFJavaScript(ref, doc, embedder);
+  };
 
   /** The unique reference assigned to this embedded script within the document. */
   readonly ref: PDFRef;
@@ -33,7 +34,7 @@ export default class PDFJavaScript implements Embeddable {
   private constructor(
     ref: PDFRef,
     doc: PDFDocument,
-    embedder: JavaScriptEmbedder,
+    embedder: JavaScriptEmbedder
   ) {
     this.ref = ref;
     this.doc = doc;
@@ -55,7 +56,7 @@ export default class PDFJavaScript implements Embeddable {
 
       const ref = await this.embedder.embedIntoContext(
         this.doc.context,
-        this.ref,
+        this.ref
       );
 
       if (!catalog.has(PDFName.of('Names'))) {

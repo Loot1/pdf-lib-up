@@ -46,7 +46,9 @@ describe(`PDFOptionList`, () => {
     const pdfDoc = await PDFDocument.load(fancyFieldsPdfBytes);
     const form = pdfDoc.getForm();
     const planets = form.getOptionList('Which Are Planets? 🌎');
-    expect(() => planets.select('One Punch Man')).toThrow();
+    expect(() => {
+      return planets.select('One Punch Man');
+    }).toThrow();
   });
 
   it(`can merge options when selecting`, async () => {
@@ -78,7 +80,9 @@ describe(`PDFOptionList`, () => {
 
     const optionList = form.createOptionList('a.new.option.list');
 
-    const widgets = () => optionList.acroField.getWidgets();
+    const widgets = () => {
+      return optionList.acroField.getWidgets();
+    };
     expect(widgets().length).toBe(0);
 
     optionList.addToPage(page);
@@ -94,7 +98,9 @@ describe(`PDFOptionList`, () => {
 
     const optionList = form.createOptionList('a.new.option.list');
 
-    const widgets = () => optionList.acroField.getWidgets();
+    const widgets = () => {
+      return optionList.acroField.getWidgets();
+    };
     expect(widgets().length).toBe(0);
 
     optionList.addToPage(page);

@@ -15,8 +15,9 @@ import {
   ReparseError,
 } from 'src/index';
 
-const readData = (file: string) =>
-  new Uint8Array(fs.readFileSync(`./tests/core/parser/data/${file}`));
+const readData = (file: string) => {
+  return new Uint8Array(fs.readFileSync(`./tests/core/parser/data/${file}`));
+};
 
 describe(`PDFObjectStreamParser`, () => {
   it(`parses simple object streams`, () => {
@@ -120,9 +121,9 @@ describe(`PDFObjectStreamParser`, () => {
     const contents = readData('object-stream4');
     const stream = PDFRawStream.of(dict, contents);
 
-    expect(() =>
-      PDFObjectStreamParser.forStream(stream).parseIntoContext(),
-    ).toThrow();
+    expect(() => {
+      return PDFObjectStreamParser.forStream(stream).parseIntoContext();
+    }).toThrow();
   });
 
   it(`throws an error for invalid object streams`, async () => {

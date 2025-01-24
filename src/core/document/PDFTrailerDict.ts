@@ -2,7 +2,9 @@ import PDFDict from 'src/core/objects/PDFDict';
 import CharCodes from 'src/core/syntax/CharCodes';
 
 class PDFTrailerDict {
-  static of = (dict: PDFDict) => new PDFTrailerDict(dict);
+  static of = (dict: PDFDict) => {
+    return new PDFTrailerDict(dict);
+  };
 
   readonly dict: PDFDict;
 

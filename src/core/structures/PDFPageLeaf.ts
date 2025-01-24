@@ -13,7 +13,7 @@ class PDFPageLeaf extends PDFDict {
     'Resources',
     'MediaBox',
     'CropBox',
-    'Rotate',
+    'Rotate'
   ];
 
   static withContextAndParent = (context: PDFContext, parent: PDFRef) => {
@@ -28,8 +28,10 @@ class PDFPageLeaf extends PDFDict {
   static fromMapWithContext = (
     map: DictMap,
     context: PDFContext,
-    autoNormalizeCTM = true,
-  ) => new PDFPageLeaf(map, context, autoNormalizeCTM);
+    autoNormalizeCTM = true
+  ) => {
+    return new PDFPageLeaf(map, context, autoNormalizeCTM);
+  };
 
   private normalized = false;
   private readonly autoNormalizeCTM: boolean;
@@ -37,7 +39,7 @@ class PDFPageLeaf extends PDFDict {
   private constructor(
     map: DictMap,
     context: PDFContext,
-    autoNormalizeCTM = true,
+    autoNormalizeCTM = true
   ) {
     super(map, context);
     this.autoNormalizeCTM = autoNormalizeCTM;
@@ -47,7 +49,7 @@ class PDFPageLeaf extends PDFDict {
     const clone = PDFPageLeaf.fromMapWithContext(
       new Map(),
       context || this.context,
-      this.autoNormalizeCTM,
+      this.autoNormalizeCTM
     );
     const entries = this.entries();
     for (let idx = 0, len = entries.length; idx < len; idx++) {
@@ -213,7 +215,7 @@ class PDFPageLeaf extends PDFDict {
     if (this.autoNormalizeCTM) {
       this.wrapContentStreams(
         this.context.getPushGraphicsStateContentStream(),
-        this.context.getPopGraphicsStateContentStream(),
+        this.context.getPopGraphicsStateContentStream()
       );
     }
 
@@ -255,7 +257,7 @@ class PDFPageLeaf extends PDFDict {
       Contents,
       Font: Resources.lookup(PDFName.Font, PDFDict),
       XObject: Resources.lookup(PDFName.XObject, PDFDict),
-      ExtGState: Resources.lookup(PDFName.ExtGState, PDFDict),
+      ExtGState: Resources.lookup(PDFName.ExtGState, PDFDict)
     };
   }
 }

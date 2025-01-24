@@ -19,8 +19,9 @@ export default class PDFEmbeddedPage implements Embeddable {
    * @param doc The document to which the embedded page will belong.
    * @param embedder The embedder that will be used to embed the page.
    */
-  static of = (ref: PDFRef, doc: PDFDocument, embedder: PDFPageEmbedder) =>
-    new PDFEmbeddedPage(ref, doc, embedder);
+  static of = (ref: PDFRef, doc: PDFDocument, embedder: PDFPageEmbedder) => {
+    return new PDFEmbeddedPage(ref, doc, embedder);
+  };
 
   /** The unique reference assigned to this embedded page within the document. */
   readonly ref: PDFRef;
@@ -40,7 +41,7 @@ export default class PDFEmbeddedPage implements Embeddable {
   private constructor(
     ref: PDFRef,
     doc: PDFDocument,
-    embedder: PDFPageEmbedder,
+    embedder: PDFPageEmbedder
   ) {
     assertIs(ref, 'ref', [[PDFRef, 'PDFRef']]);
     assertIs(doc, 'doc', [[PDFDocument, 'PDFDocument']]);

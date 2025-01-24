@@ -3,7 +3,9 @@ import { copyStringIntoBuffer, numberToString } from 'src/utils/index';
 import PDFObject from 'src/core/objects/PDFObject';
 
 class PDFNumber extends PDFObject {
-  static of = (value: number) => new PDFNumber(value);
+  static of = (value: number) => {
+    return new PDFNumber(value);
+  };
 
   private readonly numberValue: number;
   private readonly stringValue: string;

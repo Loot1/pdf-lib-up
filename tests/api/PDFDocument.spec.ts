@@ -48,7 +48,9 @@ describe(`PDFDocument`, () => {
         'Invalid object ref:',
       ];
       console.warn = jest.fn((...args) => {
-        const isIgnored = ignoredWarnings.find((iw) => args[0].includes(iw));
+        const isIgnored = ignoredWarnings.find((iw) => {
+          return args[0].includes(iw);
+        });
         if (!isIgnored) origConsoleWarn(...args);
       });
     });

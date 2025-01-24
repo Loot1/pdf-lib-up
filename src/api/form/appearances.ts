@@ -14,7 +14,7 @@ import {
   drawRadioButton,
   drawButton,
   drawTextField,
-  drawOptionList,
+  drawOptionList
 } from 'src/api/operations';
 import {
   rgb,
@@ -22,14 +22,14 @@ import {
   setFillingColor,
   grayscale,
   cmyk,
-  Color,
+  Color
 } from 'src/api/colors';
 import { reduceRotation, adjustDimsForRotation } from 'src/api/rotations';
 import {
   layoutMultilineText,
   layoutCombedText,
   TextPosition,
-  layoutSinglelineText,
+  layoutSinglelineText
 } from 'src/api/text/layout';
 import { TextAlignment } from 'src/api/text/alignment';
 import { setFontAndSize } from 'src/api/operators';
@@ -102,8 +102,8 @@ export type AppearanceProviderFor<T extends PDFField> =
 
 /********************* Appearance Provider Functions **************************/
 
-export const normalizeAppearance = <T>(
-  appearance: T | AppearanceMapping<T>,
+export const normalizeAppearance = <T extends object>(
+  appearance: T | AppearanceMapping<T>
 ): AppearanceMapping<T> => {
   if ('normal' in appearance) return appearance;
   return { normal: appearance };
@@ -112,7 +112,8 @@ export const normalizeAppearance = <T>(
 // Examples:
 //   `/Helv 12 Tf` -> ['/Helv 12 Tf', 'Helv', '12']
 //   `/HeBo 8.00 Tf` -> ['/HeBo 8 Tf', 'HeBo', '8.00']
-const tfRegex = /\/([^\0\t\n\f\r\ ]+)[\0\t\n\f\r\ ]+(\d*\.\d+|\d+)[\0\t\n\f\r\ ]+Tf/;
+const tfRegex =
+  /\/([^\0\t\n\f\r\ ]+)[\0\t\n\f\r\ ]+(\d*\.\d+|\d+)[\0\t\n\f\r\ ]+Tf/;
 
 const getDefaultFontSize = (field: {
   getDefaultAppearance(): string | undefined;
@@ -127,7 +128,8 @@ const getDefaultFontSize = (field: {
 //   `0.3 g` -> ['0.3', 'g']
 //   `0.3 1 .3 rg` -> ['0.3', '1', '.3', 'rg']
 //   `0.3 1 .3 0 k` -> ['0.3', '1', '.3', '0', 'k']
-const colorRegex = /(\d*\.\d+|\d+)[\0\t\n\f\r\ ]*(\d*\.\d+|\d+)?[\0\t\n\f\r\ ]*(\d*\.\d+|\d+)?[\0\t\n\f\r\ ]*(\d*\.\d+|\d+)?[\0\t\n\f\r\ ]+(g|rg|k)/;
+const colorRegex =
+  /(\d*\.\d+|\d+)[\0\t\n\f\r\ ]*(\d*\.\d+|\d+)?[\0\t\n\f\r\ ]*(\d*\.\d+|\d+)?[\0\t\n\f\r\ ]*(\d*\.\d+|\d+)?[\0\t\n\f\r\ ]+(g|rg|k)/;
 
 const getDefaultColor = (field: {
   getDefaultAppearance(): string | undefined;
@@ -154,19 +156,18 @@ const updateDefaultAppearance = (
   field: { setDefaultAppearance(appearance: string): void },
   color: Color,
   font?: PDFFont,
-  fontSize: number = 0,
+  fontSize: number = 0
 ) => {
   const da = [
     setFillingColor(color).toString(),
-    setFontAndSize(font?.name ?? 'dummy__noop', fontSize).toString(),
+    setFontAndSize(font?.name ?? 'dummy__noop', fontSize).toString()
   ].join('\n');
   field.setDefaultAppearance(da);
 };
 
-export const defaultCheckBoxAppearanceProvider: AppearanceProviderFor<PDFCheckBox> = (
-  checkBox,
-  widget,
-) => {
+export const defaultCheckBoxAppearanceProvider: AppearanceProviderFor<
+  PDFCheckBox
+> = (checkBox, widget) => {
   // The `/DA` entry can be at the widget or field level - so we handle both
   const widgetColor = getDefaultColor(widget);
   const fieldColor = getDefaultColor(checkBox.acroField);
@@ -202,7 +203,7 @@ export const defaultCheckBoxAppearanceProvider: AppearanceProviderFor<PDFCheckBo
     thickness: 1.5,
     borderWidth,
     borderColor,
-    markColor: textColor,
+    markColor: textColor
   };
 
   return {
@@ -212,17 +213,17 @@ export const defaultCheckBoxAppearanceProvider: AppearanceProviderFor<PDFCheckBo
         ...drawCheckBox({
           ...options,
           color: normalBackgroundColor,
-          filled: true,
-        }),
+          filled: true
+        })
       ],
       off: [
         ...rotate,
         ...drawCheckBox({
           ...options,
           color: normalBackgroundColor,
-          filled: false,
-        }),
-      ],
+          filled: false
+        })
+      ]
     },
     down: {
       on: [
@@ -230,25 +231,24 @@ export const defaultCheckBoxAppearanceProvider: AppearanceProviderFor<PDFCheckBo
         ...drawCheckBox({
           ...options,
           color: downBackgroundColor,
-          filled: true,
-        }),
+          filled: true
+        })
       ],
       off: [
         ...rotate,
         ...drawCheckBox({
           ...options,
           color: downBackgroundColor,
-          filled: false,
-        }),
-      ],
-    },
+          filled: false
+        })
+      ]
+    }
   };
 };
 
-export const defaultRadioGroupAppearanceProvider: AppearanceProviderFor<PDFRadioGroup> = (
-  radioGroup,
-  widget,
-) => {
+export const defaultRadioGroupAppearanceProvider: AppearanceProviderFor<
+  PDFRadioGroup
+> = (radioGroup, widget) => {
   // The `/DA` entry can be at the widget or field level - so we handle both
   const widgetColor = getDefaultColor(widget);
   const fieldColor = getDefaultColor(radioGroup.acroField);
@@ -283,7 +283,7 @@ export const defaultRadioGroupAppearanceProvider: AppearanceProviderFor<PDFRadio
     height: height - borderWidth,
     borderWidth,
     borderColor,
-    dotColor: textColor,
+    dotColor: textColor
   };
 
   return {
@@ -293,17 +293,17 @@ export const defaultRadioGroupAppearanceProvider: AppearanceProviderFor<PDFRadio
         ...drawRadioButton({
           ...options,
           color: normalBackgroundColor,
-          filled: true,
-        }),
+          filled: true
+        })
       ],
       off: [
         ...rotate,
         ...drawRadioButton({
           ...options,
           color: normalBackgroundColor,
-          filled: false,
-        }),
-      ],
+          filled: false
+        })
+      ]
     },
     down: {
       on: [
@@ -311,26 +311,24 @@ export const defaultRadioGroupAppearanceProvider: AppearanceProviderFor<PDFRadio
         ...drawRadioButton({
           ...options,
           color: downBackgroundColor,
-          filled: true,
-        }),
+          filled: true
+        })
       ],
       off: [
         ...rotate,
         ...drawRadioButton({
           ...options,
           color: downBackgroundColor,
-          filled: false,
-        }),
-      ],
-    },
+          filled: false
+        })
+      ]
+    }
   };
 };
 
-export const defaultButtonAppearanceProvider: AppearanceProviderFor<PDFButton> = (
-  button,
-  widget,
-  font,
-) => {
+export const defaultButtonAppearanceProvider: AppearanceProviderFor<
+  PDFButton
+> = (button, widget, font) => {
   // The `/DA` entry can be at the widget or field level - so we handle both
   const widgetColor = getDefaultColor(widget);
   const fieldColor = getDefaultColor(button.acroField);
@@ -360,19 +358,19 @@ export const defaultButtonAppearanceProvider: AppearanceProviderFor<PDFButton> =
     x: borderWidth,
     y: borderWidth,
     width: width - borderWidth * 2,
-    height: height - borderWidth * 2,
+    height: height - borderWidth * 2
   };
   const normalLayout = layoutSinglelineText(normalText, {
     alignment: TextAlignment.Center,
     fontSize: widgetFontSize ?? fieldFontSize,
     font,
-    bounds,
+    bounds
   });
   const downLayout = layoutSinglelineText(downText, {
     alignment: TextAlignment.Center,
     fontSize: widgetFontSize ?? fieldFontSize,
     font,
-    bounds,
+    bounds
   });
 
   // Update font size and color
@@ -393,7 +391,7 @@ export const defaultButtonAppearanceProvider: AppearanceProviderFor<PDFButton> =
     borderColor,
     textColor,
     font: font.name,
-    fontSize,
+    fontSize
   };
 
   return {
@@ -402,25 +400,23 @@ export const defaultButtonAppearanceProvider: AppearanceProviderFor<PDFButton> =
       ...drawButton({
         ...options,
         color: normalBackgroundColor,
-        textLines: [normalLayout.line],
-      }),
+        textLines: [normalLayout.line]
+      })
     ],
     down: [
       ...rotate,
       ...drawButton({
         ...options,
         color: downBackgroundColor,
-        textLines: [downLayout.line],
-      }),
-    ],
+        textLines: [downLayout.line]
+      })
+    ]
   };
 };
 
-export const defaultTextFieldAppearanceProvider: AppearanceProviderFor<PDFTextField> = (
-  textField,
-  widget,
-  font,
-) => {
+export const defaultTextFieldAppearanceProvider: AppearanceProviderFor<
+  PDFTextField
+> = (textField, widget, font) => {
   // The `/DA` entry can be at the widget or field level - so we handle both
   const widgetColor = getDefaultColor(widget);
   const fieldColor = getDefaultColor(textField.acroField);
@@ -451,14 +447,14 @@ export const defaultTextFieldAppearanceProvider: AppearanceProviderFor<PDFTextFi
     x: borderWidth + padding,
     y: borderWidth + padding,
     width: width - (borderWidth + padding) * 2,
-    height: height - (borderWidth + padding) * 2,
+    height: height - (borderWidth + padding) * 2
   };
   if (textField.isMultiline()) {
     const layout = layoutMultilineText(text, {
       alignment: textField.getAlignment(),
       fontSize: widgetFontSize ?? fieldFontSize,
       font,
-      bounds,
+      bounds
     });
     textLines = layout.lines;
     fontSize = layout.fontSize;
@@ -467,7 +463,7 @@ export const defaultTextFieldAppearanceProvider: AppearanceProviderFor<PDFTextFi
       fontSize: widgetFontSize ?? fieldFontSize,
       font,
       bounds,
-      cellCount: textField.getMaxLength() ?? 0,
+      cellCount: textField.getMaxLength() ?? 0
     });
     textLines = layout.cells;
     fontSize = layout.fontSize;
@@ -476,7 +472,7 @@ export const defaultTextFieldAppearanceProvider: AppearanceProviderFor<PDFTextFi
       alignment: textField.getAlignment(),
       fontSize: widgetFontSize ?? fieldFontSize,
       font,
-      bounds,
+      bounds
     });
     textLines = [layout.line];
     fontSize = layout.fontSize;
@@ -502,17 +498,15 @@ export const defaultTextFieldAppearanceProvider: AppearanceProviderFor<PDFTextFi
     fontSize,
     color: normalBackgroundColor,
     textLines,
-    padding,
+    padding
   };
 
   return [...rotate, ...drawTextField(options)];
 };
 
-export const defaultDropdownAppearanceProvider: AppearanceProviderFor<PDFDropdown> = (
-  dropdown,
-  widget,
-  font,
-) => {
+export const defaultDropdownAppearanceProvider: AppearanceProviderFor<
+  PDFDropdown
+> = (dropdown, widget, font) => {
   // The `/DA` entry can be at the widget or field level - so we handle both
   const widgetColor = getDefaultColor(widget);
   const fieldColor = getDefaultColor(dropdown.acroField);
@@ -540,13 +534,13 @@ export const defaultDropdownAppearanceProvider: AppearanceProviderFor<PDFDropdow
     x: borderWidth + padding,
     y: borderWidth + padding,
     width: width - (borderWidth + padding) * 2,
-    height: height - (borderWidth + padding) * 2,
+    height: height - (borderWidth + padding) * 2
   };
   const { line, fontSize } = layoutSinglelineText(text, {
     alignment: TextAlignment.Left,
     fontSize: widgetFontSize ?? fieldFontSize,
     font,
-    bounds,
+    bounds
   });
 
   // Update font size and color
@@ -569,17 +563,15 @@ export const defaultDropdownAppearanceProvider: AppearanceProviderFor<PDFDropdow
     fontSize,
     color: normalBackgroundColor,
     textLines: [line],
-    padding,
+    padding
   };
 
   return [...rotate, ...drawTextField(options)];
 };
 
-export const defaultOptionListAppearanceProvider: AppearanceProviderFor<PDFOptionList> = (
-  optionList,
-  widget,
-  font,
-) => {
+export const defaultOptionListAppearanceProvider: AppearanceProviderFor<
+  PDFOptionList
+> = (optionList, widget, font) => {
   // The `/DA` entry can be at the widget or field level - so we handle both
   const widgetColor = getDefaultColor(widget);
   const fieldColor = getDefaultColor(optionList.acroField);
@@ -617,13 +609,13 @@ export const defaultOptionListAppearanceProvider: AppearanceProviderFor<PDFOptio
     x: borderWidth + padding,
     y: borderWidth + padding,
     width: width - (borderWidth + padding) * 2,
-    height: height - (borderWidth + padding) * 2,
+    height: height - (borderWidth + padding) * 2
   };
   const { lines, fontSize, lineHeight } = layoutMultilineText(text, {
     alignment: TextAlignment.Left,
     fontSize: widgetFontSize ?? fieldFontSize,
     font,
-    bounds,
+    bounds
   });
 
   const selectedLines: number[] = [];
@@ -659,7 +651,7 @@ export const defaultOptionListAppearanceProvider: AppearanceProviderFor<PDFOptio
       lineHeight,
       selectedColor: blue,
       selectedLines,
-      padding,
-    }),
+      padding
+    })
   ];
 };

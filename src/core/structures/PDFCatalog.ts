@@ -9,7 +9,7 @@ import ViewerPreferences from '../interactive/ViewerPreferences';
 class PDFCatalog extends PDFDict {
   static withContextAndPages = (
     context: PDFContext,
-    pages: PDFPageTree | PDFRef,
+    pages: PDFPageTree | PDFRef
   ) => {
     const dict = new Map();
     dict.set(PDFName.of('Type'), PDFName.of('Catalog'));
@@ -17,8 +17,9 @@ class PDFCatalog extends PDFDict {
     return new PDFCatalog(dict, context);
   };
 
-  static fromMapWithContext = (map: DictMap, context: PDFContext) =>
-    new PDFCatalog(map, context);
+  static fromMapWithContext = (map: DictMap, context: PDFContext) => {
+    return new PDFCatalog(map, context);
+  };
 
   Pages(): PDFPageTree {
     return this.lookup(PDFName.of('Pages'), PDFDict) as PDFPageTree;

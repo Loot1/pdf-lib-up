@@ -6,14 +6,14 @@ import {
   drawPage,
   drawRectangle,
   drawSvgPath,
-  drawEllipse,
+  drawEllipse
 } from 'src/api/operations';
 import {
   popGraphicsState,
   pushGraphicsState,
   translate,
   LineCapStyle,
-  scale,
+  scale
 } from 'src/api/operators';
 import PDFDocument from 'src/api/PDFDocument';
 import PDFEmbeddedPage from 'src/api/PDFEmbeddedPage';
@@ -29,7 +29,7 @@ import {
   PDFPageDrawSquareOptions,
   PDFPageDrawSVGOptions,
   PDFPageDrawTextOptions,
-  BlendMode,
+  BlendMode
 } from 'src/api/PDFPageOptions';
 import { degrees, Rotation, toDegrees } from 'src/api/rotations';
 import { StandardFonts } from 'src/api/StandardFonts';
@@ -41,7 +41,7 @@ import {
   PDFPageLeaf,
   PDFRef,
   PDFDict,
-  PDFArray,
+  PDFArray
 } from 'src/core';
 import {
   assertEachIs,
@@ -53,7 +53,7 @@ import {
   rectanglesAreEqual,
   lineSplit,
   assertRangeOrUndefined,
-  assertIsOneOfOrUndefined,
+  assertIsOneOfOrUndefined
 } from 'src/utils';
 
 /**
@@ -71,8 +71,9 @@ export default class PDFPage {
    * @param ref The unique reference for the page.
    * @param doc The document to which the page will belong.
    */
-  static of = (leafNode: PDFPageLeaf, ref: PDFRef, doc: PDFDocument) =>
-    new PDFPage(leafNode, ref, doc);
+  static of = (leafNode: PDFPageLeaf, ref: PDFRef, doc: PDFDocument) => {
+    return new PDFPage(leafNode, ref, doc);
+  };
 
   /**
    * > **NOTE:** You probably don't want to call this method directly. Instead,
@@ -200,10 +201,10 @@ export default class PDFPage {
     const trimBox = this.getTrimBox();
     const artBox = this.getArtBox();
 
-    const hasCropBox = this.node.CropBox()!!;
-    const hasBleedBox = this.node.BleedBox()!!;
-    const hasTrimBox = this.node.TrimBox()!!;
-    const hasArtBox = this.node.ArtBox()!!;
+    const hasCropBox = this.node.CropBox()!;
+    const hasBleedBox = this.node.BleedBox()!;
+    const hasTrimBox = this.node.TrimBox()!;
+    const hasArtBox = this.node.ArtBox()!;
 
     if (hasCropBox && rectanglesAreEqual(cropBox, mediaBox)) {
       this.setCropBox(mediaBox.x, mediaBox.y, width, height);
@@ -558,7 +559,7 @@ export default class PDFPage {
 
     const start = this.createContentStream(
       pushGraphicsState(),
-      translate(x, y),
+      translate(x, y)
     );
     const startRef = this.doc.context.register(start);
 
@@ -982,7 +983,9 @@ export default class PDFPage {
     const fontSize = options.size || this.fontSize;
 
     const wordBreaks = options.wordBreaks || this.doc.defaultWordBreaks;
-    const textWidth = (t: string) => newFont.widthOfTextAtSize(t, fontSize);
+    const textWidth = (t: string) => {
+      return newFont.widthOfTextAtSize(t, fontSize);
+    };
     const lines =
       options.maxWidth === undefined
         ? lineSplit(cleanText(text))
@@ -995,7 +998,7 @@ export default class PDFPage {
 
     const graphicsStateKey = this.maybeEmbedGraphicsState({
       opacity: options.opacity,
-      blendMode: options.blendMode,
+      blendMode: options.blendMode
     });
 
     const contentStream = this.getContentStream();
@@ -1010,8 +1013,8 @@ export default class PDFPage {
         x: options.x ?? this.x,
         y: options.y ?? this.y,
         lineHeight: options.lineHeight ?? this.lineHeight,
-        graphicsState: graphicsStateKey,
-      }),
+        graphicsState: graphicsStateKey
+      })
     );
 
     if (options.font) {
@@ -1062,7 +1065,7 @@ export default class PDFPage {
 
     const graphicsStateKey = this.maybeEmbedGraphicsState({
       opacity: options.opacity,
-      blendMode: options.blendMode,
+      blendMode: options.blendMode
     });
 
     const contentStream = this.getContentStream();
@@ -1075,8 +1078,8 @@ export default class PDFPage {
         rotate: options.rotate ?? degrees(0),
         xSkew: options.xSkew ?? degrees(0),
         ySkew: options.ySkew ?? degrees(0),
-        graphicsState: graphicsStateKey,
-      }),
+        graphicsState: graphicsStateKey
+      })
     );
   }
 
@@ -1114,11 +1117,11 @@ export default class PDFPage {
    */
   drawPage(
     embeddedPage: PDFEmbeddedPage,
-    options: PDFPageDrawPageOptions = {},
+    options: PDFPageDrawPageOptions = {}
   ): void {
     // TODO: Reuse embeddedPage XObject name if we've already added this embeddedPage to Resources.XObjects
     assertIs(embeddedPage, 'embeddedPage', [
-      [PDFEmbeddedPage, 'PDFEmbeddedPage'],
+      [PDFEmbeddedPage, 'PDFEmbeddedPage']
     ]);
     assertOrUndefined(options.x, 'options.x', ['number']);
     assertOrUndefined(options.y, 'options.y', ['number']);
@@ -1134,12 +1137,12 @@ export default class PDFPage {
 
     const xObjectKey = this.node.newXObject(
       'EmbeddedPdfPage',
-      embeddedPage.ref,
+      embeddedPage.ref
     );
 
     const graphicsStateKey = this.maybeEmbedGraphicsState({
       opacity: options.opacity,
-      blendMode: options.blendMode,
+      blendMode: options.blendMode
     });
 
     // prettier-ignore
@@ -1166,8 +1169,8 @@ export default class PDFPage {
         rotate: options.rotate ?? degrees(0),
         xSkew: options.xSkew ?? degrees(0),
         ySkew: options.ySkew ?? degrees(0),
-        graphicsState: graphicsStateKey,
-      }),
+        graphicsState: graphicsStateKey
+      })
     );
   }
 
@@ -1218,31 +1221,31 @@ export default class PDFPage {
     assertOrUndefined(options.color, 'options.color', [[Object, 'Color']]);
     assertRangeOrUndefined(options.opacity, 'opacity.opacity', 0, 1);
     assertOrUndefined(options.borderColor, 'options.borderColor', [
-      [Object, 'Color'],
+      [Object, 'Color']
     ]);
     assertOrUndefined(options.borderDashArray, 'options.borderDashArray', [
-      Array,
+      Array
     ]);
     assertOrUndefined(options.borderDashPhase, 'options.borderDashPhase', [
-      'number',
+      'number'
     ]);
     assertIsOneOfOrUndefined(
       options.borderLineCap,
       'options.borderLineCap',
-      LineCapStyle,
+      LineCapStyle
     );
     assertRangeOrUndefined(
       options.borderOpacity,
       'options.borderOpacity',
       0,
-      1,
+      1
     );
     assertIsOneOfOrUndefined(options.blendMode, 'options.blendMode', BlendMode);
 
     const graphicsStateKey = this.maybeEmbedGraphicsState({
       opacity: options.opacity,
       borderOpacity: options.borderOpacity,
-      blendMode: options.blendMode,
+      blendMode: options.blendMode
     });
 
     if (!('color' in options) && !('borderColor' in options)) {
@@ -1262,8 +1265,8 @@ export default class PDFPage {
         borderDashArray: options.borderDashArray ?? undefined,
         borderDashPhase: options.borderDashPhase ?? undefined,
         borderLineCap: options.borderLineCap ?? undefined,
-        graphicsState: graphicsStateKey,
-      }),
+        graphicsState: graphicsStateKey
+      })
     );
   }
 
@@ -1284,10 +1287,10 @@ export default class PDFPage {
    */
   drawLine(options: PDFPageDrawLineOptions): void {
     assertIs(options.start, 'options.start', [
-      [Object, '{ x: number, y: number }'],
+      [Object, '{ x: number, y: number }']
     ]);
     assertIs(options.end, 'options.end', [
-      [Object, '{ x: number, y: number }'],
+      [Object, '{ x: number, y: number }']
     ]);
     assertIs(options.start.x, 'options.start.x', ['number']);
     assertIs(options.start.y, 'options.start.y', ['number']);
@@ -1303,7 +1306,7 @@ export default class PDFPage {
 
     const graphicsStateKey = this.maybeEmbedGraphicsState({
       borderOpacity: options.opacity,
-      blendMode: options.blendMode,
+      blendMode: options.blendMode
     });
 
     if (!('color' in options)) {
@@ -1320,8 +1323,8 @@ export default class PDFPage {
         dashArray: options.dashArray ?? undefined,
         dashPhase: options.dashPhase ?? undefined,
         lineCap: options.lineCap ?? undefined,
-        graphicsState: graphicsStateKey,
-      }),
+        graphicsState: graphicsStateKey
+      })
     );
   }
 
@@ -1357,31 +1360,31 @@ export default class PDFPage {
     assertOrUndefined(options.color, 'options.color', [[Object, 'Color']]);
     assertRangeOrUndefined(options.opacity, 'opacity.opacity', 0, 1);
     assertOrUndefined(options.borderColor, 'options.borderColor', [
-      [Object, 'Color'],
+      [Object, 'Color']
     ]);
     assertOrUndefined(options.borderDashArray, 'options.borderDashArray', [
-      Array,
+      Array
     ]);
     assertOrUndefined(options.borderDashPhase, 'options.borderDashPhase', [
-      'number',
+      'number'
     ]);
     assertIsOneOfOrUndefined(
       options.borderLineCap,
       'options.borderLineCap',
-      LineCapStyle,
+      LineCapStyle
     );
     assertRangeOrUndefined(
       options.borderOpacity,
       'options.borderOpacity',
       0,
-      1,
+      1
     );
     assertIsOneOfOrUndefined(options.blendMode, 'options.blendMode', BlendMode);
 
     const graphicsStateKey = this.maybeEmbedGraphicsState({
       opacity: options.opacity,
       borderOpacity: options.borderOpacity,
-      blendMode: options.blendMode,
+      blendMode: options.blendMode
     });
 
     if (!('color' in options) && !('borderColor' in options)) {
@@ -1404,8 +1407,8 @@ export default class PDFPage {
         borderDashArray: options.borderDashArray ?? undefined,
         borderDashPhase: options.borderDashPhase ?? undefined,
         graphicsState: graphicsStateKey,
-        borderLineCap: options.borderLineCap ?? undefined,
-      }),
+        borderLineCap: options.borderLineCap ?? undefined
+      })
     );
   }
 
@@ -1462,31 +1465,31 @@ export default class PDFPage {
     assertOrUndefined(options.color, 'options.color', [[Object, 'Color']]);
     assertRangeOrUndefined(options.opacity, 'opacity.opacity', 0, 1);
     assertOrUndefined(options.borderColor, 'options.borderColor', [
-      [Object, 'Color'],
+      [Object, 'Color']
     ]);
     assertRangeOrUndefined(
       options.borderOpacity,
       'options.borderOpacity',
       0,
-      1,
+      1
     );
     assertOrUndefined(options.borderWidth, 'options.borderWidth', ['number']);
     assertOrUndefined(options.borderDashArray, 'options.borderDashArray', [
-      Array,
+      Array
     ]);
     assertOrUndefined(options.borderDashPhase, 'options.borderDashPhase', [
-      'number',
+      'number'
     ]);
     assertIsOneOfOrUndefined(
       options.borderLineCap,
       'options.borderLineCap',
-      LineCapStyle,
+      LineCapStyle
     );
     assertIsOneOfOrUndefined(options.blendMode, 'options.blendMode', BlendMode);
     const graphicsStateKey = this.maybeEmbedGraphicsState({
       opacity: options.opacity,
       borderOpacity: options.borderOpacity,
-      blendMode: options.blendMode,
+      blendMode: options.blendMode
     });
 
     if (!('color' in options) && !('borderColor' in options)) {
@@ -1507,8 +1510,8 @@ export default class PDFPage {
         borderDashArray: options.borderDashArray ?? undefined,
         borderDashPhase: options.borderDashPhase ?? undefined,
         borderLineCap: options.borderLineCap ?? undefined,
-        graphicsState: graphicsStateKey,
-      }),
+        graphicsState: graphicsStateKey
+      })
     );
   }
 
@@ -1595,7 +1598,7 @@ export default class PDFPage {
       Type: 'ExtGState',
       ca: opacity,
       CA: borderOpacity,
-      BM: blendMode,
+      BM: blendMode
     });
 
     const key = this.node.newExtGState('GS', graphicsState);

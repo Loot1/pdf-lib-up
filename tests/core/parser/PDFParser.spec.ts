@@ -24,7 +24,9 @@ describe(`PDFParser`, () => {
       'Removing parsed object: 0 0 R',
     ];
     console.warn = jest.fn((...args) => {
-      const isIgnored = ignoredWarnings.find((iw) => args[0].includes(iw));
+      const isIgnored = ignoredWarnings.find((iw) => {
+        return args[0].includes(iw);
+      });
       if (!isIgnored) origConsoleWarn(...args);
     });
   });
@@ -281,7 +283,9 @@ describe(`PDFParser`, () => {
     const objects = context.enumerateIndirectObjects();
     expect(objects.length).toBe(26079);
     expect(
-      objects.filter(([_ref, obj]) => obj instanceof PDFPageLeaf).length,
+      objects.filter(([_ref, obj]) => {
+        return obj instanceof PDFPageLeaf;
+      }).length,
     ).toBe(176);
   });
 
@@ -299,7 +303,9 @@ describe(`PDFParser`, () => {
     const objects = context.enumerateIndirectObjects();
     expect(objects.length).toBe(11);
     expect(
-      objects.filter(([_ref, obj]) => obj instanceof PDFPageLeaf).length,
+      objects.filter(([_ref, obj]) => {
+        return obj instanceof PDFPageLeaf;
+      }).length,
     ).toBe(2);
   });
 

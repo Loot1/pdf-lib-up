@@ -4,8 +4,9 @@ import PDFContext from 'src/core/PDFContext';
 import { arrayAsString } from 'src/utils';
 
 class PDFRawStream extends PDFStream {
-  static of = (dict: PDFDict, contents: Uint8Array) =>
-    new PDFRawStream(dict, contents);
+  static of = (dict: PDFDict, contents: Uint8Array) => {
+    return new PDFRawStream(dict, contents);
+  };
 
   readonly contents: Uint8Array;
 

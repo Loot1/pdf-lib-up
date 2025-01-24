@@ -14,14 +14,14 @@ class CustomFontSubsetEmbedder extends CustomFontEmbedder {
     fontkit: Fontkit,
     fontData: Uint8Array,
     customFontName?: string,
-    fontFeatures?: TypeFeatures,
+    fontFeatures?: TypeFeatures
   ) {
     const font = await fontkit.create(fontData);
     return new CustomFontSubsetEmbedder(
       font,
       fontData,
       customFontName,
-      fontFeatures,
+      fontFeatures
     );
   }
 
@@ -33,13 +33,15 @@ class CustomFontSubsetEmbedder extends CustomFontEmbedder {
     font: Font,
     fontData: Uint8Array,
     customFontName?: string,
-    fontFeatures?: TypeFeatures,
+    fontFeatures?: TypeFeatures
   ) {
     super(font, fontData, customFontName, fontFeatures);
 
     this.subset = this.font.createSubset();
     this.glyphs = [];
-    this.glyphCache = Cache.populatedBy(() => this.glyphs);
+    this.glyphCache = Cache.populatedBy(() => {
+      return this.glyphs;
+    });
     this.glyphIdMap = new Map();
   }
 
@@ -74,9 +76,15 @@ class CustomFontSubsetEmbedder extends CustomFontEmbedder {
       const parts: Uint8Array[] = [];
       this.subset
         .encodeStream()
-        .on('data', (bytes) => parts.push(bytes))
-        .on('end', () => resolve(mergeUint8Arrays(parts)))
-        .on('error' as any, (err) => reject(err));
+        .on('data', (bytes) => {
+          return parts.push(bytes);
+        })
+        .on('end', () => {
+          return resolve(mergeUint8Arrays(parts));
+        })
+        .on('error' as any, (err) => {
+          return reject(err);
+        });
     });
   }
 }

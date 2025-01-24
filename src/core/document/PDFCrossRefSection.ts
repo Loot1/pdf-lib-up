@@ -13,14 +13,17 @@ export interface Entry {
  * methods **in order of ascending object number**.
  */
 class PDFCrossRefSection {
-  static create = () =>
-    new PDFCrossRefSection({
+  static create = () => {
+    return new PDFCrossRefSection({
       ref: PDFRef.of(0, 65535),
       offset: 0,
-      deleted: true,
+      deleted: true
     });
+  };
 
-  static createEmpty = () => new PDFCrossRefSection();
+  static createEmpty = () => {
+    return new PDFCrossRefSection();
+  };
 
   private subsections: Entry[][];
   private chunkIdx: number;
@@ -99,7 +102,7 @@ class PDFCrossRefSection {
   private copySubsectionsIntoBuffer(
     subsections: Entry[][],
     buffer: Uint8Array,
-    offset: number,
+    offset: number
   ): number {
     const initialOffset = offset;
     const length = subsections.length;
@@ -124,7 +127,7 @@ class PDFCrossRefSection {
   private copyEntriesIntoBuffer(
     entries: Entry[],
     buffer: Uint8Array,
-    offset: number,
+    offset: number
   ): number {
     const length = entries.length;
 

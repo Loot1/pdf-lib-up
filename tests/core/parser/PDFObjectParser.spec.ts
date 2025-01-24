@@ -31,11 +31,13 @@ const parse = (value: string | Uint8Array, options: ParseOptions = {}) => {
   return parser.parseObject();
 };
 
-const expectParse = (value: string | Uint8Array, options?: ParseOptions) =>
-  expect(parse(value, options));
+const expectParse = (value: string | Uint8Array, options?: ParseOptions) => {
+  return expect(parse(value, options));
+};
 
-const expectParseStr = (value: string | Uint8Array, options?: ParseOptions) =>
-  expect(String(parse(value, options)));
+const expectParseStr = (value: string | Uint8Array, options?: ParseOptions) => {
+  return expect(String(parse(value, options)));
+};
 
 describe(`PDFObjectParser`, () => {
   const origConsoleWarn = console.warn;
@@ -45,7 +47,9 @@ describe(`PDFObjectParser`, () => {
       'Parsed number that is too large for some PDF readers:',
     ];
     console.warn = jest.fn((...args) => {
-      const isIgnored = ignoredWarnings.find((iw) => args[0].includes(iw));
+      const isIgnored = ignoredWarnings.find((iw) => {
+        return args[0].includes(iw);
+      });
       if (!isIgnored) origConsoleWarn(...args);
     });
   });
@@ -59,11 +63,15 @@ describe(`PDFObjectParser`, () => {
   });
 
   it(`throws an error when given empty input`, () => {
-    expect(() => parse('')).toThrow();
+    expect(() => {
+      return parse('');
+    }).toThrow();
   });
 
   it(`throws an error for invalid input`, () => {
-    expect(() => parse('I_AM_INVAL')).toThrow();
+    expect(() => {
+      return parse('I_AM_INVAL');
+    }).toThrow();
   });
 
   describe(`when parsing true booleans`, () => {
@@ -261,7 +269,9 @@ describe(`PDFObjectParser`, () => {
     });
 
     it(`respects escaped backslashes`, () => {
-      expect(() => parse('(FOO\\\\(BAR)')).toThrow();
+      expect(() => {
+        return parse('(FOO\\\\(BAR)');
+      }).toThrow();
     });
   });
 
@@ -438,15 +448,21 @@ describe(`PDFObjectParser`, () => {
     });
 
     it(`throws an error when closing delimiter is missing`, () => {
-      expect(() => parse('[/Foo')).toThrow();
+      expect(() => {
+        return parse('[/Foo');
+      }).toThrow();
     });
 
     it(`throws an error for mismatches delimiters`, () => {
-      expect(() => parse('[[]')).toThrow();
+      expect(() => {
+        return parse('[[]');
+      }).toThrow();
     });
 
     it(`throws an error when an invalid element is detected`, () => {
-      expect(() => parse('[/Foo I_AM_INVALID]')).toThrow();
+      expect(() => {
+        return parse('[/Foo I_AM_INVALID]');
+      }).toThrow();
     });
   });
 
@@ -538,19 +554,27 @@ describe(`PDFObjectParser`, () => {
     });
 
     it(`throws an error when closing delimiter is missing`, () => {
-      expect(() => parse('<</Foo/Bar')).toThrow();
+      expect(() => {
+        return parse('<</Foo/Bar');
+      }).toThrow();
     });
 
     it(`throws an error for mismatched delimiters`, () => {
-      expect(() => parse('<<>')).toThrow();
+      expect(() => {
+        return parse('<<>');
+      }).toThrow();
     });
 
     it(`throws an error when an invalid key is detected`, () => {
-      expect(() => parse('<</Foo/Bar I_AM_INVALID>>')).toThrow();
+      expect(() => {
+        return parse('<</Foo/Bar I_AM_INVALID>>');
+      }).toThrow();
     });
 
     it(`throws an error when an invalid value is detected`, () => {
-      expect(() => parse('<</Foo I_AM_INVALID>>')).toThrow();
+      expect(() => {
+        return parse('<</Foo I_AM_INVALID>>');
+      }).toThrow();
     });
   });
 

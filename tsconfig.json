@@ -1,16 +1,17 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "target": "es5",
-    "module": "commonjs",
+    "target": "ES6",
+    "module": "ESNext",
     "allowJs": false,
     "checkJs": false,
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "outDir": "./build",
+    "outDir": "./dist",
     "rootDir": "./src",
     "composite": false,
+
     "incremental": true,
     "tsBuildInfoFile": "./tsBuildInfo.json",
     "removeComments": false,
@@ -39,7 +40,17 @@
     "moduleResolution": "node",
 
     /* Plugins */
-    "plugins": [{ "transform": "@zerollup/ts-transform-paths" }]
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths"
+      },
+      {
+        "transform": "typescript-transform-paths",
+        "afterDeclarations": true
+      }
+    ],
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ]
 }

@@ -20,8 +20,9 @@ export default class PDFImage implements Embeddable {
    * @param doc The document to which the image will belong.
    * @param embedder The embedder that will be used to embed the image.
    */
-  static of = (ref: PDFRef, doc: PDFDocument, embedder: ImageEmbedder) =>
-    new PDFImage(ref, doc, embedder);
+  static of = (ref: PDFRef, doc: PDFDocument, embedder: ImageEmbedder) => {
+    return new PDFImage(ref, doc, embedder);
+  };
 
   /** The unique reference assigned to this image within the document. */
   readonly ref: PDFRef;
@@ -43,7 +44,7 @@ export default class PDFImage implements Embeddable {
     assertIs(doc, 'doc', [[PDFDocument, 'PDFDocument']]);
     assertIs(embedder, 'embedder', [
       [JpegEmbedder, 'JpegEmbedder'],
-      [PngEmbedder, 'PngEmbedder'],
+      [PngEmbedder, 'PngEmbedder']
     ]);
 
     this.ref = ref;

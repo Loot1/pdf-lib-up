@@ -9,9 +9,9 @@ describe(`PDFName`, () => {
   });
 
   it(`cannot be publicly constructed`, () => {
-    expect(() => new (PDFName as any)({}, 'stuff')).toThrow(
-      new PrivateConstructorError(PDFName.name),
-    );
+    expect(() => {
+      return new (PDFName as any)({}, 'stuff');
+    }).toThrow(new PrivateConstructorError(PDFName.name));
   });
 
   it(`returns the same instance when given the same value`, () => {

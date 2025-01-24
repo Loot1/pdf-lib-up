@@ -2,8 +2,12 @@
 
 import { values as objectValues } from 'src/utils/objects';
 
-export const backtick = (val: any) => `\`${val}\``;
-export const singleQuote = (val: any) => `'${val}'`;
+export const backtick = (val: any) => {
+  return `\`${val}\``;
+};
+export const singleQuote = (val: any) => {
+  return `'${val}'`;
+};
 
 type Primitive = string | number | boolean | undefined | null;
 
@@ -18,7 +22,7 @@ const formatValue = (value: any) => {
 export const createValueErrorMsg = (
   value: any,
   valueName: string,
-  values: Primitive[],
+  values: Primitive[]
 ) => {
   const allowedValues = new Array(values.length);
 
@@ -36,7 +40,7 @@ export const createValueErrorMsg = (
 export const assertIsOneOf = (
   value: any,
   valueName: string,
-  allowedValues: Primitive[] | { [key: string]: Primitive },
+  allowedValues: Primitive[] | { [key: string]: Primitive }
 ) => {
   if (!Array.isArray(allowedValues)) {
     allowedValues = objectValues(allowedValues);
@@ -50,7 +54,7 @@ export const assertIsOneOf = (
 export const assertIsOneOfOrUndefined = (
   value: any,
   valueName: string,
-  allowedValues: Primitive[] | { [key: string]: Primitive },
+  allowedValues: Primitive[] | { [key: string]: Primitive }
 ) => {
   if (!Array.isArray(allowedValues)) {
     allowedValues = objectValues(allowedValues);
@@ -61,7 +65,7 @@ export const assertIsOneOfOrUndefined = (
 export const assertIsSubset = (
   values: any[],
   valueName: string,
-  allowedValues: Primitive[] | { [key: string]: Primitive },
+  allowedValues: Primitive[] | { [key: string]: Primitive }
 ) => {
   if (!Array.isArray(allowedValues)) {
     allowedValues = objectValues(allowedValues);
@@ -120,7 +124,7 @@ export const isType = (value: any, type: TypeDescriptor) => {
 export const createTypeErrorMsg = (
   value: any,
   valueName: string,
-  types: TypeDescriptor[],
+  types: TypeDescriptor[]
 ) => {
   const allowedTypes = new Array(types.length);
 
@@ -148,7 +152,7 @@ export const createTypeErrorMsg = (
 export const assertIs = (
   value: any,
   valueName: string,
-  types: TypeDescriptor[],
+  types: TypeDescriptor[]
 ) => {
   for (let idx = 0, len = types.length; idx < len; idx++) {
     if (isType(value, types[idx])) return;
@@ -159,7 +163,7 @@ export const assertIs = (
 export const assertOrUndefined = (
   value: any,
   valueName: string,
-  types: TypeDescriptor[],
+  types: TypeDescriptor[]
 ) => {
   assertIs(value, valueName, types.concat('undefined'));
 };
@@ -167,7 +171,7 @@ export const assertOrUndefined = (
 export const assertEachIs = (
   values: any[],
   valueName: string,
-  types: TypeDescriptor[],
+  types: TypeDescriptor[]
 ) => {
   for (let idx = 0, len = values.length; idx < len; idx++) {
     assertIs(values[idx], valueName, types);
@@ -178,7 +182,7 @@ export const assertRange = (
   value: any,
   valueName: string,
   min: number,
-  max: number,
+  max: number
 ) => {
   assertIs(value, valueName, ['number']);
   assertIs(min, 'min', ['number']);
@@ -194,7 +198,7 @@ export const assertRangeOrUndefined = (
   value: any,
   valueName: string,
   min: number,
-  max: number,
+  max: number
 ) => {
   assertIs(value, valueName, ['number', 'undefined']);
   if (typeof value === 'number') assertRange(value, valueName, min, max);
@@ -203,7 +207,7 @@ export const assertRangeOrUndefined = (
 export const assertMultiple = (
   value: any,
   valueName: string,
-  multiplier: number,
+  multiplier: number
 ) => {
   assertIs(value, valueName, ['number']);
   if (value % multiplier !== 0) {
@@ -215,7 +219,7 @@ export const assertMultiple = (
 export const assertInteger = (value: any, valueName: string) => {
   if (!Number.isInteger(value)) {
     throw new Error(
-      `${backtick(valueName)} must be an integer, but was actually ${value}`,
+      `${backtick(valueName)} must be an integer, but was actually ${value}`
     );
   }
 };

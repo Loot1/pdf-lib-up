@@ -6,7 +6,7 @@ import {
   MissingPDFHeaderError,
   PDFInvalidObjectParsingError,
   ReparseError,
-  StalledParserError,
+  StalledParserError
 } from 'src/core/errors';
 import PDFDict from 'src/core/objects/PDFDict';
 import PDFInvalidObject from 'src/core/objects/PDFInvalidObject';
@@ -29,9 +29,15 @@ class PDFParser extends PDFObjectParser {
     pdfBytes: Uint8Array,
     objectsPerTick?: number,
     throwOnInvalidObject?: boolean,
-    capNumbers?: boolean,
-  ) =>
-    new PDFParser(pdfBytes, objectsPerTick, throwOnInvalidObject, capNumbers);
+    capNumbers?: boolean
+  ) => {
+    return new PDFParser(
+      pdfBytes,
+      objectsPerTick,
+      throwOnInvalidObject,
+      capNumbers
+    );
+  };
 
   private readonly objectsPerTick: number;
   private readonly throwOnInvalidObject: boolean;
@@ -42,7 +48,7 @@ class PDFParser extends PDFObjectParser {
     pdfBytes: Uint8Array,
     objectsPerTick = Infinity,
     throwOnInvalidObject = false,
-    capNumbers = false,
+    capNumbers = false
   ) {
     super(ByteStream.of(pdfBytes), PDFContext.create(), capNumbers);
     this.objectsPerTick = objectsPerTick;
@@ -78,9 +84,12 @@ class PDFParser extends PDFObjectParser {
   }
 
   private maybeRecoverRoot(): void {
-    const isValidCatalog = (obj?: PDFObject) =>
-      obj instanceof PDFDict &&
-      obj.lookup(PDFName.of('Type')) === PDFName.of('Catalog');
+    const isValidCatalog = (obj?: PDFObject) => {
+      return (
+        obj instanceof PDFDict &&
+        obj.lookup(PDFName.of('Type')) === PDFName.of('Catalog')
+      );
+    };
 
     const catalog = this.context.lookup(this.context.trailerInfo.Root);
 
@@ -162,7 +171,7 @@ class PDFParser extends PDFObjectParser {
     ) {
       await PDFObjectStreamParser.forStream(
         object,
-        this.shouldWaitForTick,
+        this.shouldWaitForTick
       ).parseIntoContext();
     } else if (
       object instanceof PDFRawStream &&
@@ -278,7 +287,7 @@ class PDFParser extends PDFObjectParser {
       Root: dict.get(PDFName.of('Root')) || context.trailerInfo.Root,
       Encrypt: dict.get(PDFName.of('Encrypt')) || context.trailerInfo.Encrypt,
       Info: dict.get(PDFName.of('Info')) || context.trailerInfo.Info,
-      ID: dict.get(PDFName.of('ID')) || context.trailerInfo.ID,
+      ID: dict.get(PDFName.of('ID')) || context.trailerInfo.ID
     };
   }
 

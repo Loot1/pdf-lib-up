@@ -38,7 +38,7 @@ class PngEmbedder {
       Width: this.image.width,
       Height: this.image.height,
       ColorSpace: this.colorSpace,
-      SMask,
+      SMask
     });
 
     if (ref) {
@@ -59,7 +59,7 @@ class PngEmbedder {
       Width: this.image.width,
       BitsPerComponent: this.image.bitsPerComponent,
       ColorSpace: 'DeviceGray',
-      Decode: [0, 1],
+      Decode: [0, 1]
     });
 
     return context.register(xObject);

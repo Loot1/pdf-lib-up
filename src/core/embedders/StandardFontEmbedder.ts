@@ -2,7 +2,7 @@ import {
   Encodings,
   Font,
   FontNames,
-  EncodingType,
+  EncodingType
 } from '@pdf-lib/standard-fonts';
 
 import PDFHexString from 'src/core/objects/PDFHexString';
@@ -21,8 +21,9 @@ export interface Glyph {
  *   https://github.com/foliojs/pdfkit/blob/f91bdd61c164a72ea06be1a43dc0a412afc3925f/lib/font/afm.coffee
  */
 class StandardFontEmbedder {
-  static for = (fontName: FontNames, customName?: string) =>
-    new StandardFontEmbedder(fontName, customName);
+  static for = (fontName: FontNames, customName?: string) => {
+    return new StandardFontEmbedder(fontName, customName);
+  };
 
   readonly font: Font;
   readonly encoding: EncodingType;
@@ -72,7 +73,7 @@ class StandardFontEmbedder {
 
   heightOfFontAtSize(
     size: number,
-    options: { descender?: boolean } = {},
+    options: { descender?: boolean } = {}
   ): number {
     const { descender = true } = options;
 
@@ -100,7 +101,7 @@ class StandardFontEmbedder {
       BaseFont: this.customName || this.fontName,
 
       Encoding:
-        this.encoding === Encodings.WinAnsi ? 'WinAnsiEncoding' : undefined,
+        this.encoding === Encodings.WinAnsi ? 'WinAnsiEncoding' : undefined
     });
 
     if (ref) {

@@ -27,8 +27,10 @@ export default class PDFSignature extends PDFField {
   static of = (
     acroSignature: PDFAcroSignature,
     ref: PDFRef,
-    doc: PDFDocument,
-  ) => new PDFSignature(acroSignature, ref, doc);
+    doc: PDFDocument
+  ) => {
+    return new PDFSignature(acroSignature, ref, doc);
+  };
 
   /** The low-level PDFAcroSignature wrapped by this signature. */
   readonly acroField: PDFAcroSignature;
@@ -36,12 +38,12 @@ export default class PDFSignature extends PDFField {
   private constructor(
     acroSignature: PDFAcroSignature,
     ref: PDFRef,
-    doc: PDFDocument,
+    doc: PDFDocument
   ) {
     super(acroSignature, ref, doc);
 
     assertIs(acroSignature, 'acroSignature', [
-      [PDFAcroSignature, 'PDFAcroSignature'],
+      [PDFAcroSignature, 'PDFAcroSignature']
     ]);
 
     this.acroField = acroSignature;

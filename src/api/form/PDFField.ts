@@ -8,7 +8,7 @@ import {
   rotateRectangle,
   reduceRotation,
   adjustDimsForRotation,
-  degrees,
+  degrees
 } from 'src/api/rotations';
 
 import {
@@ -20,7 +20,7 @@ import {
   MethodNotImplementedError,
   AcroFieldFlags,
   PDFAcroTerminal,
-  AnnotationFlags,
+  AnnotationFlags
 } from 'src/core';
 import { assertIs, assertMultiple, assertOrUndefined } from 'src/utils';
 import { ImageAlignment } from '../image';
@@ -42,20 +42,20 @@ export interface FieldAppearanceOptions {
 }
 
 export const assertFieldAppearanceOptions = (
-  options?: FieldAppearanceOptions,
+  options?: FieldAppearanceOptions
 ) => {
   assertOrUndefined(options?.x, 'options.x', ['number']);
   assertOrUndefined(options?.y, 'options.y', ['number']);
   assertOrUndefined(options?.width, 'options.width', ['number']);
   assertOrUndefined(options?.height, 'options.height', ['number']);
   assertOrUndefined(options?.textColor, 'options.textColor', [
-    [Object, 'Color'],
+    [Object, 'Color']
   ]);
   assertOrUndefined(options?.backgroundColor, 'options.backgroundColor', [
-    [Object, 'Color'],
+    [Object, 'Color']
   ]);
   assertOrUndefined(options?.borderColor, 'options.borderColor', [
-    [Object, 'Color'],
+    [Object, 'Color']
   ]);
   assertOrUndefined(options?.borderWidth, 'options.borderWidth', ['number']);
   assertOrUndefined(options?.rotate, 'options.rotate', [[Object, 'Rotation']]);
@@ -94,7 +94,7 @@ export default class PDFField {
   protected constructor(
     acroField: PDFAcroTerminal,
     ref: PDFRef,
-    doc: PDFDocument,
+    doc: PDFDocument
   ) {
     assertIs(acroField, 'acroField', [[PDFAcroTerminal, 'PDFAcroTerminal']]);
     assertIs(ref, 'ref', [[PDFRef, 'PDFRef']]);
@@ -252,15 +252,14 @@ export default class PDFField {
   needsAppearancesUpdate(): boolean {
     throw new MethodNotImplementedError(
       this.constructor.name,
-      'needsAppearancesUpdate',
+      'needsAppearancesUpdate'
     );
   }
 
-  /** @ignore */
   defaultUpdateAppearances(_font: PDFFont) {
     throw new MethodNotImplementedError(
       this.constructor.name,
-      'defaultUpdateAppearances',
+      'defaultUpdateAppearances'
     );
   }
 
@@ -312,7 +311,7 @@ export default class PDFField {
     const rect = rotateRectangle(
       { x, y, width, height },
       borderWidth,
-      degreesAngle,
+      degreesAngle
     );
     widget.setRectangle(rect);
 
@@ -346,12 +345,12 @@ export default class PDFField {
   protected updateWidgetAppearanceWithFont(
     widget: PDFWidgetAnnotation,
     font: PDFFont,
-    { normal, rollover, down }: AppearanceMapping<PDFOperator[]>,
+    { normal, rollover, down }: AppearanceMapping<PDFOperator[]>
   ) {
     this.updateWidgetAppearances(widget, {
       normal: this.createAppearanceStream(widget, normal, font),
       rollover: rollover && this.createAppearanceStream(widget, rollover, font),
-      down: down && this.createAppearanceStream(widget, down, font),
+      down: down && this.createAppearanceStream(widget, down, font)
     });
   }
 
@@ -361,20 +360,20 @@ export default class PDFField {
     {
       normal,
       rollover,
-      down,
-    }: AppearanceMapping<{ on: PDFOperator[]; off: PDFOperator[] }>,
+      down
+    }: AppearanceMapping<{ on: PDFOperator[]; off: PDFOperator[] }>
   ) {
     this.updateWidgetAppearances(widget, {
       normal: this.createAppearanceDict(widget, normal, onValue),
       rollover:
         rollover && this.createAppearanceDict(widget, rollover, onValue),
-      down: down && this.createAppearanceDict(widget, down, onValue),
+      down: down && this.createAppearanceDict(widget, down, onValue)
     });
   }
 
   protected updateWidgetAppearances(
     widget: PDFWidgetAnnotation,
-    { normal, rollover, down }: AppearanceMapping<PDFRef | PDFDict>,
+    { normal, rollover, down }: AppearanceMapping<PDFRef | PDFDict>
   ) {
     widget.setNormalAppearance(normal);
 
@@ -409,7 +408,7 @@ export default class PDFField {
   private createAppearanceStream(
     widget: PDFWidgetAnnotation,
     appearance: PDFOperator[],
-    font?: PDFFont,
+    font?: PDFFont
   ): PDFRef {
     const { context } = this.acroField.dict;
     const { width, height } = widget.getRectangle();
@@ -425,7 +424,7 @@ export default class PDFField {
     const stream = context.formXObject(appearance, {
       Resources,
       BBox: context.obj([0, 0, width, height]),
-      Matrix: context.obj([1, 0, 0, 1, 0, 0]),
+      Matrix: context.obj([1, 0, 0, 1, 0, 0])
     });
     const streamRef = context.register(stream);
 
@@ -444,7 +443,7 @@ export default class PDFField {
   protected createImageAppearanceStream(
     widget: PDFWidgetAnnotation,
     image: PDFImage,
-    alignment: ImageAlignment,
+    alignment: ImageAlignment
   ): PDFRef {
     // NOTE: This implementation doesn't handle image borders.
     // NOTE: Acrobat seems to resize the image (maybe even skewing its aspect
@@ -465,7 +464,7 @@ export default class PDFField {
     const adj = adjustDimsForRotation(rectangle, rotation);
     const imageDims = image.scaleToFit(
       adj.width - borderWidth * 2,
-      adj.height - borderWidth * 2,
+      adj.height - borderWidth * 2
     );
 
     // Support borders on images and maybe other properties
@@ -477,7 +476,7 @@ export default class PDFField {
       //
       rotate: degrees(0),
       xSkew: degrees(0),
-      ySkew: degrees(0),
+      ySkew: degrees(0)
     };
 
     if (alignment === ImageAlignment.Center) {
@@ -496,7 +495,7 @@ export default class PDFField {
     const stream = context.formXObject(appearance, {
       Resources,
       BBox: context.obj([0, 0, rectangle.width, rectangle.height]),
-      Matrix: context.obj([1, 0, 0, 1, 0, 0]),
+      Matrix: context.obj([1, 0, 0, 1, 0, 0])
     });
 
     return context.register(stream);
@@ -505,7 +504,7 @@ export default class PDFField {
   private createAppearanceDict(
     widget: PDFWidgetAnnotation,
     appearance: { on: PDFOperator[]; off: PDFOperator[] },
-    onValue: PDFName,
+    onValue: PDFName
   ): PDFDict {
     const { context } = this.acroField.dict;
 

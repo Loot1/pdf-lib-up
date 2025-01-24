@@ -5,14 +5,15 @@ import PDFRef from 'src/core/objects/PDFRef';
 import { AcroButtonFlags } from 'src/core/acroform/flags';
 
 class PDFAcroPushButton extends PDFAcroButton {
-  static fromDict = (dict: PDFDict, ref: PDFRef) =>
-    new PDFAcroPushButton(dict, ref);
+  static fromDict = (dict: PDFDict, ref: PDFRef) => {
+    return new PDFAcroPushButton(dict, ref);
+  };
 
   static create = (context: PDFContext) => {
     const dict = context.obj({
       FT: 'Btn',
       Ff: AcroButtonFlags.PushButton,
-      Kids: [],
+      Kids: []
     });
     const ref = context.register(dict);
     return new PDFAcroPushButton(dict, ref);

@@ -46,8 +46,9 @@ class PDFCrossRefStream extends PDFFlateStream {
     return stream;
   };
 
-  static of = (dict: PDFDict, entries: Entry[], encode = true) =>
-    new PDFCrossRefStream(dict, entries, encode);
+  static of = (dict: PDFDict, entries: Entry[], encode = true) => {
+    return new PDFCrossRefStream(dict, entries, encode);
+  };
 
   private readonly entries: Entry[];
   private readonly entryTuplesCache: Cache<EntryTuple[]>;

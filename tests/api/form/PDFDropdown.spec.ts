@@ -92,7 +92,9 @@ describe(`PDFDropdown`, () => {
 
     const dropdown = form.createDropdown('a.new.dropdown');
 
-    const widgets = () => dropdown.acroField.getWidgets();
+    const widgets = () => {
+      return dropdown.acroField.getWidgets();
+    };
     expect(widgets().length).toBe(0);
 
     dropdown.addToPage(page);
@@ -108,7 +110,9 @@ describe(`PDFDropdown`, () => {
 
     const dropdown = form.createDropdown('a.new.dropdown');
 
-    const widgets = () => dropdown.acroField.getWidgets();
+    const widgets = () => {
+      return dropdown.acroField.getWidgets();
+    };
     expect(widgets().length).toBe(0);
 
     dropdown.addToPage(page);

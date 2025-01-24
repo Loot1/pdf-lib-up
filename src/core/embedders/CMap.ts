@@ -5,7 +5,7 @@ import {
   hasSurrogates,
   highSurrogate,
   isWithinBMP,
-  lowSurrogate,
+  lowSurrogate
 } from 'src/utils/unicode';
 
 /** [fontId, codePoint] */
@@ -26,7 +26,8 @@ export const createCmap = (glyphs: Glyph[], glyphId: (g?: Glyph) => number) => {
 
 /* =============================== Templates ================================ */
 
-const fillCmapTemplate = (bfChars: BfChar[]) => `\
+const fillCmapTemplate = (bfChars: BfChar[]) => {
+  return `\
 /CIDInit /ProcSet findresource begin
 12 dict begin
 begincmap
@@ -41,19 +42,28 @@ begincmap
 <0000><ffff>
 endcodespacerange
 ${bfChars.length} beginbfchar
-${bfChars.map(([glyphId, codePoint]) => `${glyphId} ${codePoint}`).join('\n')}
+${bfChars
+  .map(([glyphId, codePoint]) => {
+    return `${glyphId} ${codePoint}`;
+  })
+  .join('\n')}
 endbfchar
 endcmap
 CMapName currentdict /CMap defineresource pop
 end
 end\
 `;
+};
 
 /* =============================== Utilities ================================ */
 
-const cmapHexFormat = (...values: string[]) => `<${values.join('')}>`;
+const cmapHexFormat = (...values: string[]) => {
+  return `<${values.join('')}>`;
+};
 
-const cmapHexString = (value: number) => toHexStringOfMinLength(value, 4);
+const cmapHexString = (value: number) => {
+  return toHexStringOfMinLength(value, 4);
+};
 
 const cmapCodePointFormat = (codePoint: number) => {
   if (isWithinBMP(codePoint)) return cmapHexString(codePoint);

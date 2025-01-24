@@ -21,7 +21,7 @@ class PDFStream extends PDFObject {
   getContentsString(): string {
     throw new MethodNotImplementedError(
       this.constructor.name,
-      'getContentsString',
+      'getContentsString'
     );
   }
 
@@ -32,7 +32,7 @@ class PDFStream extends PDFObject {
   getContentsSize(): number {
     throw new MethodNotImplementedError(
       this.constructor.name,
-      'getContentsSize',
+      'getContentsSize'
     );
   }
 

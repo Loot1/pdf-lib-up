@@ -56,6 +56,8 @@ describe(`decodeFromBase64DataUri`, () => {
 
   it(`can throws an error when it fails to parse the URI`, () => {
     const uri = {} as any;
-    expect(() => decodeFromBase64DataUri(uri)).toThrow();
+    expect(() => {
+      return decodeFromBase64DataUri(uri);
+    }).toThrow();
   });
 });

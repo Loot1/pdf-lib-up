@@ -41,11 +41,15 @@ type Literal =
 
 const byAscendingObjectNumber = (
   [a]: [PDFRef, PDFObject],
-  [b]: [PDFRef, PDFObject],
-) => a.objectNumber - b.objectNumber;
+  [b]: [PDFRef, PDFObject]
+) => {
+  return a.objectNumber - b.objectNumber;
+};
 
 class PDFContext {
-  static create = () => new PDFContext();
+  static create = () => {
+    return new PDFContext();
+  };
 
   largestObjectNumber: number;
   header: PDFHeader;
@@ -180,7 +184,7 @@ class PDFContext {
 
   enumerateIndirectObjects(): [PDFRef, PDFObject][] {
     return Array.from(this.indirectObjects.entries()).sort(
-      byAscendingObjectNumber,
+      byAscendingObjectNumber
     );
   }
 
@@ -222,38 +226,38 @@ class PDFContext {
 
   stream(
     contents: string | Uint8Array,
-    dict: LiteralObject = {},
+    dict: LiteralObject = {}
   ): PDFRawStream {
     return PDFRawStream.of(this.obj(dict), typedArrayFor(contents));
   }
 
   flateStream(
     contents: string | Uint8Array,
-    dict: LiteralObject = {},
+    dict: LiteralObject = {}
   ): PDFRawStream {
     return this.stream(pako.deflate(typedArrayFor(contents)), {
       ...dict,
-      Filter: 'FlateDecode',
+      Filter: 'FlateDecode'
     });
   }
 
   contentStream(
     operators: PDFOperator[],
-    dict: LiteralObject = {},
+    dict: LiteralObject = {}
   ): PDFContentStream {
     return PDFContentStream.of(this.obj(dict), operators);
   }
 
   formXObject(
     operators: PDFOperator[],
-    dict: LiteralObject = {},
+    dict: LiteralObject = {}
   ): PDFContentStream {
     return this.contentStream(operators, {
       BBox: this.obj([0, 0, 0, 0]),
       Matrix: this.obj([1, 0, 0, 1, 0, 0]),
       ...dict,
       Type: 'XObject',
-      Subtype: 'Form',
+      Subtype: 'Form'
     });
   }
 

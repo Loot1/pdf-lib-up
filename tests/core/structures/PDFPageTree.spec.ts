@@ -34,11 +34,15 @@ const pageUtils = () => {
 };
 
 const pushTreeNodes = (tree: PDFPageTree, ...nodes: PDFRef[]) => {
-  nodes.forEach((n) => tree.pushTreeNode(n));
+  nodes.forEach((n) => {
+    return tree.pushTreeNode(n);
+  });
 };
 
 const pushLeafNodes = (tree: PDFPageTree, ...nodes: PDFRef[]) => {
-  nodes.forEach((n) => tree.pushLeafNode(n));
+  nodes.forEach((n) => {
+    return tree.pushLeafNode(n);
+  });
 };
 
 describe(`PDFPageTree`, () => {
@@ -312,7 +316,9 @@ describe(`PDFPageTree`, () => {
 
       const newLeaf = PDFPageLeaf.withContextAndParent(context, lvl1Tree1Ref);
       const newLeafRef = context.register(newLeaf);
-      expect(() => lvl1Tree1.insertLeafNode(newLeafRef, 4)).toThrow();
+      expect(() => {
+        return lvl1Tree1.insertLeafNode(newLeafRef, 4);
+      }).toThrow();
     });
   });
 
@@ -434,14 +440,24 @@ describe(`PDFPageTree`, () => {
         return lvl1Tree1;
       };
 
-      expect(() => buildTree().removeLeafNode(0)).not.toThrow();
-      expect(() => buildTree().removeLeafNode(1)).not.toThrow();
-      expect(() => buildTree().removeLeafNode(2)).not.toThrow();
+      expect(() => {
+        return buildTree().removeLeafNode(0);
+      }).not.toThrow();
+      expect(() => {
+        return buildTree().removeLeafNode(1);
+      }).not.toThrow();
+      expect(() => {
+        return buildTree().removeLeafNode(2);
+      }).not.toThrow();
 
-      expect(() => buildTree().removeLeafNode(3)).toThrow(
+      expect(() => {
+        return buildTree().removeLeafNode(3);
+      }).toThrow(
         'Invalid targetIndex specified: targetIndex=3 must be less than Count=3',
       );
-      expect(() => buildTree().removeLeafNode(4)).toThrow(
+      expect(() => {
+        return buildTree().removeLeafNode(4);
+      }).toThrow(
         'Invalid targetIndex specified: targetIndex=4 must be less than Count=3',
       );
     });
@@ -479,19 +495,39 @@ describe(`PDFPageTree`, () => {
         return lvl1Tree1;
       };
 
-      expect(() => buildTree().removeLeafNode(0)).not.toThrow();
-      expect(() => buildTree().removeLeafNode(1)).not.toThrow();
-      expect(() => buildTree().removeLeafNode(2)).not.toThrow();
-      expect(() => buildTree().removeLeafNode(3)).not.toThrow();
-      expect(() => buildTree().removeLeafNode(4)).not.toThrow();
-      expect(() => buildTree().removeLeafNode(5)).not.toThrow();
-      expect(() => buildTree().removeLeafNode(6)).not.toThrow();
-      expect(() => buildTree().removeLeafNode(7)).not.toThrow();
+      expect(() => {
+        return buildTree().removeLeafNode(0);
+      }).not.toThrow();
+      expect(() => {
+        return buildTree().removeLeafNode(1);
+      }).not.toThrow();
+      expect(() => {
+        return buildTree().removeLeafNode(2);
+      }).not.toThrow();
+      expect(() => {
+        return buildTree().removeLeafNode(3);
+      }).not.toThrow();
+      expect(() => {
+        return buildTree().removeLeafNode(4);
+      }).not.toThrow();
+      expect(() => {
+        return buildTree().removeLeafNode(5);
+      }).not.toThrow();
+      expect(() => {
+        return buildTree().removeLeafNode(6);
+      }).not.toThrow();
+      expect(() => {
+        return buildTree().removeLeafNode(7);
+      }).not.toThrow();
 
-      expect(() => buildTree().removeLeafNode(8)).toThrow(
+      expect(() => {
+        return buildTree().removeLeafNode(8);
+      }).toThrow(
         'Invalid targetIndex specified: targetIndex=8 must be less than Count=8',
       );
-      expect(() => buildTree().removeLeafNode(9)).toThrow(
+      expect(() => {
+        return buildTree().removeLeafNode(9);
+      }).toThrow(
         'Invalid targetIndex specified: targetIndex=9 must be less than Count=8',
       );
     });
@@ -503,10 +539,14 @@ describe(`PDFPageTree`, () => {
         return lvl1Tree1;
       };
 
-      expect(() => buildTree().removeLeafNode(0)).toThrow(
+      expect(() => {
+        return buildTree().removeLeafNode(0);
+      }).toThrow(
         'Invalid targetIndex specified: targetIndex=0 must be less than Count=0',
       );
-      expect(() => buildTree().removeLeafNode(1)).toThrow(
+      expect(() => {
+        return buildTree().removeLeafNode(1);
+      }).toThrow(
         'Invalid targetIndex specified: targetIndex=1 must be less than Count=0',
       );
     });
@@ -521,10 +561,14 @@ describe(`PDFPageTree`, () => {
       const tree = buildTree();
       tree.set(PDFName.of('Count'), PDFNumber.of(21));
 
-      expect(() => tree.removeLeafNode(0)).toThrow(
+      expect(() => {
+        return tree.removeLeafNode(0);
+      }).toThrow(
         `Failed to removeLeafNode at targetIndex=0 due to corrupt page tree: It is likely that one or more 'Count' entries are invalid`,
       );
-      expect(() => tree.removeLeafNode(1)).toThrow(
+      expect(() => {
+        return tree.removeLeafNode(1);
+      }).toThrow(
         `Failed to removeLeafNode at targetIndex=1 due to corrupt page tree: It is likely that one or more 'Count' entries are invalid`,
       );
     });
@@ -586,7 +630,9 @@ describe(`PDFPageTree`, () => {
     const handleAscend = () => {
       ascentions += 1;
     };
-    expect(() => parent?.ascend(handleAscend)).not.toThrow();
+    expect(() => {
+      return parent?.ascend(handleAscend);
+    }).not.toThrow();
     expect(ascentions).toBe(1);
   });
 });

@@ -2,12 +2,12 @@ import PDFDocument from 'src/api/PDFDocument';
 import PDFPage from 'src/api/PDFPage';
 import PDFField, {
   FieldAppearanceOptions,
-  assertFieldAppearanceOptions,
+  assertFieldAppearanceOptions
 } from 'src/api/form/PDFField';
 import {
   AppearanceProviderFor,
   normalizeAppearance,
-  defaultRadioGroupAppearanceProvider,
+  defaultRadioGroupAppearanceProvider
 } from 'src/api/form/appearances';
 import { rgb } from 'src/api/colors';
 import { degrees } from 'src/api/rotations';
@@ -19,7 +19,7 @@ import {
   PDFDict,
   PDFWidgetAnnotation,
   PDFAcroRadioButton,
-  AcroButtonFlags,
+  AcroButtonFlags
 } from 'src/core';
 import { assertIs, assertOrUndefined, assertIsOneOf } from 'src/utils';
 
@@ -57,8 +57,10 @@ export default class PDFRadioGroup extends PDFField {
   static of = (
     acroRadioButton: PDFAcroRadioButton,
     ref: PDFRef,
-    doc: PDFDocument,
-  ) => new PDFRadioGroup(acroRadioButton, ref, doc);
+    doc: PDFDocument
+  ) => {
+    return new PDFRadioGroup(acroRadioButton, ref, doc);
+  };
 
   /** The low-level PDFAcroRadioButton wrapped by this radio group. */
   readonly acroField: PDFAcroRadioButton;
@@ -66,12 +68,12 @@ export default class PDFRadioGroup extends PDFField {
   private constructor(
     acroRadioButton: PDFAcroRadioButton,
     ref: PDFRef,
-    doc: PDFDocument,
+    doc: PDFDocument
   ) {
     super(acroRadioButton, ref, doc);
 
     assertIs(acroRadioButton, 'acroRadioButton', [
-      [PDFAcroRadioButton, 'PDFAcroRadioButton'],
+      [PDFAcroRadioButton, 'PDFAcroRadioButton']
     ]);
 
     this.acroField = acroRadioButton;
@@ -352,7 +354,7 @@ export default class PDFRadioGroup extends PDFField {
   addOptionToPage(
     option: string,
     page: PDFPage,
-    options?: FieldAppearanceOptions,
+    options?: FieldAppearanceOptions
   ) {
     assertIs(option, 'option', ['string']);
     assertIs(page, 'page', [[PDFPage, 'PDFPage']]);
@@ -370,7 +372,7 @@ export default class PDFRadioGroup extends PDFField {
       borderWidth: options?.borderWidth ?? 1,
       rotate: options?.rotate ?? degrees(0),
       hidden: options?.hidden,
-      page: page.ref,
+      page: page.ref
     });
     const widgetRef = this.doc.context.register(widget.dict);
 
@@ -378,7 +380,7 @@ export default class PDFRadioGroup extends PDFField {
     const apStateValue = this.acroField.addWidgetWithOpt(
       widgetRef,
       PDFHexString.fromText(option),
-      !this.isMutuallyExclusive(),
+      !this.isMutuallyExclusive()
     );
 
     // Set appearance streams for widget
@@ -462,7 +464,7 @@ export default class PDFRadioGroup extends PDFField {
   private updateWidgetAppearance(
     widget: PDFWidgetAnnotation,
     onValue: PDFName,
-    provider?: AppearanceProviderFor<PDFRadioGroup>,
+    provider?: AppearanceProviderFor<PDFRadioGroup>
   ) {
     const apProvider = provider ?? defaultRadioGroupAppearanceProvider;
     const appearances = normalizeAppearance(apProvider(this, widget));

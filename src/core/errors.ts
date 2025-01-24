@@ -18,7 +18,9 @@ export class PrivateConstructorError extends Error {
 
 export class UnexpectedObjectTypeError extends Error {
   constructor(expected: any | any[], actual: any) {
-    const name = (t: any) => t?.name ?? t?.constructor?.name;
+    const name = (t: any) => {
+      return t?.name ?? t?.constructor?.name;
+    };
 
     const expectedTypes = Array.isArray(expected)
       ? expected.map(name)

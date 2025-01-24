@@ -20,7 +20,7 @@ import PDFAcroListBox from 'src/core/acroform/PDFAcroListBox';
 import { AcroButtonFlags, AcroChoiceFlags } from 'src/core/acroform/flags';
 
 export const createPDFAcroFields = (
-  kidDicts?: PDFArray,
+  kidDicts?: PDFArray
 ): [PDFAcroField, PDFRef][] => {
   if (!kidDicts) return [];
 
@@ -39,7 +39,7 @@ export const createPDFAcroFields = (
 
 export const createPDFAcroField = (
   dict: PDFDict,
-  ref: PDFRef,
+  ref: PDFRef
 ): PDFAcroField => {
   const isNonTerminal = isNonTerminalAcroField(dict);
   if (isNonTerminal) return PDFAcroNonTerminal.fromDict(dict, ref);
@@ -117,8 +117,9 @@ const createPDFAcroChoice = (dict: PDFDict, ref: PDFRef): PDFAcroChoice => {
   }
 };
 
-const flagIsSet = (flags: number, flag: number): boolean =>
-  (flags & flag) !== 0;
+const flagIsSet = (flags: number, flag: number): boolean => {
+  return (flags & flag) !== 0;
+};
 
 const getInheritableAttribute = (startNode: PDFDict, name: PDFName) => {
   let attribute: PDFObject | undefined;

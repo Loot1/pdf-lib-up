@@ -38,7 +38,9 @@ export enum PngType {
 }
 
 export class PNG {
-  static load = (pngData: Uint8Array) => new PNG(pngData);
+  static load = (pngData: Uint8Array) => {
+    return new PNG(pngData);
+  };
 
   readonly rgbChannel: Uint8Array;
   readonly alphaChannel?: Uint8Array;
@@ -58,7 +60,9 @@ export class PNG {
 
     this.rgbChannel = rgbChannel;
 
-    const hasAlphaValues = alphaChannel.some((a) => a < 255);
+    const hasAlphaValues = alphaChannel.some((a) => {
+      return a < 255;
+    });
     if (hasAlphaValues) this.alphaChannel = alphaChannel;
 
     this.type = getImageType(upng.ctype);

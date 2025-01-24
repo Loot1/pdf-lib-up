@@ -8,7 +8,9 @@ import PDFNumber from 'src/core/objects/PDFNumber';
 class PDFAnnotation {
   readonly dict: PDFDict;
 
-  static fromDict = (dict: PDFDict): PDFAnnotation => new PDFAnnotation(dict);
+  static fromDict = (dict: PDFDict): PDFAnnotation => {
+    return new PDFAnnotation(dict);
+  };
 
   protected constructor(dict: PDFDict) {
     this.dict = dict;

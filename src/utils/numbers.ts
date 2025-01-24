@@ -32,7 +32,9 @@ export const numberToString = (num: number) => {
   return numStr;
 };
 
-export const sizeInBytes = (n: number) => Math.ceil(n.toString(2).length / 8);
+export const sizeInBytes = (n: number) => {
+  return Math.ceil(n.toString(2).length / 8);
+};
 
 /**
  * Converts a number into its constituent bytes and returns them as

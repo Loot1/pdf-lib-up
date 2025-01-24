@@ -70,10 +70,11 @@ describe(`PDFRadioGroup`, () => {
     radioGroup.addOptionToPage('foo', page);
     radioGroup.addOptionToPage('qux', page);
 
-    const getOnWidgets = () =>
-      radioGroup.acroField
-        .getWidgets()
-        .filter((w) => w.getOnValue() === radioGroup.acroField.getValue());
+    const getOnWidgets = () => {
+      return radioGroup.acroField.getWidgets().filter((w) => {
+        return w.getOnValue() === radioGroup.acroField.getValue();
+      });
+    };
 
     expect(getOnWidgets().length).toBe(0);
 
@@ -83,9 +84,9 @@ describe(`PDFRadioGroup`, () => {
 
     expect(radioGroup.getOptions()).toEqual(['foo', 'bar', 'foo', 'qux']);
 
-    const onValues = radioGroup.acroField
-      .getWidgets()
-      .map((w) => w.getOnValue());
+    const onValues = radioGroup.acroField.getWidgets().map((w) => {
+      return w.getOnValue();
+    });
 
     expect(onValues).toEqual([
       PDFName.of('0'),
@@ -116,10 +117,11 @@ describe(`PDFRadioGroup`, () => {
     radioGroup.addOptionToPage('foo', page);
     radioGroup.addOptionToPage('qux', page);
 
-    const getOnWidgets = () =>
-      radioGroup.acroField
-        .getWidgets()
-        .filter((w) => w.getOnValue() === radioGroup.acroField.getValue());
+    const getOnWidgets = () => {
+      return radioGroup.acroField.getWidgets().filter((w) => {
+        return w.getOnValue() === radioGroup.acroField.getValue();
+      });
+    };
 
     expect(getOnWidgets().length).toBe(0);
 
@@ -129,9 +131,9 @@ describe(`PDFRadioGroup`, () => {
 
     expect(radioGroup.getOptions()).toEqual(['foo', 'bar', 'foo', 'qux']);
 
-    const onValues = radioGroup.acroField
-      .getWidgets()
-      .map((w) => w.getOnValue());
+    const onValues = radioGroup.acroField.getWidgets().map((w) => {
+      return w.getOnValue();
+    });
 
     expect(onValues).toEqual([
       PDFName.of('0'),
@@ -157,7 +159,9 @@ describe(`PDFRadioGroup`, () => {
 
     const radioGroup = form.createRadioGroup('a.new.radio.group');
 
-    const widgets = () => radioGroup.acroField.getWidgets();
+    const widgets = () => {
+      return radioGroup.acroField.getWidgets();
+    };
     expect(widgets().length).toBe(0);
 
     radioGroup.addOptionToPage('foo', page);
@@ -173,7 +177,9 @@ describe(`PDFRadioGroup`, () => {
 
     const radioGroup = form.createRadioGroup('a.new.radio.group');
 
-    const widgets = () => radioGroup.acroField.getWidgets();
+    const widgets = () => {
+      return radioGroup.acroField.getWidgets();
+    };
     expect(widgets().length).toBe(0);
 
     radioGroup.addOptionToPage('foo', page);

@@ -8,12 +8,14 @@ import PDFRef from 'src/core/objects/PDFRef';
 import PDFAcroTerminal from 'src/core/acroform/PDFAcroTerminal';
 
 class PDFAcroText extends PDFAcroTerminal {
-  static fromDict = (dict: PDFDict, ref: PDFRef) => new PDFAcroText(dict, ref);
+  static fromDict = (dict: PDFDict, ref: PDFRef) => {
+    return new PDFAcroText(dict, ref);
+  };
 
   static create = (context: PDFContext) => {
     const dict = context.obj({
       FT: 'Tx',
-      Kids: [],
+      Kids: []
     });
     const ref = context.register(dict);
     return new PDFAcroText(dict, ref);

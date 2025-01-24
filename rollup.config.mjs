@@ -1,8 +1,11 @@
+import { defineConfig } from 'rollup';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
+import typescript from '@rollup/plugin-typescript';
 
+// eslint-disable-next-line no-undef
 const { MINIFY, MODULE_TYPE } = process.env;
 
 const IgnoredWarnings = [
@@ -36,22 +39,23 @@ const IgnoredWarnings = [
   'Circular dependency: es\\api\\PDFPage.js -> es\\api\\PDFDocument.js -> es\\api\\form\\PDFForm.js -> es\\api\\form\\PDFDropdown.js -> es\\api\\PDFPage.js',
   'Circular dependency: es\\api\\PDFPage.js -> es\\api\\PDFDocument.js -> es\\api\\form\\PDFForm.js -> es\\api\\form\\PDFOptionList.js -> es\\api\\PDFPage.js',
   'Circular dependency: es\\api\\PDFPage.js -> es\\api\\PDFDocument.js -> es\\api\\form\\PDFForm.js -> es\\api\\form\\PDFRadioGroup.js -> es\\api\\PDFPage.js',
-  'Circular dependency: es\\api\\PDFPage.js -> es\\api\\PDFDocument.js -> es\\api\\form\\PDFForm.js -> es\\api\\form\\PDFTextField.js -> es\\api\\PDFPage.js',
+  'Circular dependency: es\\api\\PDFPage.js -> es\\api\\PDFDocument.js -> es\\api\\form\\PDFForm.js -> es\\api\\form\\PDFTextField.js -> es\\api\\PDFPage.js'
 ];
 
 // Silence circular dependency warnings we don't care about
-const onwarn = (warning, warn) => {
+/** @type {import('rollup').WarningHandlerWithDefault} */
+const onwarn = (warning, defaultHandler) => {
   if (IgnoredWarnings.includes(warning.message)) return;
-  warn(warning);
+  defaultHandler(warning);
 };
 
-export default {
+export default defineConfig({
   onwarn,
+  plugins: [ resolve(), commonjs(), json(), MINIFY === 'true' && terser(), typescript() ],
   input: 'es/index.js',
   output: {
     name: 'PDFLib',
     format: MODULE_TYPE,
-    sourcemap: true,
-  },
-  plugins: [resolve(), commonjs(), json(), MINIFY === 'true' && terser()],
-};
+    sourcemap: true
+  }
+});

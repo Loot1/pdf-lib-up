@@ -7,13 +7,15 @@ import PDFAcroField from 'src/core/acroform/PDFAcroField';
 import PDFAcroNonTerminal from 'src/core/acroform/PDFAcroNonTerminal';
 import {
   createPDFAcroField,
-  createPDFAcroFields,
+  createPDFAcroFields
 } from 'src/core/acroform/utils';
 
 class PDFAcroForm {
   readonly dict: PDFDict;
 
-  static fromDict = (dict: PDFDict) => new PDFAcroForm(dict);
+  static fromDict = (dict: PDFDict) => {
+    return new PDFAcroForm(dict);
+  };
 
   static create = (context: PDFContext) => {
     const dict = context.obj({ Fields: [] });
@@ -76,7 +78,7 @@ class PDFAcroForm {
     const index = fields?.indexOf(field.ref);
     if (fields === undefined || index === undefined) {
       throw new Error(
-        `Tried to remove inexistent field ${field.getFullyQualifiedName()}`,
+        `Tried to remove inexistent field ${field.getFullyQualifiedName()}`
       );
     }
 

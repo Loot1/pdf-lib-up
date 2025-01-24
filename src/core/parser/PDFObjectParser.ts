@@ -2,7 +2,7 @@ import {
   PDFObjectParsingError,
   PDFStreamParsingError,
   Position,
-  UnbalancedParenthesisError,
+  UnbalancedParenthesisError
 } from 'src/core/errors';
 import PDFArray from 'src/core/objects/PDFArray';
 import PDFBool from 'src/core/objects/PDFBool';
@@ -34,14 +34,18 @@ class PDFObjectParser extends BaseParser {
   static forBytes = (
     bytes: Uint8Array,
     context: PDFContext,
-    capNumbers?: boolean,
-  ) => new PDFObjectParser(ByteStream.of(bytes), context, capNumbers);
+    capNumbers?: boolean
+  ) => {
+    return new PDFObjectParser(ByteStream.of(bytes), context, capNumbers);
+  };
 
   static forByteStream = (
     byteStream: ByteStream,
     context: PDFContext,
-    capNumbers = false,
-  ) => new PDFObjectParser(byteStream, context, capNumbers);
+    capNumbers = false
+  ) => {
+    return new PDFObjectParser(byteStream, context, capNumbers);
+  };
 
   protected readonly context: PDFContext;
 

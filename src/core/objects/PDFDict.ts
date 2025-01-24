@@ -14,10 +14,13 @@ import CharCodes from 'src/core/syntax/CharCodes';
 export type DictMap = Map<PDFName, PDFObject>;
 
 class PDFDict extends PDFObject {
-  static withContext = (context: PDFContext) => new PDFDict(new Map(), context);
+  static withContext = (context: PDFContext) => {
+    return new PDFDict(new Map(), context);
+  };
 
-  static fromMapWithContext = (map: DictMap, context: PDFContext) =>
-    new PDFDict(map, context);
+  static fromMapWithContext = (map: DictMap, context: PDFContext) => {
+    return new PDFDict(map, context);
+  };
 
   readonly context: PDFContext;
 
@@ -49,7 +52,7 @@ class PDFDict extends PDFObject {
     key: PDFName,
     // TODO: `preservePDFNull` is for backwards compatibility. Should be
     // removed in next breaking API change.
-    preservePDFNull = false,
+    preservePDFNull = false
   ): PDFObject | undefined {
     const value = this.dict.get(key);
     if (value === PDFNull && !preservePDFNull) return undefined;
@@ -99,7 +102,7 @@ class PDFDict extends PDFObject {
     const value = this.context.lookupMaybe(
       this.get(key, preservePDFNull),
       // @ts-ignore
-      ...types,
+      ...types
     ) as any;
 
     if (value === PDFNull && !preservePDFNull) return undefined;
@@ -143,7 +146,7 @@ class PDFDict extends PDFObject {
     const value = this.context.lookup(
       this.get(key, preservePDFNull),
       // @ts-ignore
-      ...types,
+      ...types
     ) as any;
 
     if (value === PDFNull && !preservePDFNull) return undefined;

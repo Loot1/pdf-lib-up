@@ -132,7 +132,7 @@ class FlateStream extends DecodeStream {
     }
     if ((cmf & 0x0f) !== 0x08) {
       throw new Error(
-        `Unknown compression method in flate stream: ${cmf}, ${flg}`,
+        `Unknown compression method in flate stream: ${cmf}, ${flg}`
       );
     }
     if (((cmf << 8) + flg) % 31 !== 0) {
@@ -260,10 +260,10 @@ class FlateStream extends DecodeStream {
       }
 
       litCodeTable = this.generateHuffmanTable(
-        codeLengths.subarray(0, numLitCodes),
+        codeLengths.subarray(0, numLitCodes)
       );
       distCodeTable = this.generateHuffmanTable(
-        codeLengths.subarray(numLitCodes, codes),
+        codeLengths.subarray(numLitCodes, codes)
       );
     } else {
       throw new Error('Unknown block type in flate stream');

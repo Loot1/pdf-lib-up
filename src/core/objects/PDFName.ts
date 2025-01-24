@@ -6,16 +6,22 @@ import {
   charFromHexCode,
   copyStringIntoBuffer,
   toCharCode,
-  toHexString,
+  toHexString
 } from 'src/utils';
 
-const decodeName = (name: string) =>
-  name.replace(/#([\dABCDEF]{2})/g, (_, hex) => charFromHexCode(hex));
+const decodeName = (name: string) => {
+  return name.replace(/#([\dABCDEF]{2})/g, (_, hex) => {
+    return charFromHexCode(hex);
+  });
+};
 
-const isRegularChar = (charCode: number) =>
-  charCode >= CharCodes.ExclamationPoint &&
-  charCode <= CharCodes.Tilde &&
-  !IsIrregular[charCode];
+const isRegularChar = (charCode: number) => {
+  return (
+    charCode >= CharCodes.ExclamationPoint &&
+    charCode <= CharCodes.Tilde &&
+    !IsIrregular[charCode]
+  );
+};
 
 const ENFORCER = {};
 const pool = new Map<string, PDFName>();

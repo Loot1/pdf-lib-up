@@ -6,8 +6,9 @@ import {
   ReparseError,
 } from 'src/index';
 
-const readData = (file: string) =>
-  new Uint8Array(fs.readFileSync(`./tests/core/parser/data/${file}`));
+const readData = (file: string) => {
+  return new Uint8Array(fs.readFileSync(`./tests/core/parser/data/${file}`));
+};
 
 describe(`PDFXRefStreamParser`, () => {
   it(`can parse XRef streams (1)`, () => {
@@ -23,11 +24,15 @@ describe(`PDFXRefStreamParser`, () => {
     const stream = PDFRawStream.of(dict, contents);
 
     const entries = PDFXRefStreamParser.forStream(stream).parseIntoContext();
-    const normal = entries.filter(
-      (entry) => !entry.deleted && !entry.inObjectStream,
-    );
-    const deleted = entries.filter((entry) => entry.deleted);
-    const inObjectStream = entries.filter((entry) => entry.inObjectStream);
+    const normal = entries.filter((entry) => {
+      return !entry.deleted && !entry.inObjectStream;
+    });
+    const deleted = entries.filter((entry) => {
+      return entry.deleted;
+    });
+    const inObjectStream = entries.filter((entry) => {
+      return entry.inObjectStream;
+    });
 
     expect(entries.length).toBe(319);
     expect(normal.length).toBe(51);
@@ -63,7 +68,7 @@ describe(`PDFXRefStreamParser`, () => {
         282, 7,
         290, 1,
         308, 1,
-        319, 4,
+        319, 4
       ],
       Length: 120,
       Size: 323,
@@ -73,11 +78,15 @@ describe(`PDFXRefStreamParser`, () => {
     const stream = PDFRawStream.of(dict, contents);
 
     const entries = PDFXRefStreamParser.forStream(stream).parseIntoContext();
-    const normal = entries.filter(
-      (entry) => !entry.deleted && !entry.inObjectStream,
-    );
-    const deleted = entries.filter((entry) => entry.deleted);
-    const inObjectStream = entries.filter((entry) => entry.inObjectStream);
+    const normal = entries.filter((entry) => {
+      return !entry.deleted && !entry.inObjectStream;
+    });
+    const deleted = entries.filter((entry) => {
+      return entry.deleted;
+    });
+    const inObjectStream = entries.filter((entry) => {
+      return entry.inObjectStream;
+    });
 
     expect(entries.length).toBe(160);
     expect(normal.length).toBe(32);
@@ -99,11 +108,15 @@ describe(`PDFXRefStreamParser`, () => {
     const stream = PDFRawStream.of(dict, contents);
 
     const entries = PDFXRefStreamParser.forStream(stream).parseIntoContext();
-    const normal = entries.filter(
-      (entry) => !entry.deleted && !entry.inObjectStream,
-    );
-    const deleted = entries.filter((entry) => entry.deleted);
-    const inObjectStream = entries.filter((entry) => entry.inObjectStream);
+    const normal = entries.filter((entry) => {
+      return !entry.deleted && !entry.inObjectStream;
+    });
+    const deleted = entries.filter((entry) => {
+      return entry.deleted;
+    });
+    const inObjectStream = entries.filter((entry) => {
+      return entry.inObjectStream;
+    });
 
     expect(entries.length).toBe(5);
     expect(normal.length).toBe(3);
@@ -124,11 +137,15 @@ describe(`PDFXRefStreamParser`, () => {
     const stream = PDFRawStream.of(dict, contents);
 
     const entries = PDFXRefStreamParser.forStream(stream).parseIntoContext();
-    const normal = entries.filter(
-      (entry) => !entry.deleted && !entry.inObjectStream,
-    );
-    const deleted = entries.filter((entry) => entry.deleted);
-    const inObjectStream = entries.filter((entry) => entry.inObjectStream);
+    const normal = entries.filter((entry) => {
+      return !entry.deleted && !entry.inObjectStream;
+    });
+    const deleted = entries.filter((entry) => {
+      return entry.deleted;
+    });
+    const inObjectStream = entries.filter((entry) => {
+      return entry.inObjectStream;
+    });
 
     expect(entries.length).toBe(146);
     expect(normal.length).toBe(30);
@@ -179,9 +196,11 @@ describe(`PDFXRefStreamParser`, () => {
 
     const parser = PDFXRefStreamParser.forStream(stream);
 
-    expect(() => parser.parseIntoContext()).not.toThrow();
-    expect(() => parser.parseIntoContext()).toThrow(
-      new ReparseError('PDFXRefStreamParser', 'parseIntoContext'),
-    );
+    expect(() => {
+      return parser.parseIntoContext();
+    }).not.toThrow();
+    expect(() => {
+      return parser.parseIntoContext();
+    }).toThrow(new ReparseError('PDFXRefStreamParser', 'parseIntoContext'));
   });
 });

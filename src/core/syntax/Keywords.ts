@@ -8,7 +8,7 @@ const stream = [
   CharCodes.r,
   CharCodes.e,
   CharCodes.a,
-  CharCodes.m,
+  CharCodes.m
 ];
 
 const endstream = [
@@ -20,7 +20,7 @@ const endstream = [
   CharCodes.r,
   CharCodes.e,
   CharCodes.a,
-  CharCodes.m,
+  CharCodes.m
 ];
 
 export const Keywords = {
@@ -29,14 +29,14 @@ export const Keywords = {
     CharCodes.P,
     CharCodes.D,
     CharCodes.F,
-    CharCodes.Dash,
+    CharCodes.Dash
   ],
   eof: [
     CharCodes.Percent,
     CharCodes.Percent,
     CharCodes.E,
     CharCodes.O,
-    CharCodes.F,
+    CharCodes.F
   ],
   obj: [CharCodes.o, CharCodes.b, CharCodes.j],
   endobj: [
@@ -45,7 +45,7 @@ export const Keywords = {
     CharCodes.d,
     CharCodes.o,
     CharCodes.b,
-    CharCodes.j,
+    CharCodes.j
   ],
   xref: [CharCodes.x, CharCodes.r, CharCodes.e, CharCodes.f],
   trailer: [
@@ -55,7 +55,7 @@ export const Keywords = {
     CharCodes.i,
     CharCodes.l,
     CharCodes.e,
-    CharCodes.r,
+    CharCodes.r
   ],
   startxref: [
     CharCodes.s,
@@ -66,7 +66,7 @@ export const Keywords = {
     CharCodes.x,
     CharCodes.r,
     CharCodes.e,
-    CharCodes.f,
+    CharCodes.f
   ],
   true: [CharCodes.t, CharCodes.r, CharCodes.u, CharCodes.e],
   false: [CharCodes.f, CharCodes.a, CharCodes.l, CharCodes.s, CharCodes.e],
@@ -79,5 +79,5 @@ export const Keywords = {
   endstream,
   EOF1endstream: [CarriageReturn, Newline, ...endstream],
   EOF2endstream: [CarriageReturn, ...endstream],
-  EOF3endstream: [Newline, ...endstream],
+  EOF3endstream: [Newline, ...endstream]
 };

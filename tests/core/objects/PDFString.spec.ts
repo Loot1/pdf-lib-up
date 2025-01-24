@@ -57,7 +57,7 @@ describe(`PDFString`, () => {
         0o000, 0o147,
         0o000, 0o040,
         0o330, 0o074,
-        0o337, 0o163,
+        0o337, 0o163
       ));
     });
 
@@ -72,7 +72,7 @@ describe(`PDFString`, () => {
         toCharCode('\0'), toCharCode('g'),
         toCharCode('\0'), toCharCode(' '),
         0o330, toCharCode('<'),  
-        0o337, toCharCode('s'),
+        0o337, toCharCode('s')
       ));
     });
 
@@ -87,7 +87,7 @@ describe(`PDFString`, () => {
         toCharCode('\0'), toCharCode('g'),
         toCharCode('\0'), toCharCode(' '),
         0o330, toCharCode('<'),  
-        0o337, toCharCode('s'),
+        0o337, toCharCode('s')
       ));
     });
 
@@ -99,7 +99,7 @@ describe(`PDFString`, () => {
         toCharCode('a'), toCharCode('\n'),
         toCharCode('b'), toCharCode('\r'),
         toCharCode('c'), toCharCode('d'), 
-        toCharCode('e'),
+        toCharCode('e')
       ));
     });
 
@@ -111,7 +111,7 @@ describe(`PDFString`, () => {
         toCharCode('a'), toCharCode('\n'),
         toCharCode('b'), toCharCode('\r'),
         toCharCode('c'), toCharCode('x'),
-        toCharCode('d'), toCharCode(';'),
+        toCharCode('d'), toCharCode(';')
       ));
     });
   });

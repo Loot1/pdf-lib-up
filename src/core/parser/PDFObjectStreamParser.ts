@@ -10,8 +10,10 @@ import { waitForTick } from 'src/utils';
 class PDFObjectStreamParser extends PDFObjectParser {
   static forStream = (
     rawStream: PDFRawStream,
-    shouldWaitForTick?: () => boolean,
-  ) => new PDFObjectStreamParser(rawStream, shouldWaitForTick);
+    shouldWaitForTick?: () => boolean
+  ) => {
+    return new PDFObjectStreamParser(rawStream, shouldWaitForTick);
+  };
 
   private alreadyParsed: boolean;
   private readonly shouldWaitForTick: () => boolean;
@@ -24,7 +26,11 @@ class PDFObjectStreamParser extends PDFObjectParser {
     const { dict } = rawStream;
 
     this.alreadyParsed = false;
-    this.shouldWaitForTick = shouldWaitForTick || (() => false);
+    this.shouldWaitForTick =
+      shouldWaitForTick ||
+      (() => {
+        return false;
+      });
     this.firstOffset = dict.lookup(PDFName.of('First'), PDFNumber).asNumber();
     this.objectCount = dict.lookup(PDFName.of('N'), PDFNumber).asNumber();
   }

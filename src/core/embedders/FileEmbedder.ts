@@ -31,7 +31,7 @@ class FileEmbedder {
   static for(
     bytes: Uint8Array,
     fileName: string,
-    options: EmbeddedFileOptions = {},
+    options: EmbeddedFileOptions = {}
   ) {
     return new FileEmbedder(bytes, fileName, options);
   }
@@ -43,7 +43,7 @@ class FileEmbedder {
   private constructor(
     fileData: Uint8Array,
     fileName: string,
-    options: EmbeddedFileOptions = {},
+    options: EmbeddedFileOptions = {}
   ) {
     this.fileData = fileData;
     this.fileName = fileName;
@@ -56,7 +56,7 @@ class FileEmbedder {
       description,
       creationDate,
       modificationDate,
-      afRelationship,
+      afRelationship
     } = this.options;
 
     const embeddedFileStream = context.flateStream(this.fileData, {
@@ -69,8 +69,8 @@ class FileEmbedder {
           : undefined,
         ModDate: modificationDate
           ? PDFString.fromDate(modificationDate)
-          : undefined,
-      },
+          : undefined
+      }
     });
     const embeddedFileStreamRef = context.register(embeddedFileStream);
 
@@ -80,7 +80,7 @@ class FileEmbedder {
       UF: PDFHexString.fromText(this.fileName),
       EF: { F: embeddedFileStreamRef },
       Desc: description ? PDFHexString.fromText(description) : undefined,
-      AFRelationship: afRelationship ?? undefined,
+      AFRelationship: afRelationship ?? undefined
     });
 
     if (ref) {

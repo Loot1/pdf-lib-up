@@ -20,8 +20,9 @@ export interface SerializationInfo {
 }
 
 class PDFWriter {
-  static forContext = (context: PDFContext, objectsPerTick: number) =>
-    new PDFWriter(context, objectsPerTick);
+  static forContext = (context: PDFContext, objectsPerTick: number) => {
+    return new PDFWriter(context, objectsPerTick);
+  };
 
   protected readonly context: PDFContext;
 
@@ -34,14 +35,8 @@ class PDFWriter {
   }
 
   async serializeToBuffer(): Promise<Uint8Array> {
-    const {
-      size,
-      header,
-      indirectObjects,
-      xref,
-      trailerDict,
-      trailer,
-    } = await this.computeBufferSize();
+    const { size, header, indirectObjects, xref, trailerDict, trailer } =
+      await this.computeBufferSize();
 
     let offset = 0;
     const buffer = new Uint8Array(size);
@@ -114,7 +109,7 @@ class PDFWriter {
       Root: this.context.trailerInfo.Root,
       Encrypt: this.context.trailerInfo.Encrypt,
       Info: this.context.trailerInfo.Info,
-      ID: this.context.trailerInfo.ID,
+      ID: this.context.trailerInfo.ID
     });
   }
 

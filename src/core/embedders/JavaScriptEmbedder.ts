@@ -19,7 +19,7 @@ class JavaScriptEmbedder {
     const jsActionDict = context.obj({
       Type: 'Action',
       S: 'JavaScript',
-      JS: PDFHexString.fromText(this.script),
+      JS: PDFHexString.fromText(this.script)
     });
 
     if (ref) {

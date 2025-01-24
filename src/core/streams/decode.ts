@@ -1,6 +1,6 @@
 import {
   UnexpectedObjectTypeError,
-  UnsupportedEncodingError,
+  UnsupportedEncodingError
 } from 'src/core/errors';
 import PDFArray from 'src/core/objects/PDFArray';
 import PDFDict from 'src/core/objects/PDFDict';
@@ -18,7 +18,7 @@ import Stream, { StreamType } from 'src/core/streams/Stream';
 const decodeStream = (
   stream: StreamType,
   encoding: PDFName,
-  params: undefined | typeof PDFNull | PDFDict,
+  params: undefined | typeof PDFNull | PDFDict
 ) => {
   if (encoding === PDFName.of('FlateDecode')) {
     return new FlateStream(stream);
@@ -55,17 +55,17 @@ export const decodePDFRawStream = ({ dict, contents }: PDFRawStream) => {
     stream = decodeStream(
       stream,
       Filter,
-      DecodeParms as PDFDict | typeof PDFNull | undefined,
+      DecodeParms as PDFDict | typeof PDFNull | undefined
     );
   } else if (Filter instanceof PDFArray) {
     for (let idx = 0, len = Filter.size(); idx < len; idx++) {
       stream = decodeStream(
         stream,
         Filter.lookup(idx, PDFName),
-        DecodeParms && (DecodeParms as PDFArray).lookupMaybe(idx, PDFDict),
+        DecodeParms && (DecodeParms as PDFArray).lookupMaybe(idx, PDFDict)
       );
     }
-  } else if (!!Filter) {
+  } else if (Filter) {
     throw new UnexpectedObjectTypeError([PDFName, PDFArray], Filter);
   }
 

@@ -18,8 +18,9 @@ export default class PDFEmbeddedFile implements Embeddable {
    * @param doc The document to which the file will belong.
    * @param embedder The embedder that will be used to embed the file.
    */
-  static of = (ref: PDFRef, doc: PDFDocument, embedder: FileEmbedder) =>
-    new PDFEmbeddedFile(ref, doc, embedder);
+  static of = (ref: PDFRef, doc: PDFDocument, embedder: FileEmbedder) => {
+    return new PDFEmbeddedFile(ref, doc, embedder);
+  };
 
   /** The unique reference assigned to this embedded file within the document. */
   readonly ref: PDFRef;
@@ -49,7 +50,7 @@ export default class PDFEmbeddedFile implements Embeddable {
     if (!this.alreadyEmbedded) {
       const ref = await this.embedder.embedIntoContext(
         this.doc.context,
-        this.ref,
+        this.ref
       );
 
       if (!this.doc.catalog.has(PDFName.of('Names'))) {

@@ -18,8 +18,9 @@ export type PDFOperatorArg =
   | PDFHexString;
 
 class PDFOperator {
-  static of = (name: PDFOperatorNames, args?: PDFOperatorArg[]) =>
-    new PDFOperator(name, args);
+  static of = (name: PDFOperatorNames, args?: PDFOperatorArg[]) => {
+    return new PDFOperator(name, args);
+  };
 
   private readonly name: PDFOperatorNames;
   private readonly args: PDFOperatorArg[];

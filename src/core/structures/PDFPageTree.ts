@@ -19,8 +19,9 @@ class PDFPageTree extends PDFDict {
     return new PDFPageTree(dict, context);
   };
 
-  static fromMapWithContext = (map: DictMap, context: PDFContext) =>
-    new PDFPageTree(map, context);
+  static fromMapWithContext = (map: DictMap, context: PDFContext) => {
+    return new PDFPageTree(map, context);
+  };
 
   Parent(): PDFPageTree | undefined {
     return this.lookup(PDFName.of('Parent')) as PDFPageTree | undefined;

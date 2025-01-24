@@ -80,8 +80,12 @@ describe(`PDFTextField`, () => {
     const textField = form.createTextField('foo.bar');
 
     textField.setMaxLength(5);
-    expect(() => textField.setText('abcde')).not.toThrow();
-    expect(() => textField.setText('abcdef')).toThrow();
+    expect(() => {
+      return textField.setText('abcde');
+    }).not.toThrow();
+    expect(() => {
+      return textField.setText('abcdef');
+    }).toThrow();
   });
 
   it(`throws an error when setting a max length less than the text length`, async () => {
@@ -90,10 +94,18 @@ describe(`PDFTextField`, () => {
     const textField = form.createTextField('foo.bar');
 
     textField.setText('abcdef');
-    expect(() => textField.setMaxLength(undefined)).not.toThrow();
-    expect(() => textField.setMaxLength(6)).not.toThrow();
-    expect(() => textField.setMaxLength(7)).not.toThrow();
-    expect(() => textField.setMaxLength(5)).toThrow();
+    expect(() => {
+      return textField.setMaxLength(undefined);
+    }).not.toThrow();
+    expect(() => {
+      return textField.setMaxLength(6);
+    }).not.toThrow();
+    expect(() => {
+      return textField.setMaxLength(7);
+    }).not.toThrow();
+    expect(() => {
+      return textField.setMaxLength(5);
+    }).toThrow();
   });
 
   it(`produces printable widgets when added to a page`, async () => {
@@ -104,7 +116,9 @@ describe(`PDFTextField`, () => {
 
     const textField = form.createTextField('a.new.text.field');
 
-    const widgets = () => textField.acroField.getWidgets();
+    const widgets = () => {
+      return textField.acroField.getWidgets();
+    };
     expect(widgets().length).toBe(0);
 
     textField.addToPage(page);
@@ -120,7 +134,9 @@ describe(`PDFTextField`, () => {
 
     const textField = form.createTextField('a.new.text.field');
 
-    const widgets = () => textField.acroField.getWidgets();
+    const widgets = () => {
+      return textField.acroField.getWidgets();
+    };
     expect(widgets().length).toBe(0);
 
     textField.addToPage(page);
@@ -134,7 +150,9 @@ describe(`PDFTextField`, () => {
     const form = pdfDoc.getForm();
 
     const textField = form.createTextField('a.hidden.text.field');
-    const widgets = () => textField.acroField.getWidgets();
+    const widgets = () => {
+      return textField.acroField.getWidgets();
+    };
 
     textField.addToPage(page, { hidden: true });
 

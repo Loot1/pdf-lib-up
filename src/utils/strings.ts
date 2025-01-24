@@ -1,15 +1,26 @@
-export const toCharCode = (character: string) => character.charCodeAt(0);
+export const toCharCode = (character: string) => {
+  return character.charCodeAt(0);
+};
 
-export const toCodePoint = (character: string) => character.codePointAt(0);
+export const toCodePoint = (character: string) => {
+  return character.codePointAt(0);
+};
 
-export const toHexStringOfMinLength = (num: number, minLength: number) =>
-  padStart(num.toString(16), minLength, '0').toUpperCase();
+export const toHexStringOfMinLength = (num: number, minLength: number) => {
+  return padStart(num.toString(16), minLength, '0').toUpperCase();
+};
 
-export const toHexString = (num: number) => toHexStringOfMinLength(num, 2);
+export const toHexString = (num: number) => {
+  return toHexStringOfMinLength(num, 2);
+};
 
-export const charFromCode = (code: number) => String.fromCharCode(code);
+export const charFromCode = (code: number) => {
+  return String.fromCharCode(code);
+};
 
-export const charFromHexCode = (hex: string) => charFromCode(parseInt(hex, 16));
+export const charFromHexCode = (hex: string) => {
+  return charFromCode(parseInt(hex, 16));
+};
 
 export const padStart = (value: string, length: number, padChar: string) => {
   let padding = '';
@@ -22,7 +33,7 @@ export const padStart = (value: string, length: number, padChar: string) => {
 export const copyStringIntoBuffer = (
   str: string,
   buffer: Uint8Array,
-  offset: number,
+  offset: number
 ): number => {
   const length = str.length;
   for (let idx = 0; idx < length; idx++) {
@@ -31,25 +42,35 @@ export const copyStringIntoBuffer = (
   return length;
 };
 
-export const addRandomSuffix = (prefix: string, suffixLength = 4) =>
-  `${prefix}-${Math.floor(Math.random() * 10 ** suffixLength)}`;
+export const addRandomSuffix = (prefix: string, suffixLength = 4) => {
+  return `${prefix}-${Math.floor(Math.random() * 10 ** suffixLength)}`;
+};
 
-export const escapeRegExp = (str: string) =>
-  str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+export const escapeRegExp = (str: string) => {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};
 
-export const cleanText = (text: string) =>
-  text.replace(/\t|\u0085|\u2028|\u2029/g, '    ').replace(/[\b\v]/g, '');
+export const cleanText = (text: string) => {
+  return text
+    .replace(/\t|\u0085|\u2028|\u2029/g, '    ')
+    .replace(/[\b\v]/g, '');
+};
 
 export const escapedNewlineChars = ['\\n', '\\f', '\\r', '\\u000B'];
 
 export const newlineChars = ['\n', '\f', '\r', '\u000B'];
 
-export const isNewlineChar = (text: string) => /^[\n\f\r\u000B]$/.test(text);
+export const isNewlineChar = (text: string) => {
+  return /^[\n\f\r\u000B]$/.test(text);
+};
 
-export const lineSplit = (text: string) => text.split(/[\n\f\r\u000B]/);
+export const lineSplit = (text: string) => {
+  return text.split(/[\n\f\r\u000B]/);
+};
 
-export const mergeLines = (text: string) =>
-  text.replace(/[\n\f\r\u000B]/g, ' ');
+export const mergeLines = (text: string) => {
+  return text.replace(/[\n\f\r\u000B]/g, ' ');
+};
 
 // JavaScript's String.charAt() method doesn work on strings containing UTF-16
 // characters (with high and low surrogate pairs), such as 💩 (poo emoji). This
@@ -106,7 +127,7 @@ export const breakTextIntoLines = (
   text: string,
   wordBreaks: string[],
   maxWidth: number,
-  computeWidthOfText: (t: string) => number,
+  computeWidthOfText: (t: string) => number
 ): string[] => {
   const regex = buildWordBreakRegex(wordBreaks);
 
@@ -139,7 +160,8 @@ export const breakTextIntoLines = (
 };
 
 // See section "7.9.4 Dates" of the PDF specification
-const dateRegex = /^D:(\d\d\d\d)(\d\d)?(\d\d)?(\d\d)?(\d\d)?(\d\d)?([+\-Z])?(\d\d)?'?(\d\d)?'?$/;
+const dateRegex =
+  /^D:(\d\d\d\d)(\d\d)?(\d\d)?(\d\d)?(\d\d)?(\d\d)?([+\-Z])?(\d\d)?'?(\d\d)?'?$/;
 
 export const parseDate = (dateStr: string): Date | undefined => {
   const match = dateStr.match(dateRegex);
@@ -156,14 +178,14 @@ export const parseDate = (dateStr: string): Date | undefined => {
     secs = '00',
     offsetSign = 'Z',
     offsetHours = '00',
-    offsetMins = '00',
+    offsetMins = '00'
   ] = match;
 
   // http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15
   const tzOffset =
     offsetSign === 'Z' ? 'Z' : `${offsetSign}${offsetHours}:${offsetMins}`;
   const date = new Date(
-    `${year}-${month}-${day}T${hours}:${mins}:${secs}${tzOffset}`,
+    `${year}-${month}-${day}T${hours}:${mins}:${secs}${tzOffset}`
   );
 
   return date;

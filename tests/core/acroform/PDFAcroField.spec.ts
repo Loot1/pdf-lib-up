@@ -52,7 +52,9 @@ describe(`PDFAcroField`, () => {
       const dictRef = context.register(dict);
       const field = PDFAcroTerminal.fromDict(dict, dictRef);
 
-      expect(() => field.setFontSize(8)).toThrow();
+      expect(() => {
+        return field.setFontSize(8);
+      }).toThrow();
     });
 
     it(`throw an error if the /DA string does not contain a Tf operator`, () => {
@@ -64,7 +66,9 @@ describe(`PDFAcroField`, () => {
       const dictRef = context.register(dict);
       const field = PDFAcroTerminal.fromDict(dict, dictRef);
 
-      expect(() => field.setFontSize(8)).toThrow();
+      expect(() => {
+        return field.setFontSize(8);
+      }).toThrow();
     });
 
     it(`replaces the font size of the last occurring Tf operator`, () => {

@@ -6,11 +6,11 @@ import { ImageAlignment } from 'src/api/image/alignment';
 import {
   AppearanceProviderFor,
   normalizeAppearance,
-  defaultButtonAppearanceProvider,
+  defaultButtonAppearanceProvider
 } from 'src/api/form/appearances';
 import PDFField, {
   FieldAppearanceOptions,
-  assertFieldAppearanceOptions,
+  assertFieldAppearanceOptions
 } from 'src/api/form/PDFField';
 import { rgb } from 'src/api/colors';
 import { degrees } from 'src/api/rotations';
@@ -19,7 +19,7 @@ import {
   PDFRef,
   PDFStream,
   PDFAcroPushButton,
-  PDFWidgetAnnotation,
+  PDFWidgetAnnotation
 } from 'src/core';
 import { assertIs, assertOrUndefined, assertPositive } from 'src/utils';
 
@@ -47,8 +47,10 @@ export default class PDFButton extends PDFField {
   static of = (
     acroPushButton: PDFAcroPushButton,
     ref: PDFRef,
-    doc: PDFDocument,
-  ) => new PDFButton(acroPushButton, ref, doc);
+    doc: PDFDocument
+  ) => {
+    return new PDFButton(acroPushButton, ref, doc);
+  };
 
   /** The low-level PDFAcroPushButton wrapped by this button. */
   readonly acroField: PDFAcroPushButton;
@@ -56,12 +58,12 @@ export default class PDFButton extends PDFField {
   private constructor(
     acroPushButton: PDFAcroPushButton,
     ref: PDFRef,
-    doc: PDFDocument,
+    doc: PDFDocument
   ) {
     super(acroPushButton, ref, doc);
 
     assertIs(acroPushButton, 'acroButton', [
-      [PDFAcroPushButton, 'PDFAcroPushButton'],
+      [PDFAcroPushButton, 'PDFAcroPushButton']
     ]);
 
     this.acroField = acroPushButton;
@@ -85,7 +87,7 @@ export default class PDFButton extends PDFField {
       const streamRef = this.createImageAppearanceStream(
         widget,
         image,
-        alignment,
+        alignment
       );
       this.updateWidgetAppearances(widget, { normal: streamRef });
     }
@@ -150,7 +152,7 @@ export default class PDFButton extends PDFField {
     // TODO: This needs to be optional, e.g. for image buttons
     text: string,
     page: PDFPage,
-    options?: FieldAppearanceOptions,
+    options?: FieldAppearanceOptions
   ) {
     assertOrUndefined(text, 'text', ['string']);
     assertOrUndefined(page, 'page', [[PDFPage, 'PDFPage']]);
@@ -169,7 +171,7 @@ export default class PDFButton extends PDFField {
       rotate: options?.rotate ?? degrees(0),
       caption: text,
       hidden: options?.hidden,
-      page: page.ref,
+      page: page.ref
     });
     const widgetRef = this.doc.context.register(widget.dict);
 
@@ -243,7 +245,7 @@ export default class PDFButton extends PDFField {
    */
   updateAppearances(
     font: PDFFont,
-    provider?: AppearanceProviderFor<PDFButton>,
+    provider?: AppearanceProviderFor<PDFButton>
   ) {
     assertIs(font, 'font', [[PDFFont, 'PDFFont']]);
     assertOrUndefined(provider, 'provider', [Function]);
@@ -258,7 +260,7 @@ export default class PDFButton extends PDFField {
   private updateWidgetAppearance(
     widget: PDFWidgetAnnotation,
     font: PDFFont,
-    provider?: AppearanceProviderFor<PDFButton>,
+    provider?: AppearanceProviderFor<PDFButton>
   ) {
     const apProvider = provider ?? defaultButtonAppearanceProvider;
     const appearances = normalizeAppearance(apProvider(this, widget, font));

@@ -3,9 +3,9 @@ import { toCharCode, typedArrayFor } from 'src/utils';
 
 describe(`PDFBool`, () => {
   it(`cannot be publicly constructed`, () => {
-    expect(() => new (PDFBool as any)({}, true)).toThrow(
-      new PrivateConstructorError(PDFBool.name),
-    );
+    expect(() => {
+      return new (PDFBool as any)({}, true);
+    }).toThrow(new PrivateConstructorError(PDFBool.name));
   });
 
   it(`can be converted to a boolean`, () => {

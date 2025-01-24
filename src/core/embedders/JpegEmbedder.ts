@@ -7,7 +7,7 @@ const MARKERS = [
   0xffc3, 0xffc5, 0xffc6,
   0xffc7, 0xffc8, 0xffc9,
   0xffca, 0xffcb, 0xffcc,
-  0xffcd, 0xffce, 0xffcf,
+  0xffcd, 0xffce, 0xffcf
 ];
 
 enum ColorSpace {
@@ -19,7 +19,7 @@ enum ColorSpace {
 const ChannelToColorSpace: { [idx: number]: ColorSpace | undefined } = {
   1: ColorSpace.DeviceGray,
   3: ColorSpace.DeviceRGB,
-  4: ColorSpace.DeviceCMYK,
+  4: ColorSpace.DeviceCMYK
 };
 
 /**
@@ -66,7 +66,7 @@ class JpegEmbedder {
       bitsPerComponent,
       width,
       height,
-      colorSpace,
+      colorSpace
     );
   }
 
@@ -82,7 +82,7 @@ class JpegEmbedder {
     bitsPerComponent: number,
     width: number,
     height: number,
-    colorSpace: ColorSpace,
+    colorSpace: ColorSpace
   ) {
     this.imageData = imageData;
     this.bitsPerComponent = bitsPerComponent;
@@ -112,7 +112,7 @@ class JpegEmbedder {
       Decode:
         this.colorSpace === ColorSpace.DeviceCMYK
           ? [1, 0, 1, 0, 1, 0, 1, 0]
-          : undefined,
+          : undefined
     });
 
     if (ref) {

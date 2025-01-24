@@ -48,5 +48,5 @@ export const PageSizes = {
   Folio: [612.0, 936.0] as [number, number],
   Legal: [612.0, 1008.0] as [number, number],
   Letter: [612.0, 792.0] as [number, number],
-  Tabloid: [792.0, 1224.0] as [number, number],
+  Tabloid: [792.0, 1224.0] as [number, number]
 };

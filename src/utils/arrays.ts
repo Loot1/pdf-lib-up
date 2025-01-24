@@ -1,7 +1,9 @@
 import { decodeFromBase64DataUri } from 'src/utils/base64';
 import { charFromCode } from 'src/utils/strings';
 
-export const last = <T>(array: T[]): T => array[array.length - 1];
+export const last = <T>(array: T[]): T => {
+  return array[array.length - 1];
+};
 
 // export const dropLast = <T>(array: T[]): T[] =>
 // array.slice(0, array.length - 1);
@@ -68,7 +70,9 @@ export const arrayAsString = (array: Uint8Array | number[]): string => {
   return str;
 };
 
-export const byAscendingId = <T extends { id: any }>(a: T, b: T) => a.id - b.id;
+export const byAscendingId = <T extends { id: any }>(a: T, b: T) => {
+  return a.id - b.id;
+};
 
 export const sortedUniq = <T>(array: T[], indexer: (elem: T) => any): T[] => {
   const uniq: T[] = [];
@@ -125,11 +129,14 @@ export const pluckIndices = <T>(arr: T[], indices: number[]) => {
 };
 
 export const canBeConvertedToUint8Array = (
-  input: any,
-): input is string | ArrayBuffer | Uint8Array =>
-  input instanceof Uint8Array ||
-  input instanceof ArrayBuffer ||
-  typeof input === 'string';
+  input: any
+): input is string | ArrayBuffer | Uint8Array => {
+  return (
+    input instanceof Uint8Array ||
+    input instanceof ArrayBuffer ||
+    typeof input === 'string'
+  );
+};
 
 export const toUint8Array = (input: string | ArrayBuffer | Uint8Array) => {
   if (typeof input === 'string') {
@@ -140,7 +147,7 @@ export const toUint8Array = (input: string | ArrayBuffer | Uint8Array) => {
     return input;
   } else {
     throw new TypeError(
-      '`input` must be one of `string | ArrayBuffer | Uint8Array`',
+      '`input` must be one of `string | ArrayBuffer | Uint8Array`'
     );
   }
 };

@@ -5,10 +5,13 @@ import CharCodes from 'src/core/syntax/CharCodes';
 
 // TODO: See how line/col tracking affects performance
 class ByteStream {
-  static of = (bytes: Uint8Array) => new ByteStream(bytes);
+  static of = (bytes: Uint8Array) => {
+    return new ByteStream(bytes);
+  };
 
-  static fromPDFRawStream = (rawStream: PDFRawStream) =>
-    ByteStream.of(decodePDFRawStream(rawStream).decode());
+  static fromPDFRawStream = (rawStream: PDFRawStream) => {
+    return ByteStream.of(decodePDFRawStream(rawStream).decode());
+  };
 
   private readonly bytes: Uint8Array;
   private readonly length: number;

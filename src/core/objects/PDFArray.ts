@@ -14,7 +14,9 @@ import { PDFArrayIsNotRectangleError } from 'src/core/errors';
 import PDFRawStream from 'src/core/objects/PDFRawStream';
 
 class PDFArray extends PDFObject {
-  static withContext = (context: PDFContext) => new PDFArray(context);
+  static withContext = (context: PDFContext) => {
+    return new PDFArray(context);
+  };
 
   private readonly array: PDFObject[];
   private readonly context: PDFContext;
@@ -81,7 +83,7 @@ class PDFArray extends PDFObject {
     return this.context.lookupMaybe(
       this.get(index),
       // @ts-ignore
-      ...types,
+      ...types
     ) as any;
   }
 
@@ -107,7 +109,7 @@ class PDFArray extends PDFObject {
     return this.context.lookup(
       this.get(index),
       // @ts-ignore
-      ...types,
+      ...types
     ) as any;
   }
 

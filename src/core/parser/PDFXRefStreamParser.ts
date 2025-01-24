@@ -16,8 +16,9 @@ export interface Entry {
 }
 
 class PDFXRefStreamParser {
-  static forStream = (rawStream: PDFRawStream) =>
-    new PDFXRefStreamParser(rawStream);
+  static forStream = (rawStream: PDFRawStream) => {
+    return new PDFXRefStreamParser(rawStream);
+  };
 
   private alreadyParsed: boolean;
 
@@ -68,7 +69,7 @@ class PDFXRefStreamParser {
       Root: this.dict.get(PDFName.of('Root')),
       Encrypt: this.dict.get(PDFName.of('Encrypt')),
       Info: this.dict.get(PDFName.of('Info')),
-      ID: this.dict.get(PDFName.of('ID')),
+      ID: this.dict.get(PDFName.of('ID'))
     };
 
     const entries = this.parseEntries();
@@ -116,7 +117,7 @@ class PDFXRefStreamParser {
           ref: PDFRef.of(objectNumber, generationNumber),
           offset,
           deleted: type === 0,
-          inObjectStream: type === 2,
+          inObjectStream: type === 2
         };
 
         entries.push(entry);

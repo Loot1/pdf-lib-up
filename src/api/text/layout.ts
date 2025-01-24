@@ -8,7 +8,7 @@ import {
   lineSplit,
   mergeLines,
   charAtIndex,
-  charSplit,
+  charSplit
 } from 'src/utils';
 
 export interface TextPosition {
@@ -34,7 +34,7 @@ const computeFontSize = (
   lines: string[],
   font: PDFFont,
   bounds: LayoutBounds,
-  multiline: boolean = false,
+  multiline: boolean = false
 ) => {
   let fontSize = MIN_FONT_SIZE;
 
@@ -86,7 +86,7 @@ const computeCombedFontSize = (
   line: string,
   font: PDFFont,
   bounds: LayoutBounds,
-  cellCount: number,
+  cellCount: number
 ) => {
   const cellWidth = bounds.width / cellCount;
   const cellHeight = bounds.height;
@@ -135,7 +135,7 @@ const splitOutLines = (
   input: string,
   maxWidth: number,
   font: PDFFont,
-  fontSize: number,
+  fontSize: number
 ) => {
   let lastWhitespaceIdx = input.length;
   while (lastWhitespaceIdx > 0) {
@@ -155,13 +155,13 @@ const splitOutLines = (
     line: input,
     encoded: font.encodeText(input),
     width: font.widthOfTextAtSize(input, fontSize),
-    remainder: undefined,
+    remainder: undefined
   };
 };
 
 export const layoutMultilineText = (
   text: string,
-  { alignment, fontSize, font, bounds }: LayoutTextOptions,
+  { alignment, fontSize, font, bounds }: LayoutTextOptions
 ): MultilineTextLayout => {
   const lines = lineSplit(cleanText(text));
 
@@ -186,7 +186,7 @@ export const layoutMultilineText = (
         prevRemainder,
         bounds.width,
         font,
-        fontSize,
+        fontSize
       );
 
       // prettier-ignore
@@ -220,8 +220,8 @@ export const layoutMultilineText = (
       x: minX,
       y: minY,
       width: maxX - minX,
-      height: maxY - minY,
-    },
+      height: maxY - minY
+    }
   };
 };
 
@@ -240,7 +240,7 @@ export interface CombedTextLayout {
 
 export const layoutCombedText = (
   text: string,
-  { fontSize, font, bounds, cellCount }: LayoutCombedTextOptions,
+  { fontSize, font, bounds, cellCount }: LayoutCombedTextOptions
 ): CombedTextLayout => {
   const line = mergeLines(cleanText(text));
 
@@ -293,8 +293,8 @@ export const layoutCombedText = (
       x: minX,
       y: minY,
       width: maxX - minX,
-      height: maxY - minY,
-    },
+      height: maxY - minY
+    }
   };
 };
 
@@ -313,7 +313,7 @@ export interface SinglelineTextLayout {
 
 export const layoutSinglelineText = (
   text: string,
-  { alignment, fontSize, font, bounds }: LayoutSinglelineTextOptions,
+  { alignment, fontSize, font, bounds }: LayoutSinglelineTextOptions
 ): SinglelineTextLayout => {
   const line = mergeLines(cleanText(text));
 
@@ -338,6 +338,6 @@ export const layoutSinglelineText = (
   return {
     fontSize,
     line: { text: line, encoded, width, height, x, y },
-    bounds: { x, y, width, height },
+    bounds: { x, y, width, height }
   };
 };

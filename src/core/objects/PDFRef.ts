@@ -25,7 +25,7 @@ class PDFRef extends PDFObject {
   private constructor(
     enforcer: any,
     objectNumber: number,
-    generationNumber: number,
+    generationNumber: number
   ) {
     if (enforcer !== ENFORCER) throw new PrivateConstructorError('PDFRef');
     super();

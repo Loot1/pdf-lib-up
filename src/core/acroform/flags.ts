@@ -1,4 +1,6 @@
-const flag = (bitIndex: number) => 1 << bitIndex;
+const flag = (bitIndex: number) => {
+  return 1 << bitIndex;
+};
 
 /** From PDF spec table 221 */
 export enum AcroFieldFlags {

@@ -10,7 +10,7 @@ import {
   byAscendingId,
   Cache,
   sortedUniq,
-  toHexStringOfMinLength,
+  toHexStringOfMinLength
 } from 'src/utils';
 
 /**
@@ -23,7 +23,7 @@ class CustomFontEmbedder {
     fontkit: Fontkit,
     fontData: Uint8Array,
     customName?: string,
-    fontFeatures?: TypeFeatures,
+    fontFeatures?: TypeFeatures
   ) {
     const font = await fontkit.create(fontData);
     return new CustomFontEmbedder(font, fontData, customName, fontFeatures);
@@ -43,7 +43,7 @@ class CustomFontEmbedder {
     font: Font,
     fontData: Uint8Array,
     customName?: string,
-    fontFeatures?: TypeFeatures,
+    fontFeatures?: TypeFeatures
   ) {
     this.font = font;
     this.scale = 1000 / this.font.unitsPerEm;
@@ -83,7 +83,7 @@ class CustomFontEmbedder {
 
   heightOfFontAtSize(
     size: number,
-    options: { descender?: boolean } = {},
+    options: { descender?: boolean } = {}
   ): number {
     const { descender = true } = options;
 
@@ -112,7 +112,7 @@ class CustomFontEmbedder {
 
   protected async embedFontDict(
     context: PDFContext,
-    ref?: PDFRef,
+    ref?: PDFRef
   ): Promise<PDFRef> {
     const cidFontDictRef = await this.embedCIDFontDict(context);
     const unicodeCMapRef = this.embedUnicodeCmap(context);
@@ -123,7 +123,7 @@ class CustomFontEmbedder {
       BaseFont: this.baseFontName,
       Encoding: 'Identity-H',
       DescendantFonts: [cidFontDictRef],
-      ToUnicode: unicodeCMapRef,
+      ToUnicode: unicodeCMapRef
     });
 
     if (ref) {
@@ -149,10 +149,10 @@ class CustomFontEmbedder {
       CIDSystemInfo: {
         Registry: PDFString.of('Adobe'),
         Ordering: PDFString.of('Identity'),
-        Supplement: 0,
+        Supplement: 0
       },
       FontDescriptor: fontDescriptorRef,
-      W: this.computeWidths(),
+      W: this.computeWidths()
     });
 
     return context.register(cidFontDict);
@@ -180,7 +180,7 @@ class CustomFontEmbedder {
       // https://stackoverflow.com/questions/35485179/stemv-value-of-the-truetype-font
       StemV: 0,
 
-      [this.isCFF() ? 'FontFile3' : 'FontFile2']: fontStreamRef,
+      [this.isCFF() ? 'FontFile3' : 'FontFile2']: fontStreamRef
     });
 
     return context.register(fontDescriptor);
@@ -192,7 +192,7 @@ class CustomFontEmbedder {
 
   protected async embedFontStream(context: PDFContext): Promise<PDFRef> {
     const fontStream = context.flateStream(await this.serializeFont(), {
-      Subtype: this.isCFF() ? 'CIDFontType0C' : undefined,
+      Subtype: this.isCFF() ? 'CIDFontType0C' : undefined
     });
     return context.register(fontStream);
   }
@@ -242,7 +242,9 @@ class CustomFontEmbedder {
       const codePoint = this.font.characterSet[idx];
       glyphs[idx] = this.font.glyphForCodePoint(codePoint);
     }
-    return sortedUniq(glyphs.sort(byAscendingId), (g) => g.id);
+    return sortedUniq(glyphs.sort(byAscendingId), (g) => {
+      return g.id;
+    });
   };
 }
 

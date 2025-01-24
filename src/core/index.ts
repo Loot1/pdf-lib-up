@@ -16,13 +16,13 @@ export { default as CustomFontEmbedder } from 'src/core/embedders/CustomFontEmbe
 export { default as CustomFontSubsetEmbedder } from 'src/core/embedders/CustomFontSubsetEmbedder';
 export {
   default as FileEmbedder,
-  AFRelationship,
+  AFRelationship
 } from 'src/core/embedders/FileEmbedder';
 export { default as JpegEmbedder } from 'src/core/embedders/JpegEmbedder';
 export { default as PngEmbedder } from 'src/core/embedders/PngEmbedder';
 export {
   default as PDFPageEmbedder,
-  PageBoundingBox,
+  PageBoundingBox
 } from 'src/core/embedders/PDFPageEmbedder';
 
 export {
@@ -30,7 +30,7 @@ export {
   NonFullScreenPageMode,
   ReadingDirection,
   PrintScaling,
-  Duplex,
+  Duplex
 } from 'src/core/interactive/ViewerPreferences';
 
 export { default as PDFObject } from 'src/core/objects/PDFObject';

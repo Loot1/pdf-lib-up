@@ -3,7 +3,9 @@ import { toCharCode, typedArrayFor } from 'src/utils';
 
 describe(`PDFNull`, () => {
   it(`cannot be publicly constructed`, () => {
-    expect(() => new (PDFNull as any)()).toThrow();
+    expect(() => {
+      return new (PDFNull as any)();
+    }).toThrow();
   });
 
   it(`can be converted to null`, () => {

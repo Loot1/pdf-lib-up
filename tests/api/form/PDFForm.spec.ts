@@ -15,20 +15,29 @@ import {
   PDFRef,
 } from 'src/index';
 
-const getWidgets = (pdfDoc: PDFDocument) =>
-  pdfDoc.context
+const getWidgets = (pdfDoc: PDFDocument) => {
+  return pdfDoc.context
     .enumerateIndirectObjects()
-    .map(([, obj]) => obj)
-    .filter(
-      (obj) =>
+    .map(([, obj]) => {
+      return obj;
+    })
+    .filter((obj) => {
+      return (
         obj instanceof PDFDict &&
         obj.get(PDFName.of('Type')) === PDFName.of('Annot') &&
-        obj.get(PDFName.of('Subtype')) === PDFName.of('Widget'),
-    )
-    .map((obj) => obj as PDFDict);
+        obj.get(PDFName.of('Subtype')) === PDFName.of('Widget')
+      );
+    })
+    .map((obj) => {
+      return obj as PDFDict;
+    });
+};
 
-const getRefs = (pdfDoc: PDFDocument) =>
-  pdfDoc.context.enumerateIndirectObjects().map(([ref]) => ref as PDFRef);
+const getRefs = (pdfDoc: PDFDocument) => {
+  return pdfDoc.context.enumerateIndirectObjects().map(([ref]) => {
+    return ref as PDFRef;
+  });
+};
 
 const getApRefs = (widget: PDFWidgetAnnotation) => {
   const onValue = widget.getOnValue() ?? PDFName.of('Yes');
@@ -43,8 +52,11 @@ const getApRefs = (widget: PDFWidgetAnnotation) => {
   ].filter(Boolean);
 };
 
-const flatten = <T>(arr: T[][]): T[] =>
-  arr.reduce((curr, acc) => [...acc, ...curr], []);
+const flatten = <T>(arr: T[][]): T[] => {
+  return arr.reduce((curr, acc) => {
+    return [...acc, ...curr];
+  }, []);
+};
 
 const fancyFieldsPdfBytes = fs.readFileSync('assets/pdfs/fancy_fields.pdf');
 // const sampleFormPdfBytes = fs.readFileSync('assets/pdfs/sample_form.pdf');
@@ -61,7 +73,9 @@ describe(`PDFForm`, () => {
       'Removing XFA form data as pdf-lib does not support reading or writing XFA',
     ];
     console.warn = jest.fn((...args) => {
-      const isIgnored = ignoredWarnings.find((iw) => args[0].includes(iw));
+      const isIgnored = ignoredWarnings.find((iw) => {
+        return args[0].includes(iw);
+      });
       if (!isIgnored) origConsoleWarn(...args);
     });
   });
@@ -98,8 +112,8 @@ describe(`PDFForm`, () => {
     expect(form.getField('Which Are Planets? 🌎')).toBeInstanceOf(PDFOptionList);
     expect(form.getField('Choose A Gundam 🤖')).toBeInstanceOf(PDFDropdown);
 
-    const fieldDicts = fields.map(f => f.acroField.dict);
-    const getFieldDict = (name: string) => form.getField(name)?.acroField.dict;
+    const fieldDicts = fields.map(f => {return f.acroField.dict});
+    const getFieldDict = (name: string) => {return form.getField(name)?.acroField.dict};
 
     expect(fieldDicts).toContain(getFieldDict('Prefix ⚽️'));
     expect(fieldDicts).toContain(getFieldDict('First Name 🚀'));
@@ -139,7 +153,11 @@ describe(`PDFForm`, () => {
 
     // Collect all existing appearance streams
     const fields = [cb1, cb2, cb3, cb4, rg1];
-    const widgets = flatten(fields.map((f) => f.acroField.getWidgets()));
+    const widgets = flatten(
+      fields.map((f) => {
+        return f.acroField.getWidgets();
+      }),
+    );
     const originalAps = flatten(widgets.map(getApRefs));
 
     // (1) Run appearance update
@@ -198,11 +216,17 @@ describe(`PDFForm`, () => {
 
     expect(widgets.length).toBe(5);
 
-    const aps = () => widgets.filter((w) => w.has(PDFName.of('AP'))).length;
+    const aps = () => {
+      return widgets.filter((w) => {
+        return w.has(PDFName.of('AP'));
+      }).length;
+    };
 
     expect(aps()).toBe(5);
 
-    widgets.forEach((w) => w.delete(PDFName.of('AP')));
+    widgets.forEach((w) => {
+      return w.delete(PDFName.of('AP'));
+    });
 
     expect(aps()).toBe(0);
 
@@ -232,10 +256,16 @@ describe(`PDFForm`, () => {
     const widgets = getWidgets(pdfDoc);
     expect(widgets.length).toBe(24);
 
-    const aps = () => widgets.filter((w) => w.has(PDFName.of('AP'))).length;
+    const aps = () => {
+      return widgets.filter((w) => {
+        return w.has(PDFName.of('AP'));
+      }).length;
+    };
     expect(aps()).toBe(24);
 
-    widgets.forEach((w) => w.delete(PDFName.of('AP')));
+    widgets.forEach((w) => {
+      return w.delete(PDFName.of('AP'));
+    });
     expect(aps()).toBe(0);
 
     await pdfDoc.save({ updateFieldAppearances: true });
@@ -248,14 +278,22 @@ describe(`PDFForm`, () => {
     const widgets = getWidgets(pdfDoc);
     expect(widgets.length).toBe(24);
 
-    const aps = () => widgets.filter((w) => w.has(PDFName.of('AP'))).length;
+    const aps = () => {
+      return widgets.filter((w) => {
+        return w.has(PDFName.of('AP'));
+      }).length;
+    };
     expect(aps()).toBe(24);
 
-    widgets.forEach((w) => w.delete(PDFName.of('AP')));
+    widgets.forEach((w) => {
+      return w.delete(PDFName.of('AP'));
+    });
     expect(aps()).toBe(0);
 
     const form = pdfDoc.getForm();
-    form.getFields().forEach((f) => form.markFieldAsDirty(f.ref));
+    form.getFields().forEach((f) => {
+      return form.markFieldAsDirty(f.ref);
+    });
 
     await pdfDoc.save({ updateFieldAppearances: false });
     expect(aps()).toBe(0);
@@ -267,14 +305,22 @@ describe(`PDFForm`, () => {
     const widgets = getWidgets(pdfDoc);
     expect(widgets.length).toBe(24);
 
-    const aps = () => widgets.filter((w) => w.has(PDFName.of('AP'))).length;
+    const aps = () => {
+      return widgets.filter((w) => {
+        return w.has(PDFName.of('AP'));
+      }).length;
+    };
     expect(aps()).toBe(24);
 
-    widgets.forEach((w) => w.delete(PDFName.of('AP')));
+    widgets.forEach((w) => {
+      return w.delete(PDFName.of('AP'));
+    });
     expect(aps()).toBe(0);
 
     const form = pdfDoc.getForm();
-    form.getFields().forEach((f) => form.markFieldAsDirty(f.ref));
+    form.getFields().forEach((f) => {
+      return form.markFieldAsDirty(f.ref);
+    });
 
     await pdfDoc.save({ updateFieldAppearances: true });
     expect(aps()).toBe(20);
@@ -288,7 +334,9 @@ describe(`PDFForm`, () => {
 
     const form = pdfDoc.getForm();
 
-    expect(() => form.updateFieldAppearances()).not.toThrow();
+    expect(() => {
+      return form.updateFieldAppearances();
+    }).not.toThrow();
 
     expect(
       pdfDoc.save({ updateFieldAppearances: true }),
@@ -313,8 +361,12 @@ describe(`PDFForm`, () => {
     // Assert that refs are present before their fields have been removed
     expect(refs1.includes(cb.ref)).toBe(true);
     expect(refs1.includes(rg.ref)).toBe(true);
-    cbWidgetRefs.forEach((ref) => expect(refs1).toContain(ref));
-    rgWidgetRefs.forEach((ref) => expect(refs1).toContain(ref));
+    cbWidgetRefs.forEach((ref) => {
+      return expect(refs1).toContain(ref);
+    });
+    rgWidgetRefs.forEach((ref) => {
+      return expect(refs1).toContain(ref);
+    });
 
     form.removeField(cb);
     form.removeField(rg);
@@ -324,8 +376,12 @@ describe(`PDFForm`, () => {
     // Assert that refs are not present after their fields have been removed
     expect(refs2.includes(cb.ref)).toBe(false);
     expect(refs2.includes(rg.ref)).toBe(false);
-    cbWidgetRefs.forEach((ref) => expect(refs2).not.toContain(ref));
-    rgWidgetRefs.forEach((ref) => expect(refs2).not.toContain(ref));
+    cbWidgetRefs.forEach((ref) => {
+      return expect(refs2).not.toContain(ref);
+    });
+    rgWidgetRefs.forEach((ref) => {
+      return expect(refs2).not.toContain(ref);
+    });
   });
 
   it(`it cleans references of removed fields and their widgets when created with pdf-lib`, async () => {
@@ -350,8 +406,12 @@ describe(`PDFForm`, () => {
     // Assert that refs are present before their fields have been removed
     expect(refs1.includes(cb.ref)).toBe(true);
     expect(refs1.includes(tf.ref)).toBe(true);
-    cbWidgetRefs.forEach((ref) => expect(refs1).toContain(ref));
-    tfWidgetRefs.forEach((ref) => expect(refs1).toContain(ref));
+    cbWidgetRefs.forEach((ref) => {
+      return expect(refs1).toContain(ref);
+    });
+    tfWidgetRefs.forEach((ref) => {
+      return expect(refs1).toContain(ref);
+    });
 
     form.removeField(cb);
     form.removeField(tf);
@@ -361,8 +421,12 @@ describe(`PDFForm`, () => {
     // Assert that refs are not present after their fields have been removed
     expect(refs2.includes(cb.ref)).toBe(false);
     expect(refs2.includes(tf.ref)).toBe(false);
-    cbWidgetRefs.forEach((ref) => expect(refs2).not.toContain(ref));
-    tfWidgetRefs.forEach((ref) => expect(refs2).not.toContain(ref));
+    cbWidgetRefs.forEach((ref) => {
+      return expect(refs2).not.toContain(ref);
+    });
+    tfWidgetRefs.forEach((ref) => {
+      return expect(refs2).not.toContain(ref);
+    });
   });
 
   // TODO: Add method to remove APs and use `NeedsAppearances`? How would this

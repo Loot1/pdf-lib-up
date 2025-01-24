@@ -4,7 +4,7 @@ import {
   CustomFontEmbedder,
   PDFHexString,
   PDFRef,
-  StandardFontEmbedder,
+  StandardFontEmbedder
 } from 'src/core';
 import { assertIs, assertOrUndefined } from 'src/utils';
 
@@ -26,8 +26,9 @@ export default class PDFFont implements Embeddable {
    * @param doc The document to which the font will belong.
    * @param embedder The embedder that will be used to embed the font.
    */
-  static of = (ref: PDFRef, doc: PDFDocument, embedder: FontEmbedder) =>
-    new PDFFont(ref, doc, embedder);
+  static of = (ref: PDFRef, doc: PDFDocument, embedder: FontEmbedder) => {
+    return new PDFFont(ref, doc, embedder);
+  };
 
   /** The unique reference assigned to this font within the document. */
   readonly ref: PDFRef;
@@ -46,7 +47,7 @@ export default class PDFFont implements Embeddable {
     assertIs(doc, 'doc', [[PDFDocument, 'PDFDocument']]);
     assertIs(embedder, 'embedder', [
       [CustomFontEmbedder, 'CustomFontEmbedder'],
-      [StandardFontEmbedder, 'StandardFontEmbedder'],
+      [StandardFontEmbedder, 'StandardFontEmbedder']
     ]);
 
     this.ref = ref;
@@ -106,7 +107,7 @@ export default class PDFFont implements Embeddable {
     assertIs(size, 'size', ['number']);
     assertOrUndefined(options?.descender, 'options.descender', ['boolean']);
     return this.embedder.heightOfFontAtSize(size, {
-      descender: options?.descender ?? true,
+      descender: options?.descender ?? true
     });
   }
 

@@ -12,7 +12,7 @@ import {
   NoSuchFieldError,
   UnexpectedFieldTypeError,
   FieldAlreadyExistsError,
-  InvalidFieldNamePartError,
+  InvalidFieldNamePartError
 } from 'src/api/errors';
 import PDFFont from 'src/api/PDFFont';
 import { StandardFonts } from 'src/api/StandardFonts';
@@ -21,7 +21,7 @@ import {
   drawObject,
   popGraphicsState,
   pushGraphicsState,
-  translate,
+  translate
 } from 'src/api/operators';
 import {
   PDFAcroForm,
@@ -39,7 +39,7 @@ import {
   PDFRef,
   createPDFAcroFields,
   PDFName,
-  PDFWidgetAnnotation,
+  PDFWidgetAnnotation
 } from 'src/core';
 import { assertIs, Cache, assertOrUndefined } from 'src/utils';
 
@@ -69,8 +69,9 @@ export default class PDFForm {
    * @param acroForm The underlying `PDFAcroForm` for this form.
    * @param doc The document to which the form will belong.
    */
-  static of = (acroForm: PDFAcroForm, doc: PDFDocument) =>
-    new PDFForm(acroForm, doc);
+  static of = (acroForm: PDFAcroForm, doc: PDFDocument) => {
+    return new PDFForm(acroForm, doc);
+  };
 
   /** The low-level PDFAcroForm wrapped by this form. */
   readonly acroForm: PDFAcroForm;
@@ -477,7 +478,7 @@ export default class PDFForm {
     addFieldToParent(
       parent,
       [radioButton, radioButton.ref],
-      nameParts.terminal,
+      nameParts.terminal
     );
 
     return PDFRadioGroup.of(radioButton, radioButton.ref, this.doc);
@@ -558,7 +559,7 @@ export default class PDFForm {
           translate(rectangle.x, rectangle.y),
           ...rotateInPlace({ ...rectangle, rotation: 0 }),
           drawObject(xObjectKey),
-          popGraphicsState(),
+          popGraphicsState()
         ].filter(Boolean) as PDFOperator[];
 
         page.pushOperators(...operators);
@@ -592,7 +593,9 @@ export default class PDFForm {
       page.node.removeAnnot(widgetRef);
     }
 
-    pages.forEach((page) => page.node.removeAnnot(field.ref));
+    pages.forEach((page) => {
+      return page.node.removeAnnot(field.ref);
+    });
     this.acroForm.removeField(field.acroField);
     const fieldKids = field.acroField.normalizedEntries().Kids;
     const kidsCount = fieldKids.size();
@@ -700,7 +703,9 @@ export default class PDFForm {
 
   private findWidgetPage(widget: PDFWidgetAnnotation): PDFPage {
     const pageRef = widget.P();
-    let page = this.doc.getPages().find((x) => x.ref === pageRef);
+    let page = this.doc.getPages().find((x) => {
+      return x.ref === pageRef;
+    });
     if (page === undefined) {
       const widgetRef = this.doc.context.getObjectRef(widget.dict);
       if (widgetRef === undefined) {
@@ -719,7 +724,7 @@ export default class PDFForm {
 
   private findWidgetAppearanceRef(
     field: PDFField,
-    widget: PDFWidgetAnnotation,
+    widget: PDFWidgetAnnotation
   ): PDFRef {
     let refOrDict = widget.getNormalAppearance();
 
@@ -745,7 +750,7 @@ export default class PDFForm {
 
   private findOrCreateNonTerminals(partialNames: string[]) {
     let nonTerminal: [PDFAcroForm] | [PDFAcroNonTerminal, PDFRef] = [
-      this.acroForm,
+      this.acroForm
     ];
     for (let idx = 0, len = partialNames.length; idx < len; idx++) {
       const namePart = partialNames[idx];
@@ -769,7 +774,7 @@ export default class PDFForm {
 
   private findNonTerminal(
     partialName: string,
-    parent: PDFAcroForm | PDFAcroNonTerminal,
+    parent: PDFAcroForm | PDFAcroNonTerminal
   ): [PDFAcroNonTerminal, PDFRef] | undefined {
     const fields =
       parent instanceof PDFAcroForm
@@ -787,14 +792,15 @@ export default class PDFForm {
     return undefined;
   }
 
-  private embedDefaultFont = (): PDFFont =>
-    this.doc.embedStandardFont(StandardFonts.Helvetica);
+  private embedDefaultFont = (): PDFFont => {
+    return this.doc.embedStandardFont(StandardFonts.Helvetica);
+  };
 }
 
 const convertToPDFField = (
   field: PDFAcroField,
   ref: PDFRef,
-  doc: PDFDocument,
+  doc: PDFDocument
 ): PDFField | undefined => {
   if (field instanceof PDFAcroPushButton) return PDFButton.of(field, ref, doc);
   if (field instanceof PDFAcroCheckBox) return PDFCheckBox.of(field, ref, doc);
@@ -820,7 +826,7 @@ const splitFieldName = (fullyQualifiedName: string) => {
   for (let idx = 0, len = parts.length; idx < len; idx++) {
     if (parts[idx] === '') {
       throw new Error(
-        `Periods in PDF field names must be separated by at least one character: "${fullyQualifiedName}"`,
+        `Periods in PDF field names must be separated by at least one character: "${fullyQualifiedName}"`
       );
     }
   }
@@ -829,18 +835,18 @@ const splitFieldName = (fullyQualifiedName: string) => {
 
   return {
     nonTerminal: parts.slice(0, parts.length - 1),
-    terminal: parts[parts.length - 1],
+    terminal: parts[parts.length - 1]
   };
 };
 
 const addFieldToParent = (
   [parent, parentRef]: [PDFAcroForm] | [PDFAcroNonTerminal, PDFRef],
   [field, fieldRef]: [PDFAcroField, PDFRef],
-  partialName: string,
+  partialName: string
 ) => {
   const entries = parent.normalizedEntries();
   const fields = createPDFAcroFields(
-    'Kids' in entries ? entries.Kids : entries.Fields,
+    'Kids' in entries ? entries.Kids : entries.Fields
   );
   for (let idx = 0, len = fields.length; idx < len; idx++) {
     if (fields[idx][0].getPartialName() === partialName) {

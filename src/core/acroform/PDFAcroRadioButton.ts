@@ -7,14 +7,15 @@ import { AcroButtonFlags } from 'src/core/acroform/flags';
 import { InvalidAcroFieldValueError } from 'src/core/errors';
 
 class PDFAcroRadioButton extends PDFAcroButton {
-  static fromDict = (dict: PDFDict, ref: PDFRef) =>
-    new PDFAcroRadioButton(dict, ref);
+  static fromDict = (dict: PDFDict, ref: PDFRef) => {
+    return new PDFAcroRadioButton(dict, ref);
+  };
 
   static create = (context: PDFContext) => {
     const dict = context.obj({
       FT: 'Btn',
       Ff: AcroButtonFlags.Radio,
-      Kids: [],
+      Kids: []
     });
     const ref = context.register(dict);
     return new PDFAcroRadioButton(dict, ref);

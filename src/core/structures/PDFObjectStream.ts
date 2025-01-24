@@ -13,8 +13,10 @@ class PDFObjectStream extends PDFFlateStream {
   static withContextAndObjects = (
     context: PDFContext,
     objects: IndirectObject[],
-    encode = true,
-  ) => new PDFObjectStream(context, objects, encode);
+    encode = true
+  ) => {
+    return new PDFObjectStream(context, objects, encode);
+  };
 
   private readonly objects: IndirectObject[];
   private readonly offsets: [number, number][];
@@ -23,7 +25,7 @@ class PDFObjectStream extends PDFFlateStream {
   private constructor(
     context: PDFContext,
     objects: IndirectObject[],
-    encode = true,
+    encode = true
   ) {
     super(context.obj({}), encode);
 
@@ -44,7 +46,7 @@ class PDFObjectStream extends PDFFlateStream {
     return PDFObjectStream.withContextAndObjects(
       context || this.dict.context,
       this.objects.slice(),
-      this.encode,
+      this.encode
     );
   }
 

@@ -13,7 +13,7 @@ class LZWStream extends DecodeStream {
   private stream: StreamType;
   private cachedData: number;
   private bitsCached: number;
-  private lzwState: {
+  private lzwState?: {
     earlyChange: 0 | 1;
     codeLength: number;
     nextCode: number;
@@ -28,7 +28,7 @@ class LZWStream extends DecodeStream {
   constructor(
     stream: StreamType,
     maybeLength: number | undefined,
-    earlyChange: 0 | 1,
+    earlyChange: 0 | 1
   ) {
     super(maybeLength);
 
@@ -45,7 +45,7 @@ class LZWStream extends DecodeStream {
       dictionaryLengths: new Uint16Array(maxLzwDictionarySize),
       dictionaryPrevCodes: new Uint16Array(maxLzwDictionarySize),
       currentSequence: new Uint8Array(maxLzwDictionarySize),
-      currentSequenceLength: 0,
+      currentSequenceLength: 0
     };
     for (let i = 0; i < 256; ++i) {
       lzwState.dictionaryValues[i] = i;
@@ -119,7 +119,7 @@ class LZWStream extends DecodeStream {
             ? codeLength
             : Math.min(
                 Math.log(nextCode + earlyChange) / 0.6931471805599453 + 1,
-                12,
+                12
               ) | 0;
       }
       prevCode = code;

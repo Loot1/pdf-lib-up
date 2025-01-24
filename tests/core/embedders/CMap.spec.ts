@@ -22,7 +22,9 @@ const allGlyphsInFontSortedById = (font: Font) => {
     const codePoint = font.characterSet[idx];
     glyphs[idx] = font.glyphForCodePoint(codePoint);
   }
-  return sortedUniq(glyphs.sort(byAscendingId), (g) => g.id);
+  return sortedUniq(glyphs.sort(byAscendingId), (g) => {
+    return g.id;
+  });
 };
 
 describe(`createCmap`, () => {
@@ -30,7 +32,9 @@ describe(`createCmap`, () => {
     const font = fontkit.create(ubuntuFont);
 
     const glyphs = allGlyphsInFontSortedById(font);
-    const cmap = createCmap(glyphs, (g) => (g ? g.id : -1));
+    const cmap = createCmap(glyphs, (g) => {
+      return g ? g.id : -1;
+    });
 
     expect(cmap).toEqual(String(ubuntuFontCmap));
   });
@@ -39,7 +43,9 @@ describe(`createCmap`, () => {
     const font = fontkit.create(sourceHansJpFont);
 
     const glyphs = allGlyphsInFontSortedById(font);
-    const cmap = createCmap(glyphs, (g) => (g ? g.id : -1));
+    const cmap = createCmap(glyphs, (g) => {
+      return g ? g.id : -1;
+    });
 
     expect(cmap).toEqual(String(sourceHansJpFontCmap));
   });

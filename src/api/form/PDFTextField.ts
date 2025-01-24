@@ -4,19 +4,19 @@ import PDFFont from 'src/api/PDFFont';
 import PDFImage from 'src/api/PDFImage';
 import PDFField, {
   FieldAppearanceOptions,
-  assertFieldAppearanceOptions,
+  assertFieldAppearanceOptions
 } from 'src/api/form/PDFField';
 import {
   AppearanceProviderFor,
   normalizeAppearance,
-  defaultTextFieldAppearanceProvider,
+  defaultTextFieldAppearanceProvider
 } from 'src/api/form/appearances';
 import { rgb } from 'src/api/colors';
 import { degrees } from 'src/api/rotations';
 import {
   RichTextFieldReadError,
   ExceededMaxLengthError,
-  InvalidMaxLengthError,
+  InvalidMaxLengthError
 } from 'src/api/errors';
 import { ImageAlignment } from 'src/api/image/alignment';
 import { TextAlignment } from 'src/api/text/alignment';
@@ -27,14 +27,14 @@ import {
   PDFStream,
   PDFAcroText,
   AcroTextFlags,
-  PDFWidgetAnnotation,
+  PDFWidgetAnnotation
 } from 'src/core';
 import {
   assertIs,
   assertIsOneOf,
   assertOrUndefined,
   assertPositive,
-  assertRangeOrUndefined,
+  assertRangeOrUndefined
 } from 'src/utils';
 
 /**
@@ -58,8 +58,9 @@ export default class PDFTextField extends PDFField {
    * @param ref The unique reference for this text field.
    * @param doc The document to which this text field will belong.
    */
-  static of = (acroText: PDFAcroText, ref: PDFRef, doc: PDFDocument) =>
-    new PDFTextField(acroText, ref, doc);
+  static of = (acroText: PDFAcroText, ref: PDFRef, doc: PDFDocument) => {
+    return new PDFTextField(acroText, ref, doc);
+  };
 
   /** The low-level PDFAcroText wrapped by this text field. */
   readonly acroField: PDFAcroText;
@@ -308,7 +309,7 @@ export default class PDFTextField extends PDFField {
       const streamRef = this.createImageAppearanceStream(
         widget,
         image,
-        alignment,
+        alignment
       );
       this.updateWidgetAppearances(widget, { normal: streamRef });
     }
@@ -730,7 +731,7 @@ export default class PDFTextField extends PDFField {
       borderWidth: options.borderWidth ?? 0,
       rotate: options.rotate ?? degrees(0),
       hidden: options.hidden,
-      page: page.ref,
+      page: page.ref
     });
     const widgetRef = this.doc.context.register(widget.dict);
 
@@ -801,7 +802,7 @@ export default class PDFTextField extends PDFField {
    */
   updateAppearances(
     font: PDFFont,
-    provider?: AppearanceProviderFor<PDFTextField>,
+    provider?: AppearanceProviderFor<PDFTextField>
   ) {
     assertIs(font, 'font', [[PDFFont, 'PDFFont']]);
     assertOrUndefined(provider, 'provider', [Function]);
@@ -817,7 +818,7 @@ export default class PDFTextField extends PDFField {
   private updateWidgetAppearance(
     widget: PDFWidgetAnnotation,
     font: PDFFont,
-    provider?: AppearanceProviderFor<PDFTextField>,
+    provider?: AppearanceProviderFor<PDFTextField>
   ) {
     const apProvider = provider ?? defaultTextFieldAppearanceProvider;
     const appearances = normalizeAppearance(apProvider(this, widget, font));

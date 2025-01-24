@@ -29,8 +29,9 @@ import PDFPageLeaf from 'src/core/structures/PDFPageLeaf';
  * supported, but is equivalent to cloning it.
  */
 class PDFObjectCopier {
-  static for = (src: PDFContext, dest: PDFContext) =>
-    new PDFObjectCopier(src, dest);
+  static for = (src: PDFContext, dest: PDFContext) => {
+    return new PDFObjectCopier(src, dest);
+  };
 
   private readonly src: PDFContext;
   private readonly dest: PDFContext;
@@ -42,14 +43,14 @@ class PDFObjectCopier {
   }
 
   // prettier-ignore
-  copy = <T extends PDFObject>(object: T): T => (
+  copy = <T extends PDFObject>(object: T): T => {return (
       object instanceof PDFPageLeaf ? this.copyPDFPage(object)
     : object instanceof PDFDict     ? this.copyPDFDict(object)
     : object instanceof PDFArray    ? this.copyPDFArray(object)
     : object instanceof PDFStream   ? this.copyPDFStream(object)
     : object instanceof PDFRef      ? this.copyPDFIndirectObject(object)
     : object.clone()
-  ) as T;
+  ) as T};
 
   private copyPDFPage = (originalPage: PDFPageLeaf): PDFPageLeaf => {
     const clonedPage = originalPage.clone();
